@@ -35,5 +35,7 @@ module.exports = function(grunt) {
       'copy:dist'
     ]);
   });
+  
+  grunt.registerTask('heroku:production', 'build');
 
 };
