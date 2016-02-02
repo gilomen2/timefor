@@ -49,3 +49,7 @@ body.homepage .navbar-nav a.no-hover:hover{
   color: #fff;
   background-color: transparent;
 }
+
+.center {
+  text-align: center;
+}
