@@ -20,3 +20,32 @@
  */
 
 @import "bootstrap-sprockets";
+
+.jumbotron {
+  background: rgba(255, 255, 255, 0.2);
+}
+.container-full-bg {
+  width:100%;
+  height:100%;
+  max-width:100%;
+  background-position:center;
+  background-size:cover;
+}
+
+.container.special .jumbotron {
+  margin-top:30px;
+}
+
+body.homepage h1{
+  color: #fff;
+  text-align: center;
+}
+
+body.homepage .navbar-nav a{
+  color: #fff;
+}
+
+body.homepage .navbar-nav a.no-hover:hover{
+  color: #fff;
+  background-color: transparent;
+}
