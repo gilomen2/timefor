@@ -1,0 +1,44 @@
+<div class="am-wrapper am-login am-signup">
+  <div class="am-content">
+    <div class="main-content">
+      <div class="login-container sign-up">
+        <div class="panel panel-default">
+          <div class="panel-heading"><img src="<%= asset_path 'logo-full-retina.png' %>" alt="logo" width="150px" height="39px" class="logo-img"></div>
+          <div class="panel-body">
+            <%= form_for(resource, as: resource_name, url: registration_path(resource_name), :html => {:class => 'form-horizontal', 'parsley-validate' => '', 'novalidate' => '' }) do |f| %>
+            <%= devise_error_messages! %>
+              <div class="sign-up-form">
+                <div class="form-group">
+                  <div id="name-handler" class="input-group"><span class="input-group-addon"><i class="icon s7-user"></i></span>
+                    <%= f.text_field :name, autofocus: true, class: "form-control", 'data-parsley-trigger': "change", 'data-parsley-errors-messages-disabled': "true", 'data-parsley-class-handler': "#name-handler", placeholder: "Name", required: "", autocomplete: "off" %>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div id="email-handler" class="input-group"><span class="input-group-addon"><i class="icon s7-user"></i></span>
+                    <%= f.email_field :email, autofocus: true, class: "form-control", 'data-parsley-trigger': "change", 'data-parsley-errors-messages-disabled': "true", 'data-parsley-class-handler': "#email-handler", placeholder: "Email", required: "", autocomplete: "off" %>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-xs-6">
+                    <div id="password-handler" class="input-group"><span class="input-group-addon"><i class="icon s7-lock"></i></span>
+                      <%= f.password_field :password, autofocus: true, class: "form-control", 'data-parsley-trigger': "change", 'data-parsley-errors-messages-disabled': "true", 'data-parsley-class-handler': "#password-handler", placeholder: "Password", required: "", autocomplete: "off" %>
+                    </div>
+                  </div>
+                  <div class="col-xs-6">
+                    <div id="password_confirmation-handler" class="input-group"><span class="input-group-addon"><i class="icon s7-lock"></i></span>
+                      <%= f.password_field :password_confirmation, autofocus: true, class: "form-control", 'data-parsley-trigger': "change", 'data-parsley-errors-messages-disabled': "true", 'data-parsley-class-handler': "#password_confirmation-handler", placeholder: "Confirm", required: "", autocomplete: "off" %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <%= f.submit "Sign up", class: "btn btn-block btn-primary btn-lg" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $('#new_user').parsley();
+</script>
