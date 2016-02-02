@@ -13,3 +13,10 @@
  *= require_tree .
  *= require_self
  */
+
+/*
+ *= require font-awesome
+ *= require formvalidation.min
+ */
+
+@import "bootstrap-sprockets";
