@@ -10,14 +10,16 @@ attr_accessor :body_id
   end
 
   # POST /resource
-  # def create
-  #   super
-  # end
+  def create
+    @body_class = "am-splash-screen"
+    super
+  end
 
   # GET /resource/edit
-  # def edit
-  #   super
-  # end
+  def edit
+    @user = User.find(current_user)
+    super
+  end
 
   # PUT /resource
   # def update
@@ -51,9 +53,10 @@ attr_accessor :body_id
   end
 
   # The path used after sign up.
-  # def after_sign_up_path_for(resource)
-  #   super(resource)
-  # end
+  def after_update_path_for(resource)
+    flash[:notice] = "User information updated"
+    edit_user_registration_path
+  end
 
   # The path used after sign up for inactive accounts.
   # def after_inactive_sign_up_path_for(resource)
