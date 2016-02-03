@@ -53,3 +53,7 @@ body.homepage .navbar-nav a.no-hover:hover{
 .center {
   text-align: center;
 }
+
+.navbar-toggle .icon-bar{
+  background-color: #fff;
+}
