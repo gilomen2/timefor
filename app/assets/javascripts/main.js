@@ -1,6 +1,6 @@
 /*!
  * amaretti v0.0.1 (http://foxythemes.net/themes/amaretti)
- * Copyright 2014-2015 Foxy Themes all rights reserved
+ * Copyright 2014-2015 Foxy Themes all rights reserved 
  */
 var App = (function () {
   'use strict';
@@ -8,9 +8,9 @@ var App = (function () {
   //Basic Config
   var config = {
     assetsPath: 'assets',
-    imgPath: 'assets/img',
-    jsPath: 'assets',
-    libsPath: 'assets/lib',
+    imgPath: 'img',
+    jsPath: 'javascripts',
+    libsPath: 'lib',
     leftSidebarSlideSpeed: 200,
     swipeTreshold: 100,
     scrollTop: true,
