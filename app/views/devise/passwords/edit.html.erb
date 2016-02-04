@@ -7,7 +7,7 @@
           <div class="panel-heading"><img src="<%= asset_path 'logo-full-retina.png' %>" alt="logo" width="150px" height="39px" class="logo-img"></div>
           <div class="panel-body">
           <h3 class="center">Forgot your password?</h3>
-            <%= form_for(resource, as: resource_name, url: password_path(resource_name), :html => {:class => 'form-horizontal', 'parsley-validate' => '', 'novalidate' => '', method: :put }) do |f| %>
+            <%= form_for(resource, as: resource_name, url: password_path(resource_name), :html => {:class => 'form-horizontal validate-me', 'parsley-validate' => '', 'novalidate' => '', method: :put }) do |f| %>
               <%= f.hidden_field :reset_password_token %>
               <div class="form-group row">
                 <div class="col-xs-6">
