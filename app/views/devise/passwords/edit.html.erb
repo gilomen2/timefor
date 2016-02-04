@@ -1,25 +1,35 @@
-<h2>Change your password</h2>
-
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-  <%= devise_error_messages! %>
-  <%= f.hidden_field :reset_password_token %>
-
-  <div class="field">
-    <%= f.label :password, "New password" %><br />
-    <% if @minimum_password_length %>
-      <em>(<%= @minimum_password_length %> characters minimum)</em><br />
-    <% end %>
-    <%= f.password_field :password, autofocus: true, autocomplete: "off" %>
+<div class="am-wrapper am-login am-signup">
+  <%= render "shared/alerts" %>
+  <div class="am-content">
+    <div class="main-content">
+      <div class="login-container sign-up">
+        <div class="panel panel-default">
+          <div class="panel-heading"><img src="<%= asset_path 'logo-full-retina.png' %>" alt="logo" width="150px" height="39px" class="logo-img"></div>
+          <div class="panel-body">
+          <h3 class="center">Forgot your password?</h3>
+            <%= form_for(resource, as: resource_name, url: password_path(resource_name), :html => {:class => 'form-horizontal', 'parsley-validate' => '', 'novalidate' => '', method: :put }) do |f| %>
+              <%= f.hidden_field :reset_password_token %>
+              <div class="form-group row">
+                <div class="col-xs-6">
+                  <div id="password-handler" class="input-group"><span class="input-group-addon"><i class="icon s7-lock"></i></span>
+                    <%= f.password_field :password, autofocus: true, class: "form-control", 'data-parsley-trigger': "change", 'data-parsley-errors-messages-disabled': "true", 'data-parsley-class-handler': "#password-handler", placeholder: "Password", required: "", autocomplete: "off" %>
+                  </div>
+                </div>
+                <div class="col-xs-6">
+                  <div id="password_confirmation-handler" class="input-group"><span class="input-group-addon"><i class="icon s7-lock"></i></span>
+                    <%= f.password_field :password_confirmation, autofocus: true, class: "form-control", 'data-parsley-trigger': "change", 'data-parsley-errors-messages-disabled': "true", 'data-parsley-class-handler': "#password_confirmation-handler", placeholder: "Confirm", required: "", autocomplete: "off" %>
+                  </div>
+                </div>
+              </div>
+              <%= f.submit "Change Password", class: "btn btn-block btn-primary btn-lg" %>
+            <% end %>
+          </div>
+        </div>
+        <%= render "devise/shared/links" %>
+      </div>
+    </div>
   </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation, "Confirm new password" %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Change my password" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>
+<script type="text/javascript">
+  $('#new_user').parsley();
+</script>

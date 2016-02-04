@@ -1,16 +1,29 @@
-<h2>Resend confirmation instructions</h2>
-
-<%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
-  <%= devise_error_messages! %>
-
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email) %> 
+<div class="am-wrapper am-login am-signup">
+  <%= render "shared/alerts" %>
+  <div class="am-content">
+    <div class="main-content">
+      <div class="login-container sign-up">
+        <div class="panel panel-default">
+          <div class="panel-heading"><img src="<%= asset_path 'logo-full-retina.png' %>" alt="logo" width="150px" height="39px" class="logo-img"></div>
+          <div class="panel-body">
+          <h3 class="center">Resend confirmation instructions</h3>
+            <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), :html => {:class => 'form-horizontal', 'parsley-validate' => '', 'novalidate' => '', method: :post }) do |f| %>
+              <div class="sign-up-form">
+                <div class="form-group">
+                  <div id="email-handler" class="input-group"><span class="input-group-addon"><i class="icon s7-user"></i></span>
+                    <%= f.email_field :email, autofocus: true, value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email), class: "form-control", 'data-parsley-trigger': "change", 'data-parsley-errors-messages-disabled': "true", 'data-parsley-class-handler': "#email-handler", placeholder: "Email", required: "", autocomplete: "off" %>
+                  </div>
+                </div>
+              </div>
+              <%= f.submit "Send Confirmation Instructions", class: "btn btn-block btn-primary btn-lg" %>
+            <% end %>
+          </div>
+        </div>
+        <%= render "devise/shared/links" %>
+      </div>
+    </div>
   </div>
-
-  <div class="actions">
-    <%= f.submit "Resend confirmation instructions" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>
+<script type="text/javascript">
+  $('#new_user').parsley();
+</script>
