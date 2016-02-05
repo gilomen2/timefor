@@ -57,3 +57,24 @@ body.homepage .navbar-nav a.no-hover:hover{
 .navbar-toggle .icon-bar{
   background-color: #fff;
 }
+
+
+
+/*Contacts Grid*/
+.widget > .widget-head .tools > a > .icon, .icon.actions {
+  font-size: 21px;
+  display: inline-block;
+  margin-left: 5px;
+  font-size: 21px;
+  line-height: 23px;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.widget > .widget-head .tools > a > .icon:hover, .icon.actions:hover {
+  color: #ef6262;
+}
+
+.widget > .widget-head .tools > a > .icon {
+  color: #555555;
+}

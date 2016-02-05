@@ -1,0 +1,44 @@
+<div class="am-wrapper">
+  <%= render "admin/admin" %>
+  <div class="am-content">
+    <%= render "admin/alerts" %>
+    <div class="page-head">
+      <h2>Contacts</h2>
+    </div>
+    <div class="main-content">
+      <div class="row">
+        <div class="col-sm-12">
+              <div class="widget widget-fullwidth widget-small">
+                <div class="widget-head">
+                  <div class="tools">
+                    <%= link_to new_admin_contact_path do %>
+                      <span class="icon s7-add-user md-trigger"></span>
+                    <% end %>
+                    </div>
+                  <div class="title">Your Contacts</div>
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-striped table-fw-widget table-hover">
+                    <% if @contacts.blank? %>
+                      <h3>No contacts yet</h3>
+                    <% else %>
+                      <thead>
+                        <tr>
+                          <th width="55%">Name</th>
+                          <th width="35%">Phone Number</th>
+                          <th width="5%">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody class="no-border-x">
+                        <%= render partial: "contact", collection: @contacts %>
+                      </tbody>
+                    <% end %>
+                  </table>
+                </div>
+              </div>
+            </div>
+      </div>
+    </div>
+  </div>
+</div>
+

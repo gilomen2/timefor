@@ -1,0 +1,12 @@
+<tr>
+  <td class="user-avatar"><%= contact.name %></td>
+  <td><%= contact.phone %></td>
+  <td>
+    <%= link_to edit_admin_contact_path(contact) do %>
+      <span class="icon actions s7-edit"></span>
+    <% end %>
+    <%= link_to admin_contact_path(contact), method: :delete do %>
+      <span class="icon actions s7-delete-user"></span>
+    <% end %>
+  </td>
+</tr>
