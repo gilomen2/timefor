@@ -16,3 +16,4 @@
 //= require bootstrap-sprockets
 //= require data-confirm-modal
 //= require_tree .
+

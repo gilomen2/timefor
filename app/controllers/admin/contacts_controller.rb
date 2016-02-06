@@ -1,6 +1,7 @@
 class Admin::ContactsController < ApplicationController
   def index
     @contacts = Contact.all
+    @contact = Contact.new
   end
 
   def show
@@ -16,12 +17,18 @@ class Admin::ContactsController < ApplicationController
     @contact = Contact.new(contact_params)
     @contact.user = current_user
 
-    if @contact.save
-      flash[:notice] = "Your new Contact was saved."
-      redirect_to admin_contacts_path
-    else
-      flash[:error] = "There was a problem saving the Wiki. Please try again."
-      redirect_to new_admin_contact_path
+    respond_to do |format|
+      if @contact.save
+        format.html { redirect_to polymorphic_path([:admin, @contact]), notice: 'Contact was successfully created.' }
+        format.json { render action: 'show', status: :created, location: [:admin, @contact] }
+        # added:
+        format.js   { render action: 'show', status: :created, location: [:admin, @contact] }
+      else
+        format.html { render action: 'new' }
+        format.json { render json: @contact.errors, status: :unprocessable_entity }
+        # added:
+        format.js   { render json: @contact.errors, status: :unprocessable_entity }
+      end
     end
   end
 
