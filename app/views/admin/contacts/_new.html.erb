@@ -1,7 +1,7 @@
 <% modal ||= false %>
 <% remote = modal ? true : false %>
 
-<%= form_for [:admin, @contact], remote: remote, url: {action: "create", params: {name: @contact.name, phone: @contact.phone}}, html: {role: :form, 'data-model' => 'contact'} do |f| %>
+<%= form_for [:admin, @contact], remote: true, url: {action: "create", params: {name: @contact.name, phone: @contact.phone}}, html: {role: :form, 'data-model' => 'contact'} do |f| %>
  <% if @contact.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@contact.errors.count, "error") %> prohibited this contact from being saved:</h2>

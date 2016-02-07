@@ -1,6 +1,6 @@
 <tr id="contact-<%= contact.id %>">
-  <td class="user-avatar"><%= contact.name %></td>
-  <td><%= contact.phone %></td>
+  <td id="contact-<%= contact.id %>-name"><%= contact.name %></td>
+  <td id="contact-<%= contact.id %>-phone"><%= contact.phone %></td>
   <td>
     <a data-modal="edit_contact" class="md-trigger contact" data-contact='{"name": "<%= contact.name %>", "phone": "<%= contact.phone %>", "id": "<%= contact.id %>"}' id="contact-<%= contact.id %>">
       <span class="icon actions s7-edit"></span>
