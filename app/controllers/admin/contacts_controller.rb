@@ -41,19 +41,12 @@ class Admin::ContactsController < ApplicationController
 
   def update
     @contact = Contact.find(params[:id])
-
-    respond_to do |format|
-      if @contact.update_attributes(contact_params)
-        format.html { redirect_to admin_contacts_path, notice: 'Contact was successfully edited.' }
-        format.json { render action: 'index', status: :edited, location: [:admin, @contact] }
-        # added:
-        format.js   { render action: 'index', status: :edited, location: [:admin, @contact] }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @contact.errors, status: :unprocessable_entity }
-        # added:
-        format.js   { render json: @contact.errors, status: :unprocessable_entity }
-      end
+    if @contact.update_attributes(contact_params)
+      redirect_to admin_contacts_path
+      flash[:notice] = "Contact successfully edited."
+    else
+      redirect_to admin_contacts_path
+      flash[:error] = "There was a problem editing the Contact. Please try again."
     end
   end
 

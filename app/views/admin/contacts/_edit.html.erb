@@ -1,7 +1,7 @@
 <% modal ||= false %>
 <% remote = modal ? true : false %>
 
-<%= form_for [:admin, @contact], :url => '', method: :put, remote: remote, html: {role: :form, 'data-model' => 'contact', id: 'edit-contact', class: 'validate-me'} do |f| %>
+<%= form_for [:admin, @contact], :url => '', method: :put, html: {role: :form, 'data-model' => 'contact', id: 'edit-contact', class: 'validate-me'} do |f| %>
  <% if @contact.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@contact.errors.count, "error") %> prohibited this contact from being saved:</h2>
