@@ -2,10 +2,12 @@ class Admin::ContactsController < ApplicationController
   def index
     @contacts = Contact.all
     @contact = Contact.new
+
   end
 
   def show
-    @contacts = Contact.find
+    @contact = Contact.find(params[:id])
+    render :json => @contact
   end
 
   def new
@@ -20,9 +22,9 @@ class Admin::ContactsController < ApplicationController
     respond_to do |format|
       if @contact.save
         format.html { redirect_to polymorphic_path([:admin, @contact]), notice: 'Contact was successfully created.' }
-        format.json { render action: 'show', status: :created, location: [:admin, @contact] }
+        format.json { render action: 'add', status: :created, location: [:admin, @contact] }
         # added:
-        format.js   { render action: 'show', status: :created, location: [:admin, @contact] }
+        format.js   { render action: 'add', status: :created, location: [:admin, @contact] }
       else
         format.html { render action: 'new' }
         format.json { render json: @contact.errors, status: :unprocessable_entity }
@@ -40,12 +42,18 @@ class Admin::ContactsController < ApplicationController
   def update
     @contact = Contact.find(params[:id])
 
-    if @contact.update_attributes(contact_params)
-      flash[:notice] = "Your Contact has been updated."
-      redirect_to admin_contacts_path
-    else
-      flash[:error] = "There was a problem saving the Contact. Please try again."
-      redirect_to edit_admin_contact_path
+    respond_to do |format|
+      if @contact.update_attributes(contact_params)
+        format.html { redirect_to admin_contacts_path, notice: 'Contact was successfully edited.' }
+        format.json { render action: 'index', status: :edited, location: [:admin, @contact] }
+        # added:
+        format.js   { render action: 'index', status: :edited, location: [:admin, @contact] }
+      else
+        format.html { render action: 'edit' }
+        format.json { render json: @contact.errors, status: :unprocessable_entity }
+        # added:
+        format.js   { render json: @contact.errors, status: :unprocessable_entity }
+      end
     end
   end
 
