@@ -61,10 +61,12 @@ class Admin::ContactsController < ApplicationController
     @contact = Contact.find(params[:id])
     if @contact.destroy
       flash[:notice] = "Contact successfully deleted."
-      redirect_to admin_contacts_path
     else
       flash[:error] = "There was a problem deleting the Contact. Please try again."
-      render :show
+    end
+    respond_to do |format|
+      format.html
+      format.js
     end
   end
 
