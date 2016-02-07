@@ -43,8 +43,18 @@
           <h3 class="modal-title">Add Contact</h3>
         </div>
         <div class="modal-body form">
-          <%# Render the new person form (passing modal => true to enable remote => true) %>
           <%= render 'new', modal: true %>
+        </div>
+      </div>
+  </div>
+  <div id="edit_contact" class="md-modal colored-header custom-width md-effect-1">
+      <div class="md-content">
+        <div class="modal-header">
+          <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><i class="icon s7-close"></i></button>
+          <h3 class="modal-title">Edit Contact</h3>
+        </div>
+        <div id="edit_form" class="modal-body form">
+          <%= render 'edit', locals: {contact: @contact} %>
         </div>
       </div>
   </div>

@@ -15,5 +15,27 @@
 //= require turbolinks
 //= require bootstrap-sprockets
 //= require data-confirm-modal
+//= require knockout
 //= require_tree .
 
+
+function EditContactViewModel() {
+  var self = this;
+  self.name = ko.observable();
+  self.phone = ko.observable();
+
+  self.loadContactEditPage = function(item, event) {
+    var contact = $(event.currentTarget).data('contact');
+    console.log(contact);
+    // $.getJSON("/admin/contacts/" + contactID, function(allData) {
+    //   self.myContact(new Contact(allData));
+    // });
+    self.name(contact.name);
+    self.phone(contact.phone);
+
+    $('form#edit-contact').attr('action', '/admin/contacts/' + contact.id);
+  }
+}
+
+var x = new EditContactViewModel();
+ko.applyBindings(x);
