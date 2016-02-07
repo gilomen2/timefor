@@ -15,27 +15,15 @@
 //= require turbolinks
 //= require bootstrap-sprockets
 //= require data-confirm-modal
-//= require knockout
+//= require jquery.turbolinks
 //= require_tree .
 
 
-function EditContactViewModel() {
-  var self = this;
-  self.name = ko.observable();
-  self.phone = ko.observable();
 
-  self.loadContactEditPage = function(item, event) {
-    var contact = $(event.currentTarget).data('contact');
-    console.log(contact);
-    // $.getJSON("/admin/contacts/" + contactID, function(allData) {
-    //   self.myContact(new Contact(allData));
-    // });
-    self.name(contact.name);
-    self.phone(contact.phone);
-
-    $('form#edit-contact').attr('action', '/admin/contacts/' + contact.id);
-  }
-}
-
-var x = new EditContactViewModel();
-ko.applyBindings(x);
+$( "#contacts-table" ).on("click", ".contact", function(event) {
+  $('#edit_contact').addClass('md-show');
+  var myObject = $(event.currentTarget).data('contact');
+  $('#contact-name-edit').val(myObject.name);
+  $('#contact-phone-edit').val(myObject.phone);
+  $('form#edit-contact').attr('action', '/admin/contacts/' + myObject.id)
+});

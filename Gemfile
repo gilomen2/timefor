@@ -65,7 +65,7 @@ gem 'formvalidation-rails'
 
 gem 'data-confirm-modal', github: 'ifad/data-confirm-modal'
 
-gem 'knockoutjs-rails'
+gem 'jquery-turbolinks'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
