@@ -25,5 +25,5 @@ $( "#contacts-table" ).on("click", ".contact", function(event) {
   var myObject = $(event.currentTarget).data('contact');
   $('#contact-name-edit').val(myObject.name);
   $('#contact-phone-edit').val(myObject.phone);
-  $('form#edit-contact').attr('action', '/admin/contacts/' + myObject.id)
+  $('form#edit-contact').attr('action', '/admin/contacts/' + myObject.id);
 });
