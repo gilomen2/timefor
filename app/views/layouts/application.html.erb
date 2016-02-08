@@ -20,8 +20,10 @@
     App.init();
   });
 </script>
-<script type='text/javascript'>
-    $('.validate-me').parsley();
-</script>
+<% if @includes_form %>
+  <script type='text/javascript'>
+      $('.validate-me').parsley();
+  </script>
+<% end %>
 </body>
 </html>
