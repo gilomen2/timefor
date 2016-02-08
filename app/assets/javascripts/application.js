@@ -15,4 +15,15 @@
 //= require turbolinks
 //= require bootstrap-sprockets
 //= require data-confirm-modal
+//= require jquery.turbolinks
 //= require_tree .
+
+
+
+$( "#contacts-table" ).on("click", ".contact", function(event) {
+  $('#edit_contact').addClass('md-show');
+  var myObject = $(event.currentTarget).data('contact');
+  $('#contact-name-edit').val(myObject.name);
+  $('#contact-phone-edit').val(myObject.phone);
+  $('form#edit-contact').attr('action', '/admin/contacts/' + myObject.id)
+});
