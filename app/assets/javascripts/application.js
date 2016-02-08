@@ -19,11 +19,16 @@
 //= require_tree .
 
 
+var ready;
+ready = function() {
+	$( "#contacts-table" ).on("click", ".contact", function(event) {
+	  $('#edit_contact').addClass('md-show');
+	  var myObject = $(event.currentTarget).data('contact');
+	  $('#contact-name-edit').val(myObject.name);
+	  $('#contact-phone-edit').val(myObject.phone);
+	  $('form#edit-contact').attr('action', '/admin/contacts/' + myObject.id);
+	});
+};
 
-$( "#contacts-table" ).on("click", ".contact", function(event) {
-  $('#edit_contact').addClass('md-show');
-  var myObject = $(event.currentTarget).data('contact');
-  $('#contact-name-edit').val(myObject.name);
-  $('#contact-phone-edit').val(myObject.phone);
-  $('form#edit-contact').attr('action', '/admin/contacts/' + myObject.id);
-});
+$(document).ready(ready);
+$(document).on('page:load', ready);
