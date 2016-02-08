@@ -1,6 +1,7 @@
 class SessionsController < Devise::SessionsController
   def new
     @body_class = "am-splash-screen"
+    @includes_form = true
     super
   end
 
