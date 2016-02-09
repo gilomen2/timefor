@@ -1,7 +1,7 @@
 class Admin::ContactsController < ApplicationController
   def index
     @user = current_user
-    @contacts = policy_scope(Contact)
+    @contacts = policy_scope(Contact).sort_by { |obj| obj.created_at }
     @contact = Contact.new
     authorize Contact
   end
