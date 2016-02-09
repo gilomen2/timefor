@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160205000420) do
+ActiveRecord::Schema.define(version: 20160209032255) do
 
   create_table "contacts", force: :cascade do |t|
     t.string   "name"
@@ -22,6 +22,44 @@ ActiveRecord::Schema.define(version: 20160205000420) do
   end
 
   add_index "contacts", ["user_id"], name: "index_contacts_on_user_id"
+
+  create_table "frequencies", force: :cascade do |t|
+    t.date     "start_date"
+    t.time     "time"
+    t.boolean  "repeat"
+    t.boolean  "sunday"
+    t.boolean  "monday"
+    t.boolean  "tuesday"
+    t.boolean  "wednesday"
+    t.boolean  "thursday"
+    t.boolean  "friday"
+    t.boolean  "saturday"
+    t.integer  "schedule_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "frequencies", ["schedule_id"], name: "index_frequencies_on_schedule_id"
+
+  create_table "scheduled_calls", force: :cascade do |t|
+    t.string   "call_id"
+    t.integer  "schedule_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "scheduled_calls", ["schedule_id"], name: "index_scheduled_calls_on_schedule_id"
+
+  create_table "schedules", force: :cascade do |t|
+    t.string   "message"
+    t.datetime "next_call_time"
+    t.datetime "last_successful_summit_request"
+    t.integer  "contact_id"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+  end
+
+  add_index "schedules", ["contact_id"], name: "index_schedules_on_contact_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
