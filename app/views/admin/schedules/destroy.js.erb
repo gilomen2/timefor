@@ -1,0 +1,5 @@
+<% if @schedule.destroyed? %>
+  $('#schedule-' +<%= @schedule.id %>).fadeOut(600);
+<% else %>
+  <%= flash[:error] %>
+<% end %>

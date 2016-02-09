@@ -1,0 +1,12 @@
+<tr id="schedule-<%= schedule.id %>">
+  <td id="schedule-<%= schedule.id %>-contact"><%= schedule.contact_name %></td>
+  <td id="schedule-<%= schedule.id %>-message"><%= schedule.message %></td>
+  <td>
+    <a data-modal="edit_schedule" class="md-trigger schedule" data-schedule='{"id": "<%= schedule.id %>"}' id="schedule-<%= schedule.id %>">
+      <span class="icon actions s7-edit"></span>
+    </a>
+    <%= link_to admin_schedule_path(schedule), method: :delete, remote: true do %>
+      <span class="icon actions s7-delete-user"></span>
+    <% end %>
+  </td>
+</tr>
