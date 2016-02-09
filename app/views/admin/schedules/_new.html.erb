@@ -21,6 +21,14 @@
     <%= f.label :message %>
     <%= f.text_field :message, autofocus: true, class: 'form-control', 'data-parsley-trigger': "change", 'data-parsley-errors-messages-disabled': "true", 'data-parsley-class-handler': "#message-handler", placeholder: "Message", required: "", autocomplete: "off" %>
   </div>
+  <%= fields_for @frequency do |u| %>
+     <div class="form-group">
+       <%= u.label :start_date %>
+        <div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker col-md-5 col-xs-7">
+          <%= u.text_field :start_date, class: 'form-control' %><span class="input-group-addon btn btn-primary"><i class="icon-th s7-date"></i></span>
+        </div>
+     </div>
+   <% end %>
   <button type="button" data-dismiss="modal" class="btn btn-default md-close">Cancel</button>
   <%= f.submit "Submit", 'data-dismiss': 'modal', class: 'btn btn-primary md-close'  %>
 <% end %>

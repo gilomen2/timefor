@@ -5,4 +5,8 @@ class Schedule < ActiveRecord::Base
   has_one :frequency
 
   delegate :name, :to => :contact, :prefix => true
+
+  delegate :start_date, :to => :frequency, :prefix => true
+
+  accepts_nested_attributes_for :frequency
 end

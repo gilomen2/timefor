@@ -4,6 +4,7 @@ class Admin::SchedulesController < ApplicationController
     @contacts = policy_scope(Contact)
     @schedules = policy_scope(Schedule)
     @schedule = Schedule.new
+    @frequency = Frequency.new
     authorize Schedule
   end
 
@@ -16,9 +17,11 @@ class Admin::SchedulesController < ApplicationController
   def create
     @schedule = Schedule.new(schedule_params)
     @schedule.user_id = current_user.id
+    @frequency = Frequency.new(frequency_params)
+    @frequency.schedule = @schedule
     authorize @schedule
     respond_to do |format|
-      if @schedule.save
+      if @schedule.save && @frequency.save
         format.html { redirect_to polymorphic_path([:admin, @schedule]), notice: 'Schedule was successfully created.' }
         format.json { render action: 'add', status: :created, location: [:admin, @schedule] }
         # added:
@@ -68,5 +71,9 @@ class Admin::SchedulesController < ApplicationController
 
   def schedule_params
     params.require(:schedule).permit(:contact_id, :message)
+  end
+
+  def frequency_params
+    params.require(:frequency).permit(:schedule_id, :start_date)
   end
 end
