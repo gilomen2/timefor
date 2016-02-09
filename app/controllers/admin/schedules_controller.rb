@@ -29,9 +29,19 @@ class Admin::SchedulesController < ApplicationController
   end
 
   def edit
+    @schedule = Schedule.find(params[:id])
+    @user = current_user
   end
 
   def update
+    @schedule = Schedule.find(params[:id])
+    if @schedule.update_attributes(schedule_params)
+      redirect_to admin_schedules_path
+      flash[:notice] = "Schedule successfully edited."
+    else
+      redirect_to admin_schedules_path
+      flash[:error] = "There was a problem editing the Schedule. Please try again."
+    end
   end
 
   def destroy
