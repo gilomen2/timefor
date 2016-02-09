@@ -1,24 +1,27 @@
 class Admin::ContactsController < ApplicationController
   def index
-    @contacts = Contact.all
+    @user = current_user
+    @contacts = policy_scope(Contact)
     @contact = Contact.new
-
+    authorize Contact
   end
 
   def show
     @contact = Contact.find(params[:id])
+    authorize @contact
     render :json => @contact
   end
 
   def new
     @contact = Contact.new
     @user = current_user
+    authorize @contact
   end
 
   def create
     @contact = Contact.new(contact_params)
     @contact.user = current_user
-
+    authorize @contact
     respond_to do |format|
       if @contact.save
         format.html { redirect_to polymorphic_path([:admin, @contact]), notice: 'Contact was successfully created.' }
@@ -37,10 +40,12 @@ class Admin::ContactsController < ApplicationController
   def edit
     @contact = Contact.find(params[:id])
     @user = current_user
+    authorize @contact
   end
 
   def update
     @contact = Contact.find(params[:id])
+    authorize @contact
     if @contact.update_attributes(contact_params)
       redirect_to admin_contacts_path
       flash[:notice] = "Contact successfully edited."
@@ -52,6 +57,7 @@ class Admin::ContactsController < ApplicationController
 
   def destroy
     @contact = Contact.find(params[:id])
+    authorize @contact
     if @contact.destroy
       flash[:notice] = "Contact successfully deleted."
     else
