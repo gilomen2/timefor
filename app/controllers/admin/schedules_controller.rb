@@ -1,18 +1,22 @@
 class Admin::SchedulesController < ApplicationController
   def index
+    @user = current_user
     @contacts = policy_scope(Contact)
-    @schedules = Schedule.all
+    @schedules = policy_scope(Schedule)
     @schedule = Schedule.new
+    authorize Schedule
   end
 
   def new
     @schedule = Schedule.new
     @user = current_user
+    authorize @schedule
   end
 
   def create
     @schedule = Schedule.new(schedule_params)
     @schedule.user_id = current_user.id
+    authorize @schedule
     respond_to do |format|
       if @schedule.save
         format.html { redirect_to polymorphic_path([:admin, @schedule]), notice: 'Schedule was successfully created.' }
@@ -31,10 +35,12 @@ class Admin::SchedulesController < ApplicationController
   def edit
     @schedule = Schedule.find(params[:id])
     @user = current_user
+    authorize @schedule
   end
 
   def update
     @schedule = Schedule.find(params[:id])
+    authorize @schedule
     if @schedule.update_attributes(schedule_params)
       redirect_to admin_schedules_path
       flash[:notice] = "Schedule successfully edited."
@@ -46,6 +52,7 @@ class Admin::SchedulesController < ApplicationController
 
   def destroy
     @schedule = Schedule.find(params[:id])
+    authorize @schedule
     if @schedule.destroy
       flash[:notice] = "Schedule successfully deleted."
     else
