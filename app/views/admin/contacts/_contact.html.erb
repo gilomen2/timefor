@@ -1,12 +1,12 @@
 <tr id="contact-<%= contact.id %>">
   <td id="contact-<%= contact.id %>-name"><%= contact.name %></td>
   <td id="contact-<%= contact.id %>-phone"><%= contact.phone %></td>
-  <td>
+  <td class="tools">
     <a data-modal="edit_contact" class="md-trigger contact" data-contact='{"name": "<%= contact.name %>", "phone": "<%= contact.phone %>", "id": "<%= contact.id %>"}' id="contact-<%= contact.id %>">
       <span class="icon actions s7-edit"></span>
     </a>
     <%= link_to admin_contact_path(contact), method: :delete, remote: true do %>
-      <span class="icon actions s7-delete-user"></span>
+      <span class="icon actions s7-trash"></span>
     <% end %>
   </td>
 </tr>
