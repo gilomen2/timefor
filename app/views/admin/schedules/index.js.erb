@@ -1,0 +1,3 @@
+<% j @contacts.each do |contact| %>
+  $('#contact-<%= j contact.id %>').click(("#edit_form").load("<%= j edit_admin_contact_path(contact) %>"));
+<% end %>

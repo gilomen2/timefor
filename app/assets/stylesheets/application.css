@@ -75,6 +75,13 @@ body.homepage .navbar-nav a.no-hover:hover{
   color: #ef6262;
 }
 
-.widget > .widget-head .tools > a > .icon {
+.widget > .widget-head .tools > a > .icon, td.tools a {
   color: #555555;
+}
+
+
+// Schedules
+
+input#frequency_time {
+  margin: 5px;
 }

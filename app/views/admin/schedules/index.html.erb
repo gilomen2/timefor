@@ -1,0 +1,63 @@
+<div class="am-wrapper">
+  <%= render "admin/admin" %>
+  <div class="am-content">
+    <%= render "admin/alerts" %>
+    <div class="page-head">
+      <h2>Schedules</h2>
+    </div>
+    <div class="main-content">
+      <div class="row">
+        <div class="col-sm-12">
+              <div class="widget widget-fullwidth widget-small">
+                <div class="widget-head">
+                  <div class="tools">
+                    <a data-modal="add_new_schedule" class="md-trigger">
+                      <span class="icon s7-add-user"></span>
+                    </a>
+                    </div>
+                  <div class="title">Your Schedules</div>
+                </div>
+                <div class="table-responsive">
+                  <table id="schedules-table" class="table table-striped table-fw-widget table-hover">
+                      <thead>
+                        <tr>
+                          <th width="30%">Contact</th>
+                          <th width="53%">Message</th>
+                          <th width="8%">Start Date</th>
+                          <th width="8%">Tools</th>
+                        </tr>
+                      </thead>
+                      <tbody class="no-border-x">
+                        <%= render partial: "schedule", collection: @schedules %>
+                      </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+      </div>
+    </div>
+  </div>
+  <div id="add_new_schedule" class="md-modal colored-header custom-width md-effect-1">
+      <div class="md-content">
+        <div class="modal-header">
+          <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><i class="icon s7-close"></i></button>
+          <h3 class="modal-title">Add Schedule</h3>
+        </div>
+        <div class="modal-body form">
+          <%= render 'new', modal: true %>
+        </div>
+      </div>
+  </div>
+  <div id="edit_schedule" class="md-modal colored-header custom-width md-effect-1">
+      <div class="md-content">
+        <div class="modal-header">
+          <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><i class="icon s7-close"></i></button>
+          <h3 class="modal-title">Edit Schedule</h3>
+        </div>
+        <div id="edit_form" class="modal-body form">
+          <%= render 'edit' %>
+        </div>
+      </div>
+  </div>
+  <div class="md-overlay"></div>
+</div>

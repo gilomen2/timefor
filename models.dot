@@ -1,0 +1,12 @@
+digraph models_diagram {
+	graph[overlap=false, splines=true, bgcolor="none"]
+	"Contact" [shape=Mrecord, label="{Contact|id :integer\lname :string\lphone :string\luser_id :integer\lcreated_at :datetime\lupdated_at :datetime\l}"]
+	"Frequency" [shape=Mrecord, label="{Frequency|id :integer\lstart_date :date\ltime :time\lrepeat :boolean\lsunday :boolean\lmonday :boolean\ltuesday :boolean\lwednesday :boolean\lthursday :boolean\lfriday :boolean\lsaturday :boolean\lschedule_id :integer\lcreated_at :datetime\lupdated_at :datetime\l}"]
+	"Schedule" [shape=Mrecord, label="{Schedule|id :integer\lmessage :string\lnext_call_time :datetime\llast_successful_summit_request :datetime\lcontact_id :integer\lcreated_at :datetime\lupdated_at :datetime\l}"]
+	"ScheduledCall" [shape=Mrecord, label="{ScheduledCall|id :integer\lcall_id :string\lschedule_id :integer\lcreated_at :datetime\lupdated_at :datetime\l}"]
+	"User" [shape=Mrecord, label="{User|id :integer\lemail :string\lencrypted_password :string\lreset_password_token :string\lreset_password_sent_at :datetime\lremember_created_at :datetime\lsign_in_count :integer\lcurrent_sign_in_at :datetime\llast_sign_in_at :datetime\lcurrent_sign_in_ip :string\llast_sign_in_ip :string\lconfirmation_token :string\lconfirmed_at :datetime\lconfirmation_sent_at :datetime\lunconfirmed_email :string\lname :string\lsubscription :string\lcreated_at :datetime\lupdated_at :datetime\l}"]
+	"Contact" -> "Schedule" [arrowtail=odot, arrowhead=crow, dir=both color="#686AD3"]
+	"Schedule" -> "ScheduledCall" [arrowtail=odot, arrowhead=crow, dir=both color="#2BC493"]
+	"Schedule" -> "Frequency" [arrowtail=odot, arrowhead=dot, dir=both color="#75151D"]
+	"User" -> "Contact" [arrowtail=odot, arrowhead=crow, dir=both color="#4E006C"]
+}

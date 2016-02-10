@@ -23,11 +23,30 @@ var ready;
 ready = function() {
 	$( "#contacts-table" ).on("click", ".contact", function(event) {
 	  $('#edit_contact').addClass('md-show');
-	  var myObject = $(event.currentTarget).data('contact');
-	  $('#contact-name-edit').val(myObject.name);
-	  $('#contact-phone-edit').val(myObject.phone);
-	  $('form#edit-contact').attr('action', '/admin/contacts/' + myObject.id);
+	  var myContactObject = $(event.currentTarget).data('contact');
+	  $('#contact-name-edit').val(myContactObject.name);
+	  $('#contact-phone-edit').val(myContactObject.phone);
+	  $('form#edit-contact').attr('action', '/admin/contacts/' + myContactObject.id);
 	});
+
+  $( "#schedules-table" ).on("click", ".schedule", function(event) {
+    $('#edit_schedule').addClass('md-show');
+    var myScheduleObject = $(event.currentTarget).data('schedule');
+    console.log(myScheduleObject)
+    var contact_id = parseInt(myScheduleObject.contact_id, 10)
+    $('#schedule-contact-edit').val(contact_id);
+    $('#schedule-message-edit').val(myScheduleObject.message);
+    $('#schedule-start-date-edit').val(myScheduleObject.schedule_start_date);
+    $('form#edit-schedule').attr('action', '/admin/schedules/' + myScheduleObject.id);
+  });
+  $( "#add_new_schedule" ).on("click", "#frequency_repeat", function(event) {
+    if($('#frequency_repeat').prop('checked')){
+      $('#repeat-days').collapse('show');
+    }
+    else {
+      $('#repeat-days').collapse('hide');
+    }
+  });
 };
 
 $(document).ready(ready);
