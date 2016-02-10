@@ -78,3 +78,10 @@ body.homepage .navbar-nav a.no-hover:hover{
 .widget > .widget-head .tools > a > .icon, td.tools a {
   color: #555555;
 }
+
+
+// Schedules
+
+input#frequency_time {
+  margin: 5px;
+}

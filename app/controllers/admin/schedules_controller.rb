@@ -5,6 +5,7 @@ class Admin::SchedulesController < ApplicationController
     @schedules = policy_scope(Schedule)
     @schedule = Schedule.new
     @frequency = Frequency.new
+    @timepicker = true
     authorize Schedule
   end
 
@@ -37,14 +38,16 @@ class Admin::SchedulesController < ApplicationController
 
   def edit
     @schedule = Schedule.find(params[:id])
+    @frequency = @schedule.frequency
     @user = current_user
     authorize @schedule
   end
 
   def update
     @schedule = Schedule.find(params[:id])
+    @frequency = @schedule.frequency
     authorize @schedule
-    if @schedule.update_attributes(schedule_params)
+    if @schedule.update_attributes(schedule_params) && @frequency.update_attributes(frequency_params)
       redirect_to admin_schedules_path
       flash[:notice] = "Schedule successfully edited."
     else
@@ -55,8 +58,10 @@ class Admin::SchedulesController < ApplicationController
 
   def destroy
     @schedule = Schedule.find(params[:id])
+    @frequency = @schedule.frequency
     authorize @schedule
     if @schedule.destroy
+      @frequency.destroy
       flash[:notice] = "Schedule successfully deleted."
     else
       flash[:error] = "There was a problem deleting the Schedule. Please try again."
@@ -74,6 +79,6 @@ class Admin::SchedulesController < ApplicationController
   end
 
   def frequency_params
-    params.require(:frequency).permit(:schedule_id, :start_date)
+    params.require(:frequency).permit(:schedule_id, :start_date, :timezone, :time, :repeat, :sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday)
   end
 end
