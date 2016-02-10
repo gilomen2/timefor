@@ -36,7 +36,16 @@ ready = function() {
     var contact_id = parseInt(myScheduleObject.contact_id, 10)
     $('#schedule-contact-edit').val(contact_id);
     $('#schedule-message-edit').val(myScheduleObject.message);
+    $('#schedule-start-date-edit').val(myScheduleObject.schedule_start_date);
     $('form#edit-schedule').attr('action', '/admin/schedules/' + myScheduleObject.id);
+  });
+  $( "#add_new_schedule" ).on("click", "#frequency_repeat", function(event) {
+    if($('#frequency_repeat').prop('checked')){
+      $('#repeat-days').collapse('show');
+    }
+    else {
+      $('#repeat-days').collapse('hide');
+    }
   });
 };
 

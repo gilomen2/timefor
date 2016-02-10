@@ -1,3 +1,3 @@
 class ScheduledCall < ActiveRecord::Base
-  belongs_to :schedule
+  belongs_to :schedule, dependent: :destroy
 end

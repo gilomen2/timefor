@@ -1,6 +1,6 @@
 var App = (function () {
   'use strict';
-  
+
   App.masks = function( ){
 
     $("[data-mask='date']").mask("99/99/9999");
@@ -12,7 +12,8 @@ var App = (function () {
     $("[data-mask='product-key']").mask("a*-999-a999");
     $("[data-mask='percent']").mask("99%");
     $("[data-mask='currency']").mask("$999,999,999.99");
-    
+    $("[data-mask='time']").mask('99:99');
+
   };
 
   return App;
