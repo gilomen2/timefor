@@ -245,6 +245,7 @@ GEM
     parser (2.3.0.2)
       ast (~> 2.2)
     pg (0.18.4)
+    phonelib (0.5.5)
     powerpack (0.1.1)
     pry (0.10.3)
       coderay (~> 1.1.0)
@@ -398,6 +399,7 @@ DEPENDENCIES
   jquery-turbolinks
   mini_magick
   pg
+  phonelib
   pry-rails
   pundit
   quiet_assets
