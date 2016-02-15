@@ -27,6 +27,7 @@ class Admin::SchedulesController < ApplicationController
         format.json { render action: 'add', status: :created, location: [:admin, @schedule] }
         # added:
         format.js   { render action: 'add', status: :created, location: [:admin, @schedule] }
+        make_summit_request(@schedule)
       else
         format.html { render action: 'new' }
         format.json { render json: @schedule.errors, status: :unprocessable_entity }
@@ -70,6 +71,72 @@ class Admin::SchedulesController < ApplicationController
       format.html
       format.js
     end
+  end
+
+
+  def make_summit_request(schedule)
+    mySchedule = schedule
+    user = schedule_user(mySchedule)
+    summit_url = 'https://api.us1.corvisa.io/call/schedule'
+    summit_api_key = ENV['SUMMIT_API_KEY']
+    summit_api_secret = ENV['SUMMIT_API_SECRET']
+    myString = summit_api_key+':'+summit_api_secret
+
+    auth = Base64.strict_encode64(myString)
+    body = ActiveSupport::JSON.encode({
+      message: mySchedule.message,
+      contactName: mySchedule.contact_name,
+      senderName: user.name
+      })
+    payload = ActiveSupport::JSON.encode({
+      destinations: format_phone(mySchedule.contact.phone),
+      internal_caller_id_number: '14148853916',
+      internal_caller_id_name: 'TimeFor',
+      destination_type: 'outbound',
+      application: 'time_for',
+      application_data: body,
+      external_caller_id_number: '14148853916'
+      })
+
+    url = URI(summit_url)
+
+    http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = true
+
+
+    request = Net::HTTP::Post.new(url)
+    request["authorization"] = 'Basic ' + auth
+    request["content-type"] = 'application/json'
+    request["cache-control"] = 'no-cache'
+    request.body = payload
+
+    response = http.request(request)
+
+    myResponse = response.read_body
+
+    create_scheduled_call(mySchedule, myResponse)
+  end
+
+  def schedule_user(schedule)
+    User.find(schedule.user_id)
+  end
+
+  def format_phone(phone)
+    number = Phonelib.parse(phone)
+    number.e164
+  end
+
+  def create_scheduled_call(schedule, response)
+    mySchedule = schedule
+    myResponse = response
+
+    json_response = ActiveSupport::JSON.decode(myResponse)
+
+    scheduled_call_id = json_response["data"][0]["scheduled_call_id"]
+
+    scheduled_call = ScheduledCall.new(schedule: mySchedule, call_id: scheduled_call_id)
+
+    scheduled_call.save!
   end
 
   private
