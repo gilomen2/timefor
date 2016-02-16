@@ -7,6 +7,7 @@ class Admin::SchedulesController < ApplicationController
     @frequency = Frequency.new
     @timepicker = true
     authorize Schedule
+
   end
 
   def new
@@ -94,6 +95,7 @@ class Admin::SchedulesController < ApplicationController
       internal_caller_id_name: 'TimeFor',
       destination_type: 'outbound',
       application: 'time_for',
+      schedule: get_scheduled_call_time(mySchedule),
       application_data: body,
       external_caller_id_number: '14148853916'
       })
@@ -137,6 +139,22 @@ class Admin::SchedulesController < ApplicationController
     scheduled_call = ScheduledCall.new(schedule: mySchedule, call_id: scheduled_call_id)
 
     scheduled_call.save!
+  end
+
+  def get_offset(timezone)
+    offset = ActiveSupport::TimeZone.new(timezone).formatted_offset
+  end
+
+  def get_scheduled_call_time(schedule)
+    timezone = schedule.frequency.timezone
+    myStartDate = schedule.frequency.start_date.strftime("%F")
+    myStartTime = schedule.frequency.time.strftime("%H:%M")
+    myOffset = get_offset(timezone)
+
+    build_timestamp = myStartDate + " " + myStartTime + " " + myOffset
+
+    scheduled_call_timestamp = build_timestamp.to_time.utc.strftime("%F %T")
+
   end
 
   private
