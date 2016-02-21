@@ -4,6 +4,7 @@ class Schedule < ActiveRecord::Base
   has_many :scheduled_calls
   has_one :frequency
   before_destroy :cancel_scheduled_calls
+  validates_associated :scheduled_calls, :frequency
 
 
   delegate :name, :to => :contact, :prefix => true
@@ -19,7 +20,11 @@ class Schedule < ActiveRecord::Base
       scheduled_calls = self.scheduled_calls
       scheduled_calls.each do |call|
         call_id = call.call_id
-        make_cancellation_request(call_id)
+        if make_cancellation_request(call_id) == false
+          self.errors[:base] << "There was a problem cancelling scheduled calls. Please try again later."
+          puts self.errors.first
+          return false
+        end
       end
     end
 
@@ -43,8 +48,22 @@ class Schedule < ActiveRecord::Base
 
       response = http.request(request)
 
-      myResponse = response.read_body
+      myResponseBody = response.read_body
 
-      puts myResponse
+      case response
+      when Net::HTTPSuccess
+        puts myResponseBody
+      else
+        json_response = ActiveSupport::JSON.decode(myResponseBody)
+        if json_response["errorMessage"] = "Cannot cancel a call once it has started"
+          puts json_response
+        else
+          self.errors[:base] << "There was a problem cancelling scheduled calls. Please try again later."
+          puts self.errors
+          puts json_response
+          return false
+        end
+      end
     end
+
 end

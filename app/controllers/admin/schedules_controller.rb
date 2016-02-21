@@ -7,7 +7,6 @@ class Admin::SchedulesController < ApplicationController
     @frequency = Frequency.new
     @timepicker = true
     authorize Schedule
-
   end
 
   def new
@@ -21,20 +20,22 @@ class Admin::SchedulesController < ApplicationController
     @schedule.user_id = current_user.id
     @frequency = Frequency.new(frequency_params)
     @frequency.schedule = @schedule
+    @scheduled_call = ScheduledCall.new(schedule: @schedule, call_id: make_summit_request(@schedule))
     authorize @schedule
-    respond_to do |format|
-      if @schedule.save && @frequency.save
-        format.html { redirect_to polymorphic_path([:admin, @schedule]), notice: 'Schedule was successfully created.' }
-        format.json { render action: 'add', status: :created, location: [:admin, @schedule] }
-        # added:
-        format.js   { render action: 'add', status: :created, location: [:admin, @schedule] }
-        make_summit_request(@schedule)
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @schedule.errors, status: :unprocessable_entity }
-        # added:
-        format.js   { render json: @schedule.errors, status: :unprocessable_entity }
+    if @scheduled_call.save
+      respond_to do |format|
+        if @schedule.save && @frequency.save
+          format.html { redirect_to polymorphic_path([:admin, @schedule]), notice: 'Schedule was successfully created.' }
+          format.json { render action: 'add', status: :created, location: [:admin, @schedule] }
+          format.js   { render action: 'add', status: :created, location: [:admin, @schedule] }
+        else
+          format.html { render action: 'new' }
+          format.json { render json: @schedule.errors, status: :unprocessable_entity }
+          format.js   { render json: @schedule.errors, status: :unprocessable_entity }
+        end
       end
+    else
+      flash[:error] = "There was a problem saving the schedule. Please try again."
     end
   end
 
@@ -89,6 +90,7 @@ class Admin::SchedulesController < ApplicationController
       mySchedule = schedule
       user = schedule_user(mySchedule)
       summit_url = 'https://api.us1.corvisa.io/call/schedule'
+      # summit_url = 'http://requestb.in/1drt0xe1'
       summit_api_key = ENV['SUMMIT_API_KEY']
       summit_api_secret = ENV['SUMMIT_API_SECRET']
       myString = summit_api_key+':'+summit_api_secret
@@ -115,7 +117,6 @@ class Admin::SchedulesController < ApplicationController
       http = Net::HTTP.new(url.host, url.port)
       http.use_ssl = true
 
-
       request = Net::HTTP::Post.new(url)
       request["authorization"] = 'Basic ' + auth
       request["content-type"] = 'application/json'
@@ -124,11 +125,13 @@ class Admin::SchedulesController < ApplicationController
 
       response = http.request(request)
 
-      myResponse = response.read_body
-
-      puts myResponse
-
-      create_scheduled_call(mySchedule, myResponse)
+      case response
+      when Net::HTTPSuccess
+        myResponseBody = response.read_body
+        create_scheduled_call(mySchedule, myResponseBody)
+      else
+        nil
+      end
     end
 
     def schedule_user(schedule)
@@ -140,17 +143,14 @@ class Admin::SchedulesController < ApplicationController
       number.e164
     end
 
-    def create_scheduled_call(schedule, response)
+    def create_scheduled_call(schedule, responseBody)
       mySchedule = schedule
-      myResponse = response
+      myResponseBody = responseBody
 
-      json_response = ActiveSupport::JSON.decode(myResponse)
+      json_response = ActiveSupport::JSON.decode(myResponseBody)
 
       scheduled_call_id = json_response["data"][0]["scheduled_call_id"]
 
-      scheduled_call = ScheduledCall.new(schedule: mySchedule, call_id: scheduled_call_id)
-
-      scheduled_call.save!
     end
 
     def get_offset(timezone)
