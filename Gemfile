@@ -15,6 +15,7 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'quiet_assets'
+  gem 'railroady'
 end
 
 
@@ -66,6 +67,8 @@ gem 'formvalidation-rails'
 gem 'data-confirm-modal', github: 'ifad/data-confirm-modal'
 
 gem 'jquery-turbolinks'
+
+gem 'phonelib'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

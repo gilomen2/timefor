@@ -7,7 +7,6 @@ require 'rails/all'
 Bundler.require(*Rails.groups)
 
 
-
 module Timefor2
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
