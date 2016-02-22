@@ -12,15 +12,13 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
 //= require bootstrap-sprockets
 //= require data-confirm-modal
-//= require jquery.turbolinks
 //= require_tree .
 
 
-var ready;
-ready = function() {
+
+
 	$( "#contacts-table" ).on("click", ".contact", function(event) {
 	  $('#edit_contact').addClass('md-show');
 	  var myContactObject = $(event.currentTarget).data('contact');
@@ -47,7 +45,4 @@ ready = function() {
       $('#repeat-days').collapse('hide');
     }
   });
-};
 
-$(document).ready(ready);
-$(document).on('page:load', ready);
