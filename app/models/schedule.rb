@@ -1,9 +1,9 @@
 class Schedule < ActiveRecord::Base
   belongs_to :contact
   has_one :user
-  has_many :scheduled_calls
-  has_one :frequency
   before_destroy :cancel_scheduled_calls
+  has_many :scheduled_calls, dependent: :destroy
+  has_one :frequency, dependent: :destroy
   validates_associated :scheduled_calls, :frequency
 
 
@@ -54,13 +54,17 @@ class Schedule < ActiveRecord::Base
       when Net::HTTPSuccess
         puts myResponseBody
       else
-        json_response = ActiveSupport::JSON.decode(myResponseBody)
-        if json_response["errorMessage"] = "Cannot cancel a call once it has started"
-          puts json_response
-        else
-          self.errors[:base] << "There was a problem cancelling scheduled calls. Please try again later."
-          puts self.errors
-          puts json_response
+        begin
+          json_response = ActiveSupport::JSON.decode(myResponseBody)
+          if json_response["errorMessage"] = "Cannot cancel a call once it has started"
+            puts json_response
+          else
+            self.errors[:base] << "There was a problem cancelling scheduled calls. Please try again later."
+            puts self.errors
+            puts json_response
+            return false
+          end
+        rescue JSON::ParserError => e
           return false
         end
       end
