@@ -1,5 +1,6 @@
 <% if @schedule.destroyed? %>
   $('#schedule-' +<%= @schedule.id %>).fadeOut(600);
+  toastr.info("Schedule deleted successfully");
 <% else %>
-  <%= flash[:error] %>
+  toastr.info("There was a problem deleting the schedule. Please try again.");
 <% end %>
