@@ -20,7 +20,9 @@ class Admin::SchedulesController < ApplicationController
     @schedule.user_id = current_user.id
     @frequency = Frequency.new(frequency_params)
     @frequency.schedule = @schedule
-    @scheduled_call = ScheduledCall.new(schedule: @schedule, call_id: make_summit_request(@schedule))
+    summit_request_created_timestamp, summit_request_call_id = make_summit_request(@schedule)
+    @schedule.last_successful_summit_request = summit_request_created_timestamp
+    @scheduled_call = ScheduledCall.new(schedule: @schedule, call_id: summit_request_call_id, call_timestamp: get_scheduled_call_time(@schedule))
     authorize @schedule
     if @scheduled_call.save
       respond_to do |format|
@@ -149,7 +151,7 @@ class Admin::SchedulesController < ApplicationController
 
       json_response = ActiveSupport::JSON.decode(myResponseBody)
 
-      scheduled_call_id = json_response["data"][0]["scheduled_call_id"]
+      return json_response["data"][0]["created_timestamp"], json_response["data"][0]["scheduled_call_id"]
 
     end
 
