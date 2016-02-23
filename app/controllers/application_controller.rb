@@ -9,6 +9,9 @@ class ApplicationController < ActionController::Base
     redirect_to root_url, alert: exception.message
   end
 
+  def toast(type, text)
+    flash[:toastr] = { type => text }
+  end
 
   protected
 

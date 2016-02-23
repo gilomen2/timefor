@@ -37,7 +37,7 @@ class Admin::SchedulesController < ApplicationController
         end
       end
     else
-      flash[:error] = "There was a problem saving the schedule. Please try again."
+      flash.now[:error] = "There was a problem saving the schedule. Please try again."
     end
   end
 
@@ -54,10 +54,10 @@ class Admin::SchedulesController < ApplicationController
     authorize @schedule
     if @schedule.update_attributes(schedule_params) && @frequency.update_attributes(frequency_params)
       redirect_to admin_schedules_path
-      flash[:notice] = "Schedule successfully edited."
+      flash.now[:notice] = "Schedule successfully edited."
     else
       redirect_to admin_schedules_path
-      flash[:error] = "There was a problem editing the Schedule. Please try again."
+      flash.now[:error] = "There was a problem editing the Schedule. Please try again."
     end
   end
 
@@ -67,9 +67,9 @@ class Admin::SchedulesController < ApplicationController
     authorize @schedule
     if @schedule.destroy
       @frequency.destroy
-      flash[:notice] = "Schedule successfully deleted."
+      flash.now[:notice] = "Schedule successfully deleted."
     else
-      flash[:error] = "There was a problem deleting the Schedule. Please try again."
+      flash.now[:error] = "There was a problem deleting the Schedule. Please try again."
     end
     respond_to do |format|
       format.html
