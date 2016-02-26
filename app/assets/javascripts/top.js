@@ -1,9 +1,9 @@
 //= require jquery
-//= require toastr
+//= require toastr.js
 
 $(document).ready(function() {
     toastr.options = {
-      "closeButton": false,
+      "closeButton": true,
       "debug": false,
       "newestOnTop": false,
       "progressBar": false,
@@ -17,6 +17,9 @@ $(document).ready(function() {
       "showEasing": "swing",
       "hideEasing": "linear",
       "showMethod": "fadeIn",
-      "hideMethod": "fadeOut"
+      "hideMethod": "fadeOut",
+      "tapToDismiss": true,
+      "containerId": 'toast-container',
+      "closeHtml": '<button type="button" data-dismiss="alert" aria-label="Close" class="close"><span aria-hidden="true" class="s7-close"></span></button>'
     }
 });

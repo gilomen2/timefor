@@ -1,3 +1,3 @@
 $("<%= j render(:partial => 'contact', :locals => { :contact => @contact }) %>").hide().appendTo('#contacts-table').fadeIn(600);
 $('#add_new_contact').modal_success();
-toastr.info("Contact created successfully");
+toastr.success("Contact created successfully");
