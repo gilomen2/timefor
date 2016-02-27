@@ -148,23 +148,9 @@
                     .addClass(options.alertClass)
                     .attr('aria-live', 'polite')
                     .attr('role', 'alert');
-                    
+
 
                 $container.appendTo($(options.target));
-                console.log(self.type)
-                if (options.iconClass == 'toast-success') {
-                    $container.prepend('<div class="icon"><span class="s7-check"></span></div>');
-                    $container.addClass('alert-success');
-                } else if (options.iconClass == 'toast-error') {
-                    $container.prepend('<div class="icon"><span class="s7-danger"></span></div>');
-                    $container.addClass('alert-error');
-                } else if (options.iconClass == 'toast-warning') {
-                    $container.prepend('<div class="icon"><span class="s7-warning"></span></div>');
-                    $container.addClass('alert-warning');
-                } else {
-                    $container.prepend('<div class="icon"><span class="s7-info"></span></div>');
-                    $container.addClass('alert-info');
-                };
                 return $container;
             }
 
@@ -189,10 +175,10 @@
 
                     extendedTimeOut: 1000,
                     iconClasses: {
-                        error: 'toast-error message',
-                        info: 'toast-info message',
-                        success: 'toast-success message',
-                        warning: 'toast-warning message'
+                        error: 'toast-error',
+                        info: 'toast-info',
+                        success: 'toast-success',
+                        warning: 'toast-warning'
                     },
                     alertClass: 'alert alert-icon alert-border-color alert-dismissible',
                     positionClass: 'toast-top-right',
@@ -215,11 +201,11 @@
 
             function notify(map) {
                 var options = getOptions();
-                var iconClass = map.iconClass || options.iconClass;
+                var iconClass = map.iconClass;
 
                 if (typeof (map.optionsOverride) !== 'undefined') {
                     options = $.extend(options, map.optionsOverride);
-                    iconClass = map.optionsOverride.iconClass || iconClass;
+                    iconClass = iconClass;
                 }
 
                 if (shouldExit(options, map)) { return; }
@@ -327,6 +313,19 @@
                 function setIcon() {
                     if (map.iconClass) {
                         $toastElement.addClass(options.toastClass).addClass(iconClass);
+                        if (iconClass == 'toast-success') {
+                            $container.prepend('<div class="icon"><span class="s7-check"></span></div>');
+                            $container.addClass('alert-success');
+                        } else if (iconClass == 'toast-error') {
+                            $container.prepend('<div class="icon"><span class="s7-danger"></span></div>');
+                            $container.addClass('alert-error');
+                        } else if (iconClass == 'toast-warning') {
+                            $container.prepend('<div class="icon"><span class="s7-warning"></span></div>');
+                            $container.addClass('alert-warning');
+                        } else {
+                            $container.prepend('<div class="icon"><span class="s7-info"></span></div>');
+                            $container.addClass('alert-info');
+                        };
                     }
                 }
 
