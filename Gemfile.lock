@@ -234,6 +234,8 @@ GEM
     mini_magick (4.3.6)
     mini_portile2 (2.0.0)
     minitest (5.8.4)
+    montrose (0.3.0)
+      activesupport
     multi_json (1.11.2)
     netrc (0.11.0)
     nokogiri (1.6.7.2)
@@ -392,6 +394,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   mini_magick
+  montrose
   pg
   phonelib
   pry-rails
