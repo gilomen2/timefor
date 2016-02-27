@@ -20,7 +20,9 @@ class Admin::SchedulesController < ApplicationController
     @schedule.user_id = current_user.id
     @frequency = Frequency.new(frequency_params)
     @frequency.schedule = @schedule
-    @scheduled_call = ScheduledCall.new(schedule: @schedule, call_id: make_summit_request(@schedule))
+    summit_request_created_timestamp, summit_request_call_id = make_summit_request(@schedule)
+    @schedule.last_successful_summit_request = summit_request_created_timestamp
+    @scheduled_call = ScheduledCall.new(schedule: @schedule, call_id: summit_request_call_id, call_timestamp: get_scheduled_call_time(@schedule))
     authorize @schedule
     if @scheduled_call.save
       respond_to do |format|
@@ -35,7 +37,7 @@ class Admin::SchedulesController < ApplicationController
         end
       end
     else
-      flash[:error] = "There was a problem saving the schedule. Please try again."
+      flash.now[:error] = "There was a problem saving the schedule. Please try again."
     end
   end
 
@@ -52,10 +54,10 @@ class Admin::SchedulesController < ApplicationController
     authorize @schedule
     if @schedule.update_attributes(schedule_params) && @frequency.update_attributes(frequency_params)
       redirect_to admin_schedules_path
-      flash[:notice] = "Schedule successfully edited."
+      flash.now[:notice] = "Schedule successfully edited."
     else
       redirect_to admin_schedules_path
-      flash[:error] = "There was a problem editing the Schedule. Please try again."
+      flash.now[:error] = "There was a problem editing the Schedule. Please try again."
     end
   end
 
@@ -65,9 +67,9 @@ class Admin::SchedulesController < ApplicationController
     authorize @schedule
     if @schedule.destroy
       @frequency.destroy
-      flash[:notice] = "Schedule successfully deleted."
+      flash.now[:notice] = "Schedule successfully deleted."
     else
-      flash[:error] = "There was a problem deleting the Schedule. Please try again."
+      flash.now[:error] = "There was a problem deleting the Schedule. Please try again."
     end
     respond_to do |format|
       format.html
@@ -149,7 +151,7 @@ class Admin::SchedulesController < ApplicationController
 
       json_response = ActiveSupport::JSON.decode(myResponseBody)
 
-      scheduled_call_id = json_response["data"][0]["scheduled_call_id"]
+      return json_response["data"][0]["created_timestamp"], json_response["data"][0]["scheduled_call_id"]
 
     end
 

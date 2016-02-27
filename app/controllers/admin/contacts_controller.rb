@@ -4,6 +4,11 @@ class Admin::ContactsController < ApplicationController
     @contacts = policy_scope(Contact).sort_by { |obj| obj.created_at }
     @contact = Contact.new
     authorize Contact
+    respond_to do |format|
+      format.html
+      format.json
+      format.js
+    end
   end
 
   def show
@@ -26,12 +31,10 @@ class Admin::ContactsController < ApplicationController
       if @contact.save
         format.html { redirect_to polymorphic_path([:admin, @contact]), notice: 'Contact was successfully created.' }
         format.json { render action: 'add', status: :created, location: [:admin, @contact] }
-        # added:
         format.js   { render action: 'add', status: :created, location: [:admin, @contact] }
       else
         format.html { render action: 'new' }
         format.json { render json: @contact.errors, status: :unprocessable_entity }
-        # added:
         format.js   { render json: @contact.errors, status: :unprocessable_entity }
       end
     end
@@ -48,7 +51,7 @@ class Admin::ContactsController < ApplicationController
     authorize @contact
     if @contact.update_attributes(contact_params)
       redirect_to admin_contacts_path
-      flash[:notice] = "Contact successfully edited."
+      flash[:success] = "Contact successfully edited."
     else
       redirect_to admin_contacts_path
       flash[:error] = "There was a problem editing the Contact. Please try again."
@@ -59,9 +62,9 @@ class Admin::ContactsController < ApplicationController
     @contact = Contact.find(params[:id])
     authorize @contact
     if @contact.destroy
-      flash[:notice] = "Contact successfully deleted."
+      flash.now[:success] = "Contact successfully deleted."
     else
-      flash[:error] = "There was a problem deleting the Contact. Please try again."
+      flash.now[:error] = "There was a problem deleting the Contact. Please try again."
     end
     respond_to do |format|
       format.html
