@@ -2,6 +2,12 @@
   <td id="schedule-<%= schedule.id %>-contact"><%= schedule.contact_name %></td>
   <td id="schedule-<%= schedule.id %>-message"><%= schedule.message %></td>
   <td id="schedule-<%= schedule.id %>-start_date"><%= schedule.frequency_start_date %></td>
+  <td id="schedule-<%= schedule.id %>-repeat">
+    <% if schedule.frequency_repeat %>
+      <%= schedule.repeat_days %>
+    <% end %>
+  </td>
+  <td id="schedule-<%= schedule.id %>-timezine"><%= schedule.frequency_timezone %></td>
   <td class="tools">
     <a data-modal="edit_schedule" class="md-trigger schedule" data-schedule='{"id": "<%= schedule.id %>", "contact_id": "<%= schedule.contact_id %>", "message": "<%= schedule.message %>", "schedule_start_date": "<%= schedule.frequency_start_date %>"}' id="schedule-<%= schedule.id %>">
       <span class="icon actions s7-edit"></span>

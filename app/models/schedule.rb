@@ -9,12 +9,23 @@ class Schedule < ActiveRecord::Base
 
   delegate :name, :to => :contact, :prefix => true
 
-  delegate :start_date, :to => :frequency, :prefix => true
+  delegate :start_date, :repeat, :timezone, :to => :frequency, :prefix => true
 
   accepts_nested_attributes_for :frequency
 
+  def repeat_days
+    all_days = self.frequency.attributes.slice("sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday")
+    true_days = []
+    all_days.each do |k, v|
+      if v
+        true_days << k.capitalize
+      end
+    end
+    true_days.to_sentence + ' at ' + self.frequency.time.strftime("%l:%M %p")
+  end
 
   private
+
 
     def cancel_scheduled_calls
       scheduled_calls = self.scheduled_calls
