@@ -4,6 +4,11 @@ class Admin::ContactsController < ApplicationController
     @contacts = policy_scope(Contact).sort_by { |obj| obj.created_at }
     @contact = Contact.new
     authorize Contact
+    respond_to do |format|
+      format.html
+      format.json
+      format.js
+    end
   end
 
   def show
@@ -46,10 +51,10 @@ class Admin::ContactsController < ApplicationController
     authorize @contact
     if @contact.update_attributes(contact_params)
       redirect_to admin_contacts_path
-      flash.now[:notice] = "Contact successfully edited."
+      flash[:success] = "Contact successfully edited."
     else
       redirect_to admin_contacts_path
-      flash.now[:error] = "There was a problem editing the Contact. Please try again."
+      flash[:error] = "There was a problem editing the Contact. Please try again."
     end
   end
 
@@ -57,7 +62,7 @@ class Admin::ContactsController < ApplicationController
     @contact = Contact.find(params[:id])
     authorize @contact
     if @contact.destroy
-      flash.now[:notice] = "Contact successfully deleted."
+      flash.now[:success] = "Contact successfully deleted."
     else
       flash.now[:error] = "There was a problem deleting the Contact. Please try again."
     end

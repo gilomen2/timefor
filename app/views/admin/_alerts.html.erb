@@ -2,7 +2,9 @@
 	<script type="text/javascript">
 		<% flash.each do |f| %>
       <% type = f[0].gsub('alert', 'error').gsub('notice', 'info') %>
-			toastr['<%= type %>']('<%= f[1] %>', '<%= type %>');
+      $(document).ready(function() {
+			   toastr.<%= type %>('<%= f[1] %>');
+      });
 		<% end %>
 	</script>
 <% end %>
