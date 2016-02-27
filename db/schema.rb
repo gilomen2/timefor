@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160209205901) do
+ActiveRecord::Schema.define(version: 20160223202308) do
 
   create_table "contacts", force: :cascade do |t|
     t.string   "name"
@@ -45,8 +45,9 @@ ActiveRecord::Schema.define(version: 20160209205901) do
   create_table "scheduled_calls", force: :cascade do |t|
     t.string   "call_id"
     t.integer  "schedule_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.datetime "call_timestamp"
   end
 
   add_index "scheduled_calls", ["schedule_id"], name: "index_scheduled_calls_on_schedule_id"

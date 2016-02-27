@@ -1,25 +1,10 @@
-<% if flash[:notice] %>
-  <div role="alert" class="alert alert-info alert-icon alert-border-color alert-dismissible">
-    <div class="icon"><span class="s7-info"></span></div>
-    <div class="message">
-      <button type="button" data-dismiss="alert" aria-label="Close" class="close"><span aria-hidden="true" class="s7-close"></span></button>
-      <%= flash[:notice] %>
-    </div>
-  </div>
-<% elsif flash[:error] %>
-  <div role="alert" class="alert alert-warning alert-icon alert-border-color alert-dismissible">
-    <div class="icon"><span class="s7-attention"></span></div>
-    <div class="message">
-      <button type="button" data-dismiss="alert" aria-label="Close" class="close"><span aria-hidden="true" class="s7-close"></span></button>
-      <%= flash[:error] %>
-    </div>
-  </div>
-<% elsif flash[:alert] %>
-  <div role="alert" class="alert alert-success alert-icon alert-border-color alert-dismissible">
-    <div class="icon"><span class="s7-check"></span></div>
-    <div class="message">
-      <button type="button" data-dismiss="alert" aria-label="Close" class="close"><span aria-hidden="true" class="s7-close"></span></button>
-      <%= flash[:alert] %>
-    </div>
-  </div>
+<% unless flash.empty? %>
+	<script type="text/javascript">
+		<% flash.each do |f| %>
+      <% type = f[0].gsub('alert', 'error').gsub('notice', 'info') %>
+      $(document).ready(function() {
+			   toastr.<%= type %>('<%= f[1] %>');
+      });
+		<% end %>
+	</script>
 <% end %>

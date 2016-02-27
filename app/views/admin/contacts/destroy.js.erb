@@ -1,5 +1,6 @@
 <% if @contact.destroyed? %>
   $('#contact-' +<%= @contact.id %>).fadeOut(600);
+  toastr.success("Contact deleted successfully");
 <% else %>
-  <%= flash[:error] %>
+  toastr.error("There was a problem deleting the contact. Please try again.");
 <% end %>

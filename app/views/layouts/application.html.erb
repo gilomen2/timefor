@@ -3,16 +3,17 @@
 <head>
   <title>Timefor</title>
   <%= stylesheet_link_tag 'application', media: 'all' %>
+  <%= javascript_include_tag 'top' %>
   <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
+
   <%= csrf_meta_tags %>
+
 </head>
 <body<%= " class=#{@body_class}" if @body_class %>>
-
 <%= yield %>
-
 <%= javascript_include_tag 'application' %>
 <script type="text/javascript">
   $(document).ready(function(){
@@ -28,4 +29,5 @@
   </script>
 <% end %>
 </body>
+
 </html>
