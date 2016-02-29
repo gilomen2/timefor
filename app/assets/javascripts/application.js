@@ -18,7 +18,7 @@
 
 
 
-
+// Set contents of contact edit form
 $( "#contacts-table" ).on("click", ".contact", function(event) {
   $('#edit_contact').addClass('md-show');
   var myContactObject = $(event.currentTarget).data('contact');
@@ -27,6 +27,7 @@ $( "#contacts-table" ).on("click", ".contact", function(event) {
   $('form#edit-contact').attr('action', '/admin/contacts/' + myContactObject.id);
 });
 
+// Set contents of schedule edit form
 $( "#schedules-table" ).on("click", ".schedule", function(event) {
   $('#edit_schedule').addClass('md-show');
   var myScheduleObject = $(event.currentTarget).data('schedule');
@@ -65,21 +66,54 @@ $( "#schedules-table" ).on("click", ".schedule", function(event) {
   $('form#edit-schedule').attr('action', '/admin/schedules/' + myScheduleObject.id);
 });
 
-$( "#add_new_schedule" ).on("click", "#frequency_repeat", function(event) {
-  $('#frequency_repeat').prop('checked', false);
+// Clear new schedule form on close
+$("#add-new-schedule-close").click(function(){
+  $('#schedule-repeat').prop('checked', false);
+  $('#schedule-sunday').prop('checked', false);
+  $('#schedule-monday').prop('checked', false);
+  $('#schedule-tuesday').prop('checked', false);
+  $('#schedule-wednesday').prop('checked', false);
+  $('#schedule-thursday').prop('checked', false);
+  $('#schedule-friday').prop('checked', false);
+  $('#schedule-saturday').prop('checked', false);
+  $('#repeat-days').collapse('hide');
+  $("#schedule_contact_id").val($("#schedule_contact_id option:first").val());
+  $("#frequency_timezone").val($("#frequency_timezone option:first").val());
+  $("#schedule_message").val('');
+  $("#frequency_start_date").val('');
+  $("#frequency_time").val('');
+});
+
+$("#add-new-schedule-close-top").click(function(){
+  $('#schedule-repeat').prop('checked', false);
+  $('#schedule-sunday').prop('checked', false);
+  $('#schedule-monday').prop('checked', false);
+  $('#schedule-tuesday').prop('checked', false);
+  $('#schedule-wednesday').prop('checked', false);
+  $('#schedule-thursday').prop('checked', false);
+  $('#schedule-friday').prop('checked', false);
+  $('#schedule-saturday').prop('checked', false);
+  $('#repeat-days').collapse('hide');
+  $("#schedule_contact_id").val($("#schedule_contact_id option:first").val());
+  $("#frequency_timezone").val($("#frequency_timezone option:first").val());
+  $("#schedule_message").val('');
+  $("#frequency_start_date").val('');
+  $("#frequency_time").val('');
 });
 
 
-$("#repeat-div" ).on("click", "label", function(event) {
-   if ($('#schedule-repeat').prop('checked') == true ) {
-      $('#schedule-repeat').prop('checked', false);
-      $('#repeat-days').collapse('hide');
-   } else if ($('#schedule-repeat').prop('checked') == false ) {
-      $('#schedule-repeat').prop('checked', true);
-      $('#repeat-days').collapse('show');
-   }
+// Clear new contact form on close
+$("#add-new-contact-close").click(function(){
+  $("#contact_name").val('');
+  $("#contact_phone").val('');
 });
 
+$("#add-new-contact-close-top").click(function(){
+  $("#contact_name").val('');
+  $("#contact_phone").val('');
+});
+
+// Schedule edit - Fix for bizarro way that checkboxes are handled in theme
 $("#repeat-edit-div" ).on("click", "label", function(event) {
    if ($('#schedule-repeat-edit').prop('checked') == true ) {
       $('#schedule-repeat-edit').prop('checked', false);
@@ -89,7 +123,6 @@ $("#repeat-edit-div" ).on("click", "label", function(event) {
       $('#repeat-days-edit').collapse('show');
    }
 });
-
 $("#repeat-days-edit" ).on("click", "label#frequency_sunday_edit", function(event) {
    if ($('#schedule-sunday-edit').prop('checked') == true ) {
       $('#schedule-sunday-edit').prop('checked', false);
@@ -97,7 +130,6 @@ $("#repeat-days-edit" ).on("click", "label#frequency_sunday_edit", function(even
       $('#schedule-sunday-edit').prop('checked', true);
    }
 });
-
 $("#repeat-days-edit" ).on("click", "label#frequency_monday_edit", function(event) {
    if ($('#schedule-monday-edit').prop('checked') == true ) {
       $('#schedule-monday-edit').prop('checked', false);
@@ -105,7 +137,6 @@ $("#repeat-days-edit" ).on("click", "label#frequency_monday_edit", function(even
       $('#schedule-monday-edit').prop('checked', true);
    }
 });
-
 $("#repeat-days-edit" ).on("click", "label#frequency_tuesday_edit", function(event) {
    if ($('#schedule-tuesday-edit').prop('checked') == true ) {
       $('#schedule-tuesday-edit').prop('checked', false);
@@ -113,7 +144,6 @@ $("#repeat-days-edit" ).on("click", "label#frequency_tuesday_edit", function(eve
       $('#schedule-tuesday-edit').prop('checked', true);
    }
 });
-
 $("#repeat-days-edit" ).on("click", "label#frequency_wednesday_edit", function(event) {
    if ($('#schedule-wednesday-edit').prop('checked') == true ) {
       $('#schedule-wednesday-edit').prop('checked', false);
@@ -121,7 +151,6 @@ $("#repeat-days-edit" ).on("click", "label#frequency_wednesday_edit", function(e
       $('#schedule-wednesday-edit').prop('checked', true);
    }
 });
-
 $("#repeat-days-edit" ).on("click", "label#frequency_thursday_edit", function(event) {
    if ($('#schedule-thursday-edit').prop('checked') == true ) {
       $('#schedule-thursday-edit').prop('checked', false);
@@ -129,7 +158,6 @@ $("#repeat-days-edit" ).on("click", "label#frequency_thursday_edit", function(ev
       $('#schedule-thursday-edit').prop('checked', true);
    }
 });
-
 $("#repeat-days-edit" ).on("click", "label#frequency_friday_edit", function(event) {
    if ($('#schedule-friday-edit').prop('checked') == true ) {
       $('#schedule-friday-edit').prop('checked', false);
@@ -137,7 +165,6 @@ $("#repeat-days-edit" ).on("click", "label#frequency_friday_edit", function(even
       $('#schedule-friday-edit').prop('checked', true);
    }
 });
-
 $("#repeat-days-edit" ).on("click", "label#frequency_saturday_edit", function(event) {
    if ($('#schedule-saturday-edit').prop('checked') == true ) {
       $('#schedule-saturday-edit').prop('checked', false);
@@ -149,8 +176,16 @@ $("#repeat-days-edit" ).on("click", "label#frequency_saturday_edit", function(ev
 
 
 
-
-
+// Schedule new - Fix for bizarro way that checkboxes are handled in theme
+$("#repeat-div" ).on("click", "label", function(event) {
+   if ($('#schedule-repeat').prop('checked') == true ) {
+      $('#schedule-repeat').prop('checked', false);
+      $('#repeat-days').collapse('hide');
+   } else if ($('#schedule-repeat').prop('checked') == false ) {
+      $('#schedule-repeat').prop('checked', true);
+      $('#repeat-days').collapse('show');
+   }
+});
 $("#repeat-days" ).on("click", "label#frequency_sunday", function(event) {
    if ($('#schedule-sunday').prop('checked') == true ) {
       $('#schedule-sunday').prop('checked', false);
@@ -158,7 +193,6 @@ $("#repeat-days" ).on("click", "label#frequency_sunday", function(event) {
       $('#schedule-sunday').prop('checked', true);
    }
 });
-
 $("#repeat-days" ).on("click", "label#frequency_monday", function(event) {
    if ($('#schedule-monday').prop('checked') == true ) {
       $('#schedule-monday').prop('checked', false);
@@ -166,7 +200,6 @@ $("#repeat-days" ).on("click", "label#frequency_monday", function(event) {
       $('#schedule-monday').prop('checked', true);
    }
 });
-
 $("#repeat-days" ).on("click", "label#frequency_tuesday", function(event) {
    if ($('#schedule-tuesday').prop('checked') == true ) {
       $('#schedule-tuesday').prop('checked', false);
@@ -174,7 +207,6 @@ $("#repeat-days" ).on("click", "label#frequency_tuesday", function(event) {
       $('#schedule-tuesday').prop('checked', true);
    }
 });
-
 $("#repeat-days" ).on("click", "label#frequency_wednesday", function(event) {
    if ($('#schedule-wednesday').prop('checked') == true ) {
       $('#schedule-wednesday').prop('checked', false);
@@ -182,7 +214,6 @@ $("#repeat-days" ).on("click", "label#frequency_wednesday", function(event) {
       $('#schedule-wednesday').prop('checked', true);
    }
 });
-
 $("#repeat-days" ).on("click", "label#frequency_thursday", function(event) {
    if ($('#schedule-thursday').prop('checked') == true ) {
       $('#schedule-thursday').prop('checked', false);
@@ -190,7 +221,6 @@ $("#repeat-days" ).on("click", "label#frequency_thursday", function(event) {
       $('#schedule-thursday').prop('checked', true);
    }
 });
-
 $("#repeat-days" ).on("click", "label#frequency_friday", function(event) {
    if ($('#schedule-friday').prop('checked') == true ) {
       $('#schedule-friday').prop('checked', false);
@@ -198,7 +228,6 @@ $("#repeat-days" ).on("click", "label#frequency_friday", function(event) {
       $('#schedule-friday').prop('checked', true);
    }
 });
-
 $("#repeat-days" ).on("click", "label#frequency_saturday", function(event) {
    if ($('#schedule-saturday').prop('checked') == true ) {
       $('#schedule-saturday').prop('checked', false);
