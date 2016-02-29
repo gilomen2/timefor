@@ -9,7 +9,7 @@ class Schedule < ActiveRecord::Base
 
   delegate :name, :to => :contact, :prefix => true
 
-  delegate :start_date, :repeat, :timezone, :to => :frequency, :prefix => true
+  delegate :start_date, :repeat, :time, :timezone, :sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday, :to => :frequency, :prefix => true
 
   accepts_nested_attributes_for :frequency
 
@@ -21,7 +21,15 @@ class Schedule < ActiveRecord::Base
         true_days << k.capitalize
       end
     end
-    true_days.to_sentence + ' at ' + self.frequency.time.strftime("%l:%M %p")
+    if true_days.count == 7
+      "Everyday at " + self.frequency.time.strftime("%l:%M %p")
+    else
+      true_days.to_sentence + ' at ' + self.frequency.time.strftime("%l:%M %p")
+    end
+  end
+
+  def format_time
+    self.frequency.time.strftime("%H:%M")
   end
 
   private
