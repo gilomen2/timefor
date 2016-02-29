@@ -19,66 +19,66 @@
 
 
 
-	$( "#contacts-table" ).on("click", ".contact", function(event) {
-	  $('#edit_contact').addClass('md-show');
-	  var myContactObject = $(event.currentTarget).data('contact');
-	  $('#contact-name-edit').val(myContactObject.name);
-	  $('#contact-phone-edit').val(myContactObject.phone);
-	  $('form#edit-contact').attr('action', '/admin/contacts/' + myContactObject.id);
-	});
+$( "#contacts-table" ).on("click", ".contact", function(event) {
+  $('#edit_contact').addClass('md-show');
+  var myContactObject = $(event.currentTarget).data('contact');
+  $('#contact-name-edit').val(myContactObject.name);
+  $('#contact-phone-edit').val(myContactObject.phone);
+  $('form#edit-contact').attr('action', '/admin/contacts/' + myContactObject.id);
+});
 
-  $( "#schedules-table" ).on("click", ".schedule", function(event) {
-    $('#edit_schedule').addClass('md-show');
-    var myScheduleObject = $(event.currentTarget).data('schedule');
-    console.log(myScheduleObject)
-    var contact_id = parseInt(myScheduleObject.contact_id, 10)
-    $('#schedule-contact-edit').val(contact_id);
-    $('#schedule-message-edit').val(myScheduleObject.message);
-    $('#schedule-start-date-edit').val(myScheduleObject.schedule_start_date);
-    $('#schedule-time-edit').val(myScheduleObject.schedule_time);
-    if (myScheduleObject.repeat == "true") {
-      $('#schedule-repeat-edit').prop('checked', true);
-      $('#repeat-days-edit').collapse('show');
-    }
-    if (myScheduleObject.sunday == "true") {
-      $('#schedule-sunday-edit').prop('checked', true);
-    }
-    if (myScheduleObject.monday == "true") {
-      $('#schedule-monday-edit').prop('checked', true);
-    }
-    if (myScheduleObject.tuesday == "true") {
-      $('#schedule-tuesday-edit').prop('checked', true);
-    }
-    if (myScheduleObject.wednesday == "true") {
-      $('#schedule-wednesday-edit').prop('checked', true);
-    }
-    if (myScheduleObject.thursday == "true") {
-      $('#schedule-thursday-edit').prop('checked', true);
-    }
-    if (myScheduleObject.friday == "true") {
-      $('#schedule-friday-edit').prop('checked', true);
-    }
-    if (myScheduleObject.saturday == "true") {
-      $('#schedule-saturday-edit').prop('checked', true);
-    }
-    $('#schedule-timezone-edit').val(myScheduleObject.schedule_timezone);
-    $('form#edit-schedule').attr('action', '/admin/schedules/' + myScheduleObject.id);
-  });
-  $( "#add_new_schedule" ).on("click", "#frequency_repeat", function(event) {
-    if($('#frequency_repeat').prop('checked')){
-      $('#repeat-days').collapse('show');
-    }
-    else {
+$( "#schedules-table" ).on("click", ".schedule", function(event) {
+  $('#edit_schedule').addClass('md-show');
+  var myScheduleObject = $(event.currentTarget).data('schedule');
+  console.log(myScheduleObject)
+  var contact_id = parseInt(myScheduleObject.contact_id, 10)
+  $('#schedule-contact-edit').val(contact_id);
+  $('#schedule-message-edit').val(myScheduleObject.message);
+  $('#schedule-start-date-edit').val(myScheduleObject.schedule_start_date);
+  $('#schedule-time-edit').val(myScheduleObject.schedule_time);
+  if (myScheduleObject.repeat == "true") {
+    $('#schedule-repeat-edit').prop('checked', true);
+    $('#repeat-days-edit').collapse('show');
+  }
+  if (myScheduleObject.sunday == "true") {
+    $('#schedule-sunday-edit').prop('checked', true);
+  }
+  if (myScheduleObject.monday == "true") {
+    $('#schedule-monday-edit').prop('checked', true);
+  }
+  if (myScheduleObject.tuesday == "true") {
+    $('#schedule-tuesday-edit').prop('checked', true);
+  }
+  if (myScheduleObject.wednesday == "true") {
+    $('#schedule-wednesday-edit').prop('checked', true);
+  }
+  if (myScheduleObject.thursday == "true") {
+    $('#schedule-thursday-edit').prop('checked', true);
+  }
+  if (myScheduleObject.friday == "true") {
+    $('#schedule-friday-edit').prop('checked', true);
+  }
+  if (myScheduleObject.saturday == "true") {
+    $('#schedule-saturday-edit').prop('checked', true);
+  }
+  $('#schedule-timezone-edit').val(myScheduleObject.schedule_timezone);
+  $('form#edit-schedule').attr('action', '/admin/schedules/' + myScheduleObject.id);
+});
+
+$( "#add_new_schedule" ).on("click", "#frequency_repeat", function(event) {
+  $('#frequency_repeat').prop('checked', false);
+});
+
+
+$("#repeat-div" ).on("click", "label", function(event) {
+   if ($('#schedule-repeat').prop('checked') == true ) {
+      $('#schedule-repeat').prop('checked', false);
       $('#repeat-days').collapse('hide');
-      // $('#schedule-sunday').prop('checked', false);
-      // $('#schedule-monday').prop('checked', false);
-      // $('#schedule-tuesday').prop('checked', false);
-      // $('#schedule-wednesday').prop('checked', false);
-      // $('#schedule-thursday').prop('checked', false);
-      // $('#schedule-friday').prop('checked', false);
-      // $('#schedule-saturday').prop('checked', false);
-    }
-  });
+   } else if ($('#schedule-repeat').prop('checked') == false ) {
+      $('#schedule-repeat').prop('checked', true);
+      $('#repeat-days').collapse('show');
+   }
+});
 
 $("#repeat-edit-div" ).on("click", "label", function(event) {
    if ($('#schedule-repeat-edit').prop('checked') == true ) {

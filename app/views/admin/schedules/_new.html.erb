@@ -34,8 +34,8 @@
         <%= u.text_field :time, class: 'form-control', 'data-mask': 'time', 'data-toggle': 'tooltip', 'data-placement':'top', 'data-original-title':'Time on 24h clock' %>
       </div>
     </div>
-    <div class="am-checkbox">
-      <%= u.check_box :repeat %>
+    <div id="repeat-div" class="am-checkbox">
+      <%= u.check_box :repeat, id: "schedule-repeat" %>
       <label for="frequency_repeat">Repeat?
     </div>
     <div id="repeat-days" class="form-group collapse">
