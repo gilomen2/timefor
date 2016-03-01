@@ -26,6 +26,7 @@ class Admin::SchedulesController < ApplicationController
 
     @occurences = build_occurences(@schedule, @frequency)
 
+    @schedule.last_occurence_date = get_last_occurence_date(@occurences)
 
     if @occurences.each(&:save!)
       respond_to do |format|
@@ -90,12 +91,17 @@ class Admin::SchedulesController < ApplicationController
     end
 
     def build_occurences(schedule, frequency)
-      occurence_array = Montrose.every(:week).on(frequency.repeat_days).at(frequency.format_time).starts(frequency.start_date).take(5)
+      occurence_array = Montrose.every(:week).on(frequency.repeat_days).at(frequency.format_time).starts(frequency.start_date).take(1)
       a = []
       occurence_array.each do |occurence|
         a << Occurence.new(time: occurence.utc, schedule: schedule)
       end
       a
+    end
+
+    def get_last_occurence_date(occurences)
+      last_occurence = occurences.sort_by(&:time).last
+      last_occurence.time.to_date
     end
 
 end
