@@ -20,7 +20,9 @@ class Frequency < ActiveRecord::Base
 
     build_timestamp = myStartTime + " " + myOffset
 
-    time = build_timestamp.to_time.utc.strftime("%T")
+    time = build_timestamp.to_time.strftime("%T %z")
   end
 
 end
+
+

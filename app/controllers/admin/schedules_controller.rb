@@ -22,6 +22,8 @@ class Admin::SchedulesController < ApplicationController
     @frequency.schedule = @schedule
     authorize @schedule
 
+    puts "@frequency.format_time:" + @frequency.format_time
+
     @occurences = build_occurences(@schedule, @frequency)
 
 
