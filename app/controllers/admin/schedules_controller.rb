@@ -90,11 +90,21 @@ class Admin::SchedulesController < ApplicationController
       params.require(:frequency).permit(:schedule_id, :start_date, :timezone, :time, :repeat, :sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday)
     end
 
+    def get_occurence_start_date(frequency)
+      if frequency.start_date.to_date > DateTime.now.to_date
+        frequency.start_date.to_date
+      else
+        frequency.start_date.to_date + 1
+      end
+    end
+
     def build_occurences(schedule, frequency)
-      occurence_array = Montrose.every(:week).on(frequency.repeat_days).at(frequency.format_time).starts(frequency.start_date).take(1)
+      occurence_array = Montrose.every(:week).on(frequency.repeat_days).at(frequency.format_time).starts(get_occurence_start_date(frequency)).take(1)
       a = []
       occurence_array.each do |occurence|
-        a << Occurence.new(time: occurence.utc, schedule: schedule)
+        if occurence.to_date 
+          a << Occurence.new(time: occurence.utc, schedule: schedule)
+        end
       end
       a
     end

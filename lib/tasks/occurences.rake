@@ -74,7 +74,7 @@ def create_scheduled_call(occurence, responseBody)
 
   json_response = ActiveSupport::JSON.decode(myResponseBody)
 
-  scheduled_call = ScheduledCall.new(occurence: occurence, call_timestamp: json_response["data"][0]["created_timestamp"], call_id: json_response["data"][0]["scheduled_call_id"] )
+  scheduled_call = ScheduledCall.new(occurence: occurence, call_timestamp: json_response["data"][0]["schedule"], call_id: json_response["data"][0]["scheduled_call_id"] )
   scheduled_call.save!
 end
 
