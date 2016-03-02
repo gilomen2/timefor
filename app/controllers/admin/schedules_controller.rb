@@ -22,25 +22,16 @@ class Admin::SchedulesController < ApplicationController
     @frequency.schedule = @schedule
     authorize @schedule
 
-    puts "@frequency.format_time:" + @frequency.format_time
-
-    @occurences = build_occurences(@schedule, @frequency)
-
-    @schedule.last_occurence_date = get_last_occurence_date(@occurences)
-
-    if @occurences.each(&:save!)
-      respond_to do |format|
-        if @schedule.save && @frequency.save
-          format.html { redirect_to polymorphic_path([:admin, @schedule]), notice: 'Schedule was successfully created.' }
-          format.json { render action: 'add', status: :created, location: [:admin, @schedule] }
-          format.js   { render action: 'add', status: :created, location: [:admin, @schedule] }
-        else
-          flash[:error] = "There was a problem saving the schedule. Please try again."
-        end
+    respond_to do |format|
+      if @schedule.save && @frequency.save
+        format.html { redirect_to polymorphic_path([:admin, @schedule]), notice: 'Schedule was successfully created.' }
+        format.json { render action: 'add', status: :created, location: [:admin, @schedule] }
+        format.js   { render action: 'add', status: :created, location: [:admin, @schedule] }
+      else
+        flash[:error] = "There was a problem saving the schedule. Please try again."
       end
-    else
-      flash[:error] = "There was a problem saving the schedule. Please try again."
     end
+
   end
 
   def edit
@@ -90,28 +81,5 @@ class Admin::SchedulesController < ApplicationController
       params.require(:frequency).permit(:schedule_id, :start_date, :timezone, :time, :repeat, :sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday)
     end
 
-    def get_occurence_start_date(frequency)
-      if frequency.start_date.to_date > DateTime.now.to_date
-        frequency.start_date.to_date
-      else
-        frequency.start_date.to_date + 1
-      end
-    end
-
-    def build_occurences(schedule, frequency)
-      occurence_array = Montrose.every(:week).on(frequency.repeat_days).at(frequency.format_time).starts(get_occurence_start_date(frequency)).take(1)
-      a = []
-      occurence_array.each do |occurence|
-        if occurence.to_date 
-          a << Occurence.new(time: occurence.utc, schedule: schedule)
-        end
-      end
-      a
-    end
-
-    def get_last_occurence_date(occurences)
-      last_occurence = occurences.sort_by(&:time).last
-      last_occurence.time.to_date
-    end
 
 end
