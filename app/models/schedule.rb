@@ -16,7 +16,7 @@ class Schedule < ActiveRecord::Base
     true_days = []
     all_days.each do |k, v|
       if v
-        true_days << k.capitalize
+        true_days << (k + 's').capitalize
       end
     end
     if true_days.count == 7
@@ -28,6 +28,16 @@ class Schedule < ActiveRecord::Base
 
   def format_time
     self.frequency.time.strftime("%H:%M")
+  end
+
+  def scheduled_calls
+    occurences = Occurence.where(schedule: self)
+    a = []
+    occurences.each do |occ|
+      call = ScheduledCall.find_by(occurence: occ)
+      a << call.call_id
+    end
+    a
   end
 
 end

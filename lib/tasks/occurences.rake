@@ -12,9 +12,12 @@ namespace :occurences do
   desc "Creates next 30 occurences of schedule"
   task next_30_occurences: :environment do
     tomorrow = DateTime.now.to_date + 1
-    schedules_with_last_occurence_tomorrow = Schedule.where(last_occurence_date: tomorrow)
+    schedules_with_last_occurence_tomorrow = Schedule.where(last_occurence_date: tomorrow) 
+    schedules_without_occurences = Schedule.where(last_occurence_date: nil)
 
-    create_next_30_occurences(schedules_with_last_occurence_tomorrow)
+    schedules_needing_occurences = schedules_with_last_occurence_tomorrow + schedules_without_occurences
+
+    create_next_30_occurences(schedules_needing_occurences)
 
   end
 end
@@ -98,12 +101,18 @@ end
 def create_next_30_occurences(schedules)
   schedules.each do |schedule|
     frequency = schedule.frequency
-    day_after_last_occurence = schedule.last_occurence_date + 1
+    unless schedule.last_occurence_date.nil?
+      day_after_last_occurence = schedule.last_occurence_date + 1
+    else
+      day_after_last_occurence = DateTime.now.to_date
+    end
+    
     occurence_array = Montrose.every(:week).on(frequency.repeat_days).at(frequency.format_time).starts(day_after_last_occurence).take(30)
     a = []
     occurence_array.each do |occurence|
       a << Occurence.new(time: occurence.utc, schedule: schedule)
     end
+    
     if a.each(&:save!)
       schedule.last_occurence_date = get_last_occurence_date(a)
       schedule.save!
