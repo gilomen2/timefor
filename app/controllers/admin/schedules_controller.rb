@@ -20,13 +20,16 @@ class Admin::SchedulesController < ApplicationController
     @schedule.user_id = current_user.id
     @frequency = Frequency.new(frequency_params)
     @frequency.schedule = @schedule
+    @occurence = Occurence.new(schedule: @schedule, time: @frequency.first_occurence)
+    @schedule.last_occurence_date = @frequency.first_occurence
     authorize @schedule
 
     respond_to do |format|
-      if @schedule.save && @frequency.save
+      if @schedule.save && @frequency.save && @occurence.save
         format.html { redirect_to polymorphic_path([:admin, @schedule]), notice: 'Schedule was successfully created.' }
         format.json { render action: 'add', status: :created, location: [:admin, @schedule] }
         format.js   { render action: 'add', status: :created, location: [:admin, @schedule] }
+        @occurence.make_summit_request
       else
         flash[:error] = "There was a problem saving the schedule. Please try again."
       end
