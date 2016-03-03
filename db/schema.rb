@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160301033002) do
+ActiveRecord::Schema.define(version: 20160303024726) do
 
   create_table "contacts", force: :cascade do |t|
     t.string   "name"
@@ -57,6 +57,8 @@ ActiveRecord::Schema.define(version: 20160301033002) do
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
     t.datetime "call_timestamp"
+    t.integer  "schedule_id"
+    t.boolean  "cancelled"
   end
 
   add_index "scheduled_calls", ["occurence_id"], name: "index_scheduled_calls_on_occurence_id"
