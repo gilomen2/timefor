@@ -9,18 +9,38 @@ namespace :occurences do
   end
 
 
-  desc "Creates next 30 occurences of schedule"
-  task next_30_occurences: :environment do
+  desc "Creates next 3 occurences of schedule"
+  task next_3_occurences: :environment do
     tomorrow = DateTime.now.to_date + 1
-    schedules_with_last_occurence_tomorrow = Schedule.where(last_occurence_date: tomorrow) 
+    schedules_with_last_occurence_tomorrow = Schedule.where(last_occurence_date: tomorrow)
     schedules_without_occurences = Schedule.where(last_occurence_date: nil)
 
     schedules_needing_occurences = schedules_with_last_occurence_tomorrow + schedules_without_occurences
 
-    create_next_30_occurences(schedules_needing_occurences)
+    create_next_3_occurences(schedules_needing_occurences)
+  end
 
+  desc "Deletes past occurences"
+  task delete_past_occurences: :environment do
+    now = DateTime.now
+    occurences_in_the_past = Occurence.where("time < ?", now)
+    occurences_in_the_past.each do |occ|
+      occ.scheduled_calls.delete_all
+    end
+    occurences_in_the_past.delete_all
+  end
+
+
+  desc "Deletes cancelled scheduled_calls"
+  task delete_cancelled_scheduled_calls: :environment do
+    ScheduledCall.where(cancelled: true).delete_all
   end
 end
+
+
+
+
+
 
 def make_summit_request(occurence)
   myOccurence = occurence
@@ -67,18 +87,24 @@ def make_summit_request(occurence)
     create_scheduled_call(myOccurence, myResponseBody)
   else
     nil
+    Rails.logger.info "ERROR error in summit request for schedule id " + mySchedule.id + " and occurence id " + occurence.id
   end
 end
 
 
 def create_scheduled_call(occurence, responseBody)
   myOccurence = occurence
+  mySchedule = occurence.schedule
   myResponseBody = responseBody
 
   json_response = ActiveSupport::JSON.decode(myResponseBody)
 
-  scheduled_call = ScheduledCall.new(occurence: occurence, call_timestamp: json_response["data"][0]["schedule"], call_id: json_response["data"][0]["scheduled_call_id"] )
-  scheduled_call.save!
+  scheduled_call = ScheduledCall.new(schedule_id: mySchedule.id, occurence: myOccurence, call_timestamp: json_response["data"][0]["schedule"], call_id: json_response["data"][0]["scheduled_call_id"] )
+  if scheduled_call.save!
+    Rails.logger.info "SUCCESS created scheduled_call with call id " + json_response["data"][0]["scheduled_call_id"]
+  else
+    Rails.logger.info "ERROR scheduled_call with call_id " + json_response["data"][0]["scheduled_call_id"] + " failed to save."
+  end
 end
 
 
@@ -98,7 +124,7 @@ end
 
 
 
-def create_next_30_occurences(schedules)
+def create_next_3_occurences(schedules)
   schedules.each do |schedule|
     frequency = schedule.frequency
     unless schedule.last_occurence_date.nil?
@@ -106,13 +132,13 @@ def create_next_30_occurences(schedules)
     else
       day_after_last_occurence = DateTime.now.to_date
     end
-    
-    occurence_array = Montrose.every(:week).on(frequency.repeat_days).at(frequency.format_time).starts(day_after_last_occurence).take(30)
+
+    occurence_array = Montrose.every(:week).on(frequency.repeat_days).at(frequency.format_time).starts(day_after_last_occurence).take(3)
     a = []
     occurence_array.each do |occurence|
       a << Occurence.new(time: occurence.utc, schedule: schedule)
     end
-    
+
     if a.each(&:save!)
       schedule.last_occurence_date = get_last_occurence_date(a)
       schedule.save!
