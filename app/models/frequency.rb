@@ -23,4 +23,15 @@ class Frequency < ActiveRecord::Base
     time = build_timestamp.to_time.strftime("%T %z")
   end
 
+
+
+  def first_occurence
+    if self.repeat
+      Montrose.every(:week).on(self.repeat_days).at(self.format_time).starts(self.start_date).take(1)[0]
+    else
+      day = self.start_date.strftime("%A").downcase.to_sym
+      Montrose.every(:week).on(day).at(self.format_time).starts(self.start_date).take(1)[0]
+    end
+  end
+
 end
