@@ -1,6 +1,6 @@
 class Occurence < ActiveRecord::Base
   belongs_to :schedule
-  has_many :scheduled_calls, dependent: :destroy
+  has_many :scheduled_calls, dependent: :nullify
 
 
   def create_scheduled_call
