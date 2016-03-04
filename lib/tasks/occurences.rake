@@ -12,7 +12,9 @@ namespace :occurences do
   desc "Creates next 3 occurences of schedule"
   task next_3_occurences: :environment do
     tomorrow = DateTime.now.to_date + 1
-    schedules_with_last_occurence_tomorrow = Schedule.where("last_occurence_date <= ?", tomorrow)
+    repeating_schedules = Schedule.joins(:frequency).where(frequencies: { repeat: true })
+    schedules_with_last_occurence_tomorrow = repeating_schedules.where("last_occurence_date <= ?", tomorrow)
+
     schedules_without_occurences = Schedule.where(last_occurence_date: nil)
 
     schedules_needing_occurences = schedules_with_last_occurence_tomorrow + schedules_without_occurences
@@ -34,6 +36,21 @@ namespace :occurences do
   desc "Deletes cancelled scheduled_calls"
   task delete_cancelled_scheduled_calls: :environment do
     ScheduledCall.where(cancelled: true).delete_all
+  end
+
+  desc "Deletes orphaned occurences and scheduled calls"
+  task delete_orphaned_occurences_and_schedules: :environment do
+    include SummitRequests
+    orphaned_occurences = Occurence.where(["schedule_id NOT IN (?)", Schedule.select("id")]).delete_all
+    orphaned_scheduled_calls = ScheduledCall.where(["schedule_id NOT IN (?)", Schedule.select("id")]).where(cancelled: true).delete_all
+
+    uncancelled_calls = ScheduledCall.where(["schedule_id NOT IN (?)", Schedule.select("id")]).where(cancelled: false)
+
+    uncancelled_calls.each do |call|
+      SummitRequests.cancel_scheduled_call(call)
+      call.cancelled = true
+      call.save!
+    end
   end
 end
 
