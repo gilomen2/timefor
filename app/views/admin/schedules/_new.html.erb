@@ -34,38 +34,38 @@
         <%= u.text_field :time, class: 'form-control', 'data-mask': 'time', 'data-toggle': 'tooltip', 'data-placement':'top', 'data-original-title':'Time on 24h clock' %>
       </div>
     </div>
-    <div class="am-checkbox">
-      <%= u.check_box :repeat %>
+    <div id="repeat-div" class="am-checkbox">
+      <%= u.check_box :repeat, id: "schedule-repeat" %>
       <label for="frequency_repeat">Repeat?
     </div>
     <div id="repeat-days" class="form-group collapse">
       <div class="am-checkbox inline">
-        <%= u.check_box :sunday %>
-        <label for="frequency_sunday">Sun
+        <%= u.check_box :sunday, id: 'schedule-sunday' %>
+        <label for="frequency_sunday" id="frequency_sunday">Sun
       </div>
       <div class="am-checkbox inline">
-        <%= u.check_box :monday %>
-        <label for="frequency_monday">Mon
+        <%= u.check_box :monday, id: 'schedule-monday' %>
+        <label for="frequency_monday" id="frequency_monday">Mon
       </div>
       <div class="am-checkbox inline">
-        <%= u.check_box :tuesday %>
-        <label for="frequency_tuesday">Tue
+        <%= u.check_box :tuesday, id: 'schedule-tuesday' %>
+        <label for="frequency_tuesday" id="frequency_tuesday">Tue
       </div>
       <div class="am-checkbox inline">
-        <%= u.check_box :wednesday %>
-        <label for="frequency_wednesday">Wed
+        <%= u.check_box :wednesday, id: 'schedule-wednesday' %>
+        <label for="frequency_wednesday" id="frequency_wednesday">Wed
       </div>
       <div class="am-checkbox inline">
-        <%= u.check_box :thursday %>
-        <label for="frequency_thursday">Thu
+        <%= u.check_box :thursday, id: 'schedule-thursday' %>
+        <label for="frequency_thursday" id="frequency_thursday">Thu
       </div>
       <div class="am-checkbox inline">
-        <%= u.check_box :friday %>
-        <label for="frequency_friday">Fri
+        <%= u.check_box :friday, id: 'schedule-friday' %>
+        <label for="frequency_friday" id="frequency_friday">Fri
       </div>
       <div class="am-checkbox inline">
-        <%= u.check_box :saturday %>
-        <label for="frequency_saturday">Sat
+        <%= u.check_box :saturday, id: 'schedule-saturday' %>
+        <label for="frequency_saturday" id="frequency_saturday">Sat
       </div>
     </div>
     <div class="form-group">
@@ -75,6 +75,6 @@
 
 
    <% end %>
-  <button type="button" data-dismiss="modal" class="btn btn-default md-close">Cancel</button>
-  <%= f.submit "Submit", 'data-dismiss': 'modal', class: 'btn btn-primary md-close'  %>
+  <button type="button" data-dismiss="modal" id="add-new-schedule-close" class="btn btn-default md-close">Cancel</button>
+  <%= f.submit "Submit", 'data-dismiss': 'modal', class: 'btn btn-primary md-close', id: 'new-schedule-submit'  %>
 <% end %>

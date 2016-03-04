@@ -66,6 +66,7 @@ GEM
       activesupport (>= 3.2.0)
       json (>= 1.7)
       mime-types (>= 1.16)
+    chronic (0.10.2)
     coderay (1.1.0)
     coffee-rails (4.1.1)
       coffee-script (>= 2.2.0)
@@ -234,6 +235,8 @@ GEM
     mini_magick (4.3.6)
     mini_portile2 (2.0.0)
     minitest (5.8.4)
+    montrose (0.3.0)
+      activesupport
     multi_json (1.11.2)
     netrc (0.11.0)
     nokogiri (1.6.7.2)
@@ -367,6 +370,8 @@ GEM
       binding_of_caller (>= 0.7.2)
       railties (>= 4.0)
       sprockets-rails (>= 2.0, < 4.0)
+    whenever (0.9.4)
+      chronic (>= 0.6.3)
     will_paginate (3.1.0)
     will_paginate-bootstrap (1.0.1)
       will_paginate (>= 3.0.3)
@@ -392,6 +397,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   mini_magick
+  montrose
   pg
   phonelib
   pry-rails
@@ -410,6 +416,7 @@ DEPENDENCIES
   stripe
   uglifier (>= 1.3.0)
   web-console (~> 2.0)
+  whenever
   will_paginate-bootstrap
 
 BUNDLED WITH

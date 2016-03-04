@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160223202308) do
+ActiveRecord::Schema.define(version: 20160303024726) do
 
   create_table "contacts", force: :cascade do |t|
     t.string   "name"
@@ -42,15 +42,26 @@ ActiveRecord::Schema.define(version: 20160223202308) do
 
   add_index "frequencies", ["schedule_id"], name: "index_frequencies_on_schedule_id"
 
+  create_table "occurences", force: :cascade do |t|
+    t.datetime "time"
+    t.integer  "schedule_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "occurences", ["schedule_id"], name: "index_occurences_on_schedule_id"
+
   create_table "scheduled_calls", force: :cascade do |t|
     t.string   "call_id"
-    t.integer  "schedule_id"
+    t.integer  "occurence_id"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
     t.datetime "call_timestamp"
+    t.integer  "schedule_id"
+    t.boolean  "cancelled"
   end
 
-  add_index "scheduled_calls", ["schedule_id"], name: "index_scheduled_calls_on_schedule_id"
+  add_index "scheduled_calls", ["occurence_id"], name: "index_scheduled_calls_on_occurence_id"
 
   create_table "schedules", force: :cascade do |t|
     t.string   "message"
@@ -60,6 +71,7 @@ ActiveRecord::Schema.define(version: 20160223202308) do
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
     t.integer  "user_id"
+    t.date     "last_occurence_date"
   end
 
   add_index "schedules", ["contact_id"], name: "index_schedules_on_contact_id"
