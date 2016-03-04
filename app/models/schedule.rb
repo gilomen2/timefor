@@ -1,5 +1,4 @@
 class Schedule < ActiveRecord::Base
-  include SummitRequests
   belongs_to :contact
   before_destroy :cancel_future_scheduled_calls
   has_one :user
@@ -47,7 +46,7 @@ class Schedule < ActiveRecord::Base
     now = DateTime.now.utc
     future_scheduled_calls = self.scheduled_calls.where("call_timestamp >= ?", now)
     future_scheduled_calls.each do |call|
-      SummitRequest::cancel_scheduled_call(call)
+      call.cancel_scheduled_call
       call.cancelled = true
       call.save!
     end

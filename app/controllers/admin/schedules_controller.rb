@@ -29,7 +29,7 @@ class Admin::SchedulesController < ApplicationController
         format.html { redirect_to polymorphic_path([:admin, @schedule]), notice: 'Schedule was successfully created.' }
         format.json { render action: 'add', status: :created, location: [:admin, @schedule] }
         format.js   { render action: 'add', status: :created, location: [:admin, @schedule] }
-        @occurence.make_summit_request
+        @occurence.create_scheduled_call
       else
         flash[:error] = "There was a problem saving the schedule. Please try again."
       end
@@ -83,7 +83,5 @@ class Admin::SchedulesController < ApplicationController
     def frequency_params
       params.require(:frequency).permit(:schedule_id, :start_date, :timezone, :time, :repeat, :sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday)
     end
-
-
 
 end

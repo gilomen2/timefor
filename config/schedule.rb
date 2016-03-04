@@ -19,15 +19,3 @@
 
 # Learn more: http://github.com/javan/whenever
 
-
-every 1.minute do
-  rake "occurences:next_3_occurences", :environment => 'development', :output => 'log/chron.log'
-  rake "occurences:schedule_calls", :environment => 'development', :output => 'log/chron.log'
-end
-
-every 6.hours do
-  rake "occurences:next_3_occurences"
-  rake "occurences:schedule_calls"
-  rake "delete_past_occurences"
-  rake "delete_cancelled_scheduled_calls"
-end

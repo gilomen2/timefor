@@ -101,6 +101,24 @@ $("#add-new-schedule-close-top").click(function(){
   $("#frequency_time").val('');
 });
 
+// Clear new schedule form on add button click
+$("#add-schedule-button").click(function(){
+  $('#schedule-repeat').prop('checked', false);
+  $('#schedule-sunday').prop('checked', false);
+  $('#schedule-monday').prop('checked', false);
+  $('#schedule-tuesday').prop('checked', false);
+  $('#schedule-wednesday').prop('checked', false);
+  $('#schedule-thursday').prop('checked', false);
+  $('#schedule-friday').prop('checked', false);
+  $('#schedule-saturday').prop('checked', false);
+  $('#repeat-days').collapse('hide');
+  $("#schedule_contact_id").val($("#schedule_contact_id option:first").val());
+  $("#frequency_timezone").val($("#frequency_timezone option:first").val());
+  $("#schedule_message").val('');
+  $("#frequency_start_date").val('');
+  $("#frequency_time").val('');
+});
+
 
 // Clear new contact form on close
 $("#add-new-contact-close").click(function(){

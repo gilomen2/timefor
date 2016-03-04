@@ -1,1 +1,0 @@
-require 'summit_requests'
