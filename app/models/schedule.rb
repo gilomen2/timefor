@@ -2,7 +2,7 @@ class Schedule < ActiveRecord::Base
   belongs_to :contact
   before_destroy :cancel_future_scheduled_calls
   has_one :user
-  has_many :occurences
+  has_many :occurences, dependent: :nullify
   has_one :frequency, dependent: :destroy
   validates_associated :occurences, :frequency
 

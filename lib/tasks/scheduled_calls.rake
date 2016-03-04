@@ -15,7 +15,7 @@ namespace :scheduled_calls do
     ScheduledCall.where(cancelled: true).delete_all
   end
 
-  desc "Deleted orphaned scheduled_calls"
+  desc "Deletes orphaned scheduled_calls"
   task delete_orphaned_scheduled_calls: :environment do
     orphaned_scheduled_calls = ScheduledCall.where(["schedule_id NOT IN (?)", Schedule.select("id")]).where(cancelled: true).delete_all
   end
