@@ -26,8 +26,6 @@ module Timefor2
 
     config.assets.paths << Rails.root.join("app", "assets", "fonts")
 
-    config.autoload_paths += %W(#{config.root}/lib)
-
     Figaro.load
   end
 end
