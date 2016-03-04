@@ -67,6 +67,10 @@ gem 'data-confirm-modal', github: 'ifad/data-confirm-modal'
 
 gem 'phonelib'
 
+gem 'montrose'
+
+gem 'whenever'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

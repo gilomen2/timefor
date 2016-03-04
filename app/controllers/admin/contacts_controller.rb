@@ -4,11 +4,6 @@ class Admin::ContactsController < ApplicationController
     @contacts = policy_scope(Contact).sort_by { |obj| obj.created_at }
     @contact = Contact.new
     authorize Contact
-    respond_to do |format|
-      format.html
-      format.json
-      format.js
-    end
   end
 
   def show

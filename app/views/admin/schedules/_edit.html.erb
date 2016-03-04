@@ -28,6 +28,50 @@
           <%= u.text_field :start_date, class: 'form-control', id: 'schedule-start-date-edit' %><span class="input-group-addon btn btn-primary"><i class="icon-th s7-date"></i></span>
         </div>
      </div>
+     <div class="form-group">
+      <%= u.label :time %>
+      <div data-min-view="2" class="input-group col-md-2 col-xs-7">
+        <%= u.text_field :time, class: 'form-control', id: 'schedule-time-edit', 'data-mask': 'time', 'data-toggle': 'tooltip', 'data-placement':'top', 'data-original-title':'Time on 24h clock' %>
+      </div>
+    </div>
+    <div id="repeat-edit-div" class="am-checkbox">
+      <%= u.check_box :repeat, id: 'schedule-repeat-edit' %>
+      <label for="frequency_repeat">Repeat?
+    </div>
+    <div id="repeat-days-edit" class="form-group collapse">
+      <div class="am-checkbox inline">
+        <%= u.check_box :sunday, id: 'schedule-sunday-edit' %>
+        <label for="frequency_sunday" id="frequency_sunday_edit">Sun
+      </div>
+      <div class="am-checkbox inline">
+        <%= u.check_box :monday, id: 'schedule-monday-edit' %>
+        <label for="frequency_monday" id="frequency_monday_edit">Mon
+      </div>
+      <div class="am-checkbox inline">
+        <%= u.check_box :tuesday, id: 'schedule-tuesday-edit' %>
+        <label for="frequency_tuesday" id="frequency_tuesday_edit">Tue
+      </div>
+      <div class="am-checkbox inline">
+        <%= u.check_box :wednesday, id: 'schedule-wednesday-edit' %>
+        <label for="frequency_wednesday" id="frequency_wednesday_edit">Wed
+      </div>
+      <div class="am-checkbox inline">
+        <%= u.check_box :thursday, id: 'schedule-thursday-edit' %>
+        <label for="frequency_thursday" id="frequency_thursday_edit">Thu
+      </div>
+      <div class="am-checkbox inline">
+        <%= u.check_box :friday, id: 'schedule-friday-edit' %>
+        <label for="frequency_friday" id="frequency_friday_edit">Fri
+      </div>
+      <div class="am-checkbox inline">
+        <%= u.check_box :saturday, id: 'schedule-saturday-edit' %>
+        <label for="frequency_saturday" id="frequency_saturday_edit">Sat
+      </div>
+    </div>
+    <div class="form-group">
+      <%= u.label :timezone %>
+      <%= u.collection_select(:timezone, ActiveSupport::TimeZone.us_zones, :name, :name, {}, {class: 'form-control', id: 'schedule-timezone-edit'}) %>
+    </div>
    <% end %>
   <button type="button" data-dismiss="modal" class="btn btn-default md-close">Cancel</button>
   <%= f.submit "Submit", 'data-dismiss': 'modal', class: 'btn btn-primary md-close'  %>
