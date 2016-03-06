@@ -16,6 +16,7 @@ namespace :scheduled_calls do
 
   desc "Deletes orphaned scheduled_calls"
   task delete_orphaned_scheduled_calls: :environment do
-    (ScheduledCall.orphaned_scheduled_calls.cancelled_scheduled_calls).delete_all
+    orphaned = ScheduledCall.orphaned_scheduled_calls.cancelled_scheduled_calls + ScheduledCall.nil_schedule_scheduled_calls + ScheduledCall.nil_occurence_scheduled_calls
+    orphaned.map(&:delete)
   end
 end

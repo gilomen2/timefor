@@ -8,6 +8,10 @@ class ScheduledCall < ActiveRecord::Base
 
   scope :orphaned_scheduled_calls, -> {where(["schedule_id NOT IN (?)", Schedule.select("id")])}
 
+  scope :nil_schedule_scheduled_calls, -> {where(schedule_id: nil)}
+
+  scope :nil_occurence_scheduled_calls, -> {where(occurence_id: nil)}
+
   def make_summit_request
     myOccurence = self.occurence
     mySchedule = Schedule.find(myOccurence.schedule_id)
