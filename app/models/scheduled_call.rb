@@ -107,7 +107,7 @@ class ScheduledCall < ActiveRecord::Base
     end
 
     def get_scheduled_call_time(occurence)
-      scheduled_call_timestamp = occurence.time.to_time.utc.strftime("%F %T")
+      scheduled_call_timestamp = occurence.time.strftime("%F %T")
     end
 
 
