@@ -5,7 +5,7 @@
     <a data-modal="copy_contact" class="md-trigger contact" data-contact='{"name": "<%= contact.name %>", "phone": "<%= contact.phone %>", "id": "<%= contact.id %>"}' id="contact-<%= contact.id %>">
       <span class="icon actions s7-copy-file"></span>
     </a>
-    <%= link_to admin_contact_path(contact), method: :delete, remote: true do %>
+    <%= link_to admin_contact_path(contact), method: :delete, remote: true, data: {confirm: "Deleting this contact will delete any schedules for this contact."} do %>
       <span class="icon actions s7-trash"></span>
     <% end %>
   </td>
