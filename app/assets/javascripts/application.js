@@ -18,52 +18,52 @@
 
 
 
-// Set contents of contact edit form
+// Set contents of contact copy form
 $( "#contacts-table" ).on("click", ".contact", function(event) {
-  $('#edit_contact').addClass('md-show');
+  $('#copy_contact').addClass('md-show');
   var myContactObject = $(event.currentTarget).data('contact');
-  $('#contact-name-edit').val(myContactObject.name);
-  $('#contact-phone-edit').val(myContactObject.phone);
-  $('form#edit-contact').attr('action', '/admin/contacts/' + myContactObject.id);
+  $('#contact-name-copy').val(myContactObject.name);
+  $('#contact-phone-copy').val(myContactObject.phone);
+  $('form#copy-contact').attr('action', '/admin/contacts/' + myContactObject.id);
 });
 
-// Set contents of schedule edit form
+// Set contents of schedule copy form
 $( "#schedules-table" ).on("click", ".schedule", function(event) {
-  $('#edit_schedule').addClass('md-show');
+  $('#copy_schedule').addClass('md-show');
   var myScheduleObject = $(event.currentTarget).data('schedule');
   console.log(myScheduleObject)
   var contact_id = parseInt(myScheduleObject.contact_id, 10)
-  $('#schedule-contact-edit').val(contact_id);
-  $('#schedule-message-edit').val(myScheduleObject.message);
-  $('#schedule-start-date-edit').val(myScheduleObject.schedule_start_date);
-  $('#schedule-time-edit').val(myScheduleObject.schedule_time);
+  $('#schedule-contact-copy').val(contact_id);
+  $('#schedule-message-copy').val(myScheduleObject.message);
+  $('#schedule-start-date-copy').val(myScheduleObject.schedule_start_date);
+  $('#schedule-time-copy').val(myScheduleObject.schedule_time);
   if (myScheduleObject.repeat == "true") {
-    $('#schedule-repeat-edit').prop('checked', true);
-    $('#repeat-days-edit').collapse('show');
+    $('#schedule-repeat-copy').prop('checked', true);
+    $('#repeat-days-copy').collapse('show');
   }
   if (myScheduleObject.sunday == "true") {
-    $('#schedule-sunday-edit').prop('checked', true);
+    $('#schedule-sunday-copy').prop('checked', true);
   }
   if (myScheduleObject.monday == "true") {
-    $('#schedule-monday-edit').prop('checked', true);
+    $('#schedule-monday-copy').prop('checked', true);
   }
   if (myScheduleObject.tuesday == "true") {
-    $('#schedule-tuesday-edit').prop('checked', true);
+    $('#schedule-tuesday-copy').prop('checked', true);
   }
   if (myScheduleObject.wednesday == "true") {
-    $('#schedule-wednesday-edit').prop('checked', true);
+    $('#schedule-wednesday-copy').prop('checked', true);
   }
   if (myScheduleObject.thursday == "true") {
-    $('#schedule-thursday-edit').prop('checked', true);
+    $('#schedule-thursday-copy').prop('checked', true);
   }
   if (myScheduleObject.friday == "true") {
-    $('#schedule-friday-edit').prop('checked', true);
+    $('#schedule-friday-copy').prop('checked', true);
   }
   if (myScheduleObject.saturday == "true") {
-    $('#schedule-saturday-edit').prop('checked', true);
+    $('#schedule-saturday-copy').prop('checked', true);
   }
-  $('#schedule-timezone-edit').val(myScheduleObject.schedule_timezone);
-  $('form#edit-schedule').attr('action', '/admin/schedules/' + myScheduleObject.id);
+  $('#schedule-timezone-copy').val(myScheduleObject.schedule_timezone);
+  $('form#copy-schedule').attr('action', '/admin/schedules/' + myScheduleObject.id);
 });
 
 // Clear new schedule form on close
@@ -131,63 +131,63 @@ $("#add-new-contact-close-top").click(function(){
   $("#contact_phone").val('');
 });
 
-// Schedule edit - Fix for bizarro way that checkboxes are handled in theme
-$("#repeat-edit-div" ).on("click", "label", function(event) {
-   if ($('#schedule-repeat-edit').prop('checked') == true ) {
-      $('#schedule-repeat-edit').prop('checked', false);
-      $('#repeat-days-edit').collapse('hide');
-   } else if ($('#schedule-repeat-edit').prop('checked') == false ) {
-      $('#schedule-repeat-edit').prop('checked', true);
-      $('#repeat-days-edit').collapse('show');
+// Schedule copy - Fix for bizarro way that checkboxes are handled in theme
+$("#repeat-copy-div" ).on("click", "label", function(event) {
+   if ($('#schedule-repeat-copy').prop('checked') == true ) {
+      $('#schedule-repeat-copy').prop('checked', false);
+      $('#repeat-days-copy').collapse('hide');
+   } else if ($('#schedule-repeat-copy').prop('checked') == false ) {
+      $('#schedule-repeat-copy').prop('checked', true);
+      $('#repeat-days-copy').collapse('show');
    }
 });
-$("#repeat-days-edit" ).on("click", "label#frequency_sunday_edit", function(event) {
-   if ($('#schedule-sunday-edit').prop('checked') == true ) {
-      $('#schedule-sunday-edit').prop('checked', false);
-   } else if ($('#schedule-sunday-edit').prop('checked') == false ) {
-      $('#schedule-sunday-edit').prop('checked', true);
+$("#repeat-days-copy" ).on("click", "label#frequency_sunday_copy", function(event) {
+   if ($('#schedule-sunday-copy').prop('checked') == true ) {
+      $('#schedule-sunday-copy').prop('checked', false);
+   } else if ($('#schedule-sunday-copy').prop('checked') == false ) {
+      $('#schedule-sunday-copy').prop('checked', true);
    }
 });
-$("#repeat-days-edit" ).on("click", "label#frequency_monday_edit", function(event) {
-   if ($('#schedule-monday-edit').prop('checked') == true ) {
-      $('#schedule-monday-edit').prop('checked', false);
-   } else if ($('#schedule-monday-edit').prop('checked') == false ) {
-      $('#schedule-monday-edit').prop('checked', true);
+$("#repeat-days-copy" ).on("click", "label#frequency_monday_copy", function(event) {
+   if ($('#schedule-monday-copy').prop('checked') == true ) {
+      $('#schedule-monday-copy').prop('checked', false);
+   } else if ($('#schedule-monday-copy').prop('checked') == false ) {
+      $('#schedule-monday-copy').prop('checked', true);
    }
 });
-$("#repeat-days-edit" ).on("click", "label#frequency_tuesday_edit", function(event) {
-   if ($('#schedule-tuesday-edit').prop('checked') == true ) {
-      $('#schedule-tuesday-edit').prop('checked', false);
-   } else if ($('#schedule-tuesday-edit').prop('checked') == false ) {
-      $('#schedule-tuesday-edit').prop('checked', true);
+$("#repeat-days-copy" ).on("click", "label#frequency_tuesday_copy", function(event) {
+   if ($('#schedule-tuesday-copy').prop('checked') == true ) {
+      $('#schedule-tuesday-copy').prop('checked', false);
+   } else if ($('#schedule-tuesday-copy').prop('checked') == false ) {
+      $('#schedule-tuesday-copy').prop('checked', true);
    }
 });
-$("#repeat-days-edit" ).on("click", "label#frequency_wednesday_edit", function(event) {
-   if ($('#schedule-wednesday-edit').prop('checked') == true ) {
-      $('#schedule-wednesday-edit').prop('checked', false);
-   } else if ($('#schedule-wednesday-edit').prop('checked') == false ) {
-      $('#schedule-wednesday-edit').prop('checked', true);
+$("#repeat-days-copy" ).on("click", "label#frequency_wednesday_copy", function(event) {
+   if ($('#schedule-wednesday-copy').prop('checked') == true ) {
+      $('#schedule-wednesday-copy').prop('checked', false);
+   } else if ($('#schedule-wednesday-copy').prop('checked') == false ) {
+      $('#schedule-wednesday-copy').prop('checked', true);
    }
 });
-$("#repeat-days-edit" ).on("click", "label#frequency_thursday_edit", function(event) {
-   if ($('#schedule-thursday-edit').prop('checked') == true ) {
-      $('#schedule-thursday-edit').prop('checked', false);
-   } else if ($('#schedule-thursday-edit').prop('checked') == false ) {
-      $('#schedule-thursday-edit').prop('checked', true);
+$("#repeat-days-copy" ).on("click", "label#frequency_thursday_copy", function(event) {
+   if ($('#schedule-thursday-copy').prop('checked') == true ) {
+      $('#schedule-thursday-copy').prop('checked', false);
+   } else if ($('#schedule-thursday-copy').prop('checked') == false ) {
+      $('#schedule-thursday-copy').prop('checked', true);
    }
 });
-$("#repeat-days-edit" ).on("click", "label#frequency_friday_edit", function(event) {
-   if ($('#schedule-friday-edit').prop('checked') == true ) {
-      $('#schedule-friday-edit').prop('checked', false);
-   } else if ($('#schedule-friday-edit').prop('checked') == false ) {
-      $('#schedule-friday-edit').prop('checked', true);
+$("#repeat-days-copy" ).on("click", "label#frequency_friday_copy", function(event) {
+   if ($('#schedule-friday-copy').prop('checked') == true ) {
+      $('#schedule-friday-copy').prop('checked', false);
+   } else if ($('#schedule-friday-copy').prop('checked') == false ) {
+      $('#schedule-friday-copy').prop('checked', true);
    }
 });
-$("#repeat-days-edit" ).on("click", "label#frequency_saturday_edit", function(event) {
-   if ($('#schedule-saturday-edit').prop('checked') == true ) {
-      $('#schedule-saturday-edit').prop('checked', false);
-   } else if ($('#schedule-saturday-edit').prop('checked') == false ) {
-      $('#schedule-saturday-edit').prop('checked', true);
+$("#repeat-days-copy" ).on("click", "label#frequency_saturday_copy", function(event) {
+   if ($('#schedule-saturday-copy').prop('checked') == true ) {
+      $('#schedule-saturday-copy').prop('checked', false);
+   } else if ($('#schedule-saturday-copy').prop('checked') == false ) {
+      $('#schedule-saturday-copy').prop('checked', true);
    }
 });
 

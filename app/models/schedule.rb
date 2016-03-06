@@ -8,7 +8,7 @@ class Schedule < ActiveRecord::Base
 
   delegate :name, :to => :contact, :prefix => true
 
-  delegate :start_date, :repeat, :time, :timezone, :sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday, :to => :frequency, :prefix => true
+  delegate :start_datetime, :repeat, :timezone, :sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday, :to => :frequency, :prefix => true
 
   accepts_nested_attributes_for :frequency
 
@@ -21,24 +21,28 @@ class Schedule < ActiveRecord::Base
       end
     end
     if true_days.count == 7
-      "Everyday at " + self.frequency.time.strftime("%l:%M %p")
+      "Everyday"
     else
-      true_days.to_sentence + ' at ' + self.frequency.time.strftime("%l:%M %p")
+      true_days.to_sentence
     end
   end
 
-  def format_time
-    self.frequency.time.strftime("%H:%M")
+  def display_time
+    self.frequency.display_start_time
+  end
+
+  def display_date_time
+    self.frequency.display_start_datetime
+  end
+
+  def display_start_date
+    self.frequency.display_start_date
   end
 
   def scheduled_calls
     ScheduledCall.where("schedule_id = ?", self.id)
   end
 
-  def get_last_occurence_date
-    last_occurence = self.occurences.sort_by(&:time).last
-    last_occurence.time.to_date
-  end
 
   private
 

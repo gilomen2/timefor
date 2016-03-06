@@ -1,7 +1,7 @@
 <tr id="schedule-<%= schedule.id %>">
   <td id="schedule-<%= schedule.id %>-contact"><%= schedule.contact_name %></td>
   <td id="schedule-<%= schedule.id %>-message"><%= schedule.message %></td>
-  <td id="schedule-<%= schedule.id %>-start_date"><%= schedule.frequency_start_date %></td>
+  <td id="schedule-<%= schedule.id %>-start_datetime"><%= schedule.display_date_time %></td>
   <td id="schedule-<%= schedule.id %>-repeat">
     <% if schedule.frequency_repeat %>
       <%= schedule.repeat_days %>
@@ -9,12 +9,12 @@
   </td>
   <td id="schedule-<%= schedule.id %>-timezine"><%= schedule.frequency_timezone %></td>
   <td class="tools">
-    <a data-modal="edit_schedule" class="md-trigger schedule" data-schedule='{
+    <a data-modal="copy_schedule" class="md-trigger schedule" data-schedule='{
         "id": "<%= schedule.id %>",
         "contact_id": "<%= schedule.contact_id %>",
         "message": "<%= schedule.message %>",
-        "schedule_start_date": "<%= schedule.frequency_start_date %>",
-        "schedule_time": "<%= schedule.format_time %>",
+        "schedule_start_date": "<%= schedule.display_start_date %>",
+        "schedule_time": "<%= schedule.display_time %>",
         "schedule_timezone": "<%= schedule.frequency_timezone %>",
         "repeat": "<%= schedule.frequency_repeat %>",
         "sunday": "<%= schedule.frequency_sunday %>",
@@ -25,7 +25,7 @@
         "friday": "<%= schedule.frequency_friday %>",
         "saturday": "<%= schedule.frequency_saturday %>"
       }' id="schedule-<%= schedule.id %>">
-      <span class="icon actions s7-edit"></span>
+      <span class="icon actions s7-copy-file"></span>
     </a>
     <%= link_to admin_schedule_path(schedule), method: :delete, remote: true do %>
       <span class="icon actions s7-trash"></span>
