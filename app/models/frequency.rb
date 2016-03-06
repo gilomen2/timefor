@@ -38,10 +38,12 @@ class Frequency < ActiveRecord::Base
 
 
   def next_date_from(ar, date)
-    cur_day = date.to_date
+    cur_day = date
     cur_day += 1 until ar.include?(cur_day.strftime('%A'))
     cur_day
   end
+
+
 
 
   def first_occurence
@@ -59,13 +61,13 @@ class Frequency < ActiveRecord::Base
   end
 
   def next_occurence
-    date = next_date_from(self.repeat_days, self.schedule.last_occurence_date)
-    if date = self.schedule.last_occurence_date
-      day_after_last_occurence = self.schedule.last_occurence_date + 1
+    date = next_date_from(self.repeat_days, self.schedule.last_occurence_datetime)
+    if date = self.schedule.last_occurence_datetime
+      day_after_last_occurence = self.schedule.last_occurence_datetime + 1
       date = next_date_from(self.repeat_days, day_after_last_occurence)
     end
     date_offset = ActiveSupport::TimeZone[self.timezone].parse(date.to_s).strftime("%z")
-    DateTime.new(date.year, date.month, date.day, self.start_datetime_in_timezone.hour, self.start_datetime_in_timezone.min, self.start_datetime_in_timezone.sec, date_offset).utc
+    DateTime.new(date.year, date.month, date.day, self.start_datetime_in_timezone.hour, self.start_datetime_in_timezone.min, self.start_datetime_in_timezone.sec, date_offset)
   end
 
   def display_start_datetime

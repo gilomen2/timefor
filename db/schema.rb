@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160305181419) do
+ActiveRecord::Schema.define(version: 20160306194850) do
 
   create_table "contacts", force: :cascade do |t|
     t.string   "name"
@@ -71,7 +71,7 @@ ActiveRecord::Schema.define(version: 20160305181419) do
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
     t.integer  "user_id"
-    t.date     "last_occurence_date"
+    t.datetime "last_occurence_datetime"
   end
 
   add_index "schedules", ["contact_id"], name: "index_schedules_on_contact_id"
