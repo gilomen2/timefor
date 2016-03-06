@@ -22,7 +22,7 @@ class Admin::SchedulesController < ApplicationController
     @frequency.schedule = @schedule
     @frequency.start_datetime = @frequency.format_datetime_utc
     @occurence = Occurence.new(schedule: @schedule, time: @frequency.first_occurence)
-    @schedule.last_occurence_date = @frequency.first_occurence
+    @schedule.last_occurence_datetime = @frequency.first_occurence.in_time_zone(@frequency.timezone)
     authorize @schedule
 
     respond_to do |format|

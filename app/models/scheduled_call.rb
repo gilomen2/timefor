@@ -2,6 +2,11 @@ class ScheduledCall < ActiveRecord::Base
   belongs_to :occurence
   validates_presence_of :call_id
 
+  scope :orphaned_uncancelled_calls, -> {where(["schedule_id NOT IN (?)", Schedule.select("id")]).where(cancelled: false)}
+
+  scope :cancelled_scheduled_calls, -> {where(cancelled: true)}
+
+  scope :orphaned_scheduled_calls, -> {where(["schedule_id NOT IN (?)", Schedule.select("id")])}
 
   def make_summit_request
     myOccurence = self.occurence
@@ -47,7 +52,7 @@ class ScheduledCall < ActiveRecord::Base
       myResponseBody = response.read_body
     else
       nil
-      Rails.logger.info "ERROR error in summit request for schedule id " + mySchedule.id + " and occurence id " + occurence.id
+      Rails.logger.error "ERROR error in summit request for schedule id " + mySchedule.id + " and occurence id " + occurence.id
     end
   end
 
@@ -91,7 +96,7 @@ class ScheduledCall < ActiveRecord::Base
           self.errors[:base] << "There was a problem cancelling scheduled calls. Please try again later."
           puts self.errors
           puts json_response
-          Rails.logger.info "ERROR Call with call id " + call_id + " could not be cancelled"
+          Rails.logger.error "ERROR Call with call id " + call_id + " could not be cancelled"
           return false
         end
       rescue JSON::ParserError => e

@@ -12,6 +12,13 @@ class Schedule < ActiveRecord::Base
 
   accepts_nested_attributes_for :frequency
 
+  scope :repeating_schedules, -> {joins(:frequency).where('frequencies.repeat = ?', true)}
+
+  scope :schedules_with_last_occurence_tomorrow, -> {joins(:frequency).where("last_occurence_datetime <= ?", (Time.now.utc + 1.day))}
+
+  scope :schedules_without_occurences, -> {where(last_occurence_datetime: nil)}
+
+
   def repeat_days
     all_days = self.frequency.attributes.slice("sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday")
     true_days = []
