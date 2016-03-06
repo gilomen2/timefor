@@ -85,7 +85,7 @@ gem 'time_splitter'
 gem 'web-console', group: :development
 
 group :development, :test do
-  gem 'byebug'  
+  gem 'byebug'
   gem 'pry-rails'
   gem 'rubocop', require: false
   gem 'rspec-rails', '~> 3.0'
