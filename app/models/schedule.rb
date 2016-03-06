@@ -50,6 +50,11 @@ class Schedule < ActiveRecord::Base
     ScheduledCall.where("schedule_id = ?", self.id)
   end
 
+  def get_last_occurence_date
+    last_occurence = self.occurences.sort_by(&:time).last
+    last_occurence.time
+  end
+
 
   private
 
