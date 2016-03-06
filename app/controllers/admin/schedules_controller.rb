@@ -20,6 +20,7 @@ class Admin::SchedulesController < ApplicationController
     @schedule.user_id = current_user.id
     @frequency = Frequency.new(frequency_params)
     @frequency.schedule = @schedule
+    @frequency.start_datetime = @frequency.format_datetime_utc
     @occurence = Occurence.new(schedule: @schedule, time: @frequency.first_occurence)
     @schedule.last_occurence_date = @frequency.first_occurence
     authorize @schedule
@@ -37,25 +38,6 @@ class Admin::SchedulesController < ApplicationController
 
   end
 
-  def edit
-    @schedule = Schedule.find(params[:id])
-    @frequency = @schedule.frequency
-    @user = current_user
-    authorize @schedule
-  end
-
-  def update
-    @schedule = Schedule.find(params[:id])
-    @frequency = @schedule.frequency
-    authorize @schedule
-    if @schedule.update_attributes(schedule_params) && @frequency.update_attributes(frequency_params)
-      redirect_to admin_schedules_path
-      flash.now[:notice] = "Schedule successfully edited."
-    else
-      redirect_to admin_schedules_path
-      flash.now[:error] = "There was a problem editing the Schedule. Please try again."
-    end
-  end
 
   def destroy
     @schedule = Schedule.find(params[:id])
@@ -81,7 +63,7 @@ class Admin::SchedulesController < ApplicationController
     end
 
     def frequency_params
-      params.require(:frequency).permit(:schedule_id, :start_date, :timezone, :time, :repeat, :sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday)
+      params.require(:frequency).permit(:schedule_id, :start_datetime_date, :start_datetime_time, :timezone, :repeat, :sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday)
     end
 
 end
