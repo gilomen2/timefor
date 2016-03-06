@@ -71,6 +71,8 @@ gem 'montrose'
 
 gem 'whenever'
 
+gem 'time_splitter'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

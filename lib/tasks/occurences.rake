@@ -8,8 +8,8 @@ namespace :occurences do
     end
   end
 
-  desc "Creates next 3 occurences of schedule"
-  task next_3_occurences: :environment do
+  desc "Creates next occurence if none exists"
+  task next_occurence: :environment do
     tomorrow = DateTime.now.to_date + 1
     repeating_schedules = Schedule.joins(:frequency).where(frequencies: { repeat: true })
     schedules_with_last_occurence_tomorrow = repeating_schedules.where("last_occurence_date <= ?", tomorrow)
@@ -18,7 +18,14 @@ namespace :occurences do
 
     schedules_needing_occurences = schedules_with_last_occurence_tomorrow + schedules_without_occurences
 
-    create_next_3_occurences(schedules_needing_occurences)
+    create_next_occurence(schedules_needing_occurences)
+  end
+
+  desc "Creates next occurence of all repeating schedules"
+  task all_next_occurences: :environment do
+    repeating_schedules = Schedule.joins(:frequency).where(frequencies: { repeat: true })
+
+    create_next_occurence(repeating_schedules)
   end
 
 
@@ -40,38 +47,24 @@ namespace :occurences do
 end
 
 
-
-
-
-
-def create_next_3_occurences(schedules)
+def create_next_occurence(schedules)
   schedules.each do |schedule|
-    frequency = schedule.frequency
-    unless schedule.last_occurence_date.nil?
-      day_after_last_occurence = schedule.last_occurence_date + 1
-    else
-      day_after_last_occurence = DateTime.now.to_date
+
+    def build_next_occurence(schedule)
+      frequency = schedule.frequency
+      next_occ = frequency.next_occurence
+      schedule.last_occurence_date = next_occ.to_date
+      schedule.save!
+      next_occ
     end
 
-    occurence_array = Montrose.every(:week).on(frequency.repeat_days).at(frequency.format_time).starts(day_after_last_occurence).take(3)
-    occurence_array.each do |occurence|
-      occ = Occurence.new(time: occurence.utc, schedule: schedule)
-      if occ.save!
-        scheduled_call = occ.create_scheduled_call
-        schedule.last_occurence_date = get_last_occurence_date(schedule.occurences)
-        schedule.save!
-      else
-        Rails.logger.error = "Error creating occurence and scheduled_call for schedule with id " + schedule.id
-      end
+    occ = Occurence.new(time: build_next_occurence(schedule), schedule: schedule)
+    if occ.save!
+      scheduled_call = occ.create_scheduled_call
+    else
+      Rails.logger.error = "Error creating occurence and scheduled_call for schedule with id " + schedule.id
     end
   end
 end
-
-
-def get_last_occurence_date(occurences)
-  last_occurence = occurences.sort_by(&:time).last
-  last_occurence.time.to_date
-end
-
 
 

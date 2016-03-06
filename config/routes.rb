@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :dashboard, only: [:index]
     resources :contacts
-    resources :schedules
+    resources :schedules, except: :edit
   end
 
   devise_for :users, :controllers => { :registrations => :registrations, :sessions => :sessions, :confirmations => :confirmations, :passwords => :passwords }
