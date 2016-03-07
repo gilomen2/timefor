@@ -1,7 +1,0 @@
-$('#contact-<%= j @contact.id.to_s %>-name').html('<%= j @contact.name %>');
-$('#contact-<%= j @contact.id.to_s %>-phone').html('<%= j @contact.phone %>');
-
-
-$('a#contact-<%= j @contact.id.to_s %>').data('contact', '{"name": "<%= j @contact.name %>", "phone": "<%= j @contact.phone %>", "id": "<%= j @contact.id.to_s %>"}');
-
-toastr.info("Contact updated successfully");

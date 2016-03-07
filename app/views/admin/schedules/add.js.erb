@@ -1,4 +1,4 @@
+$("#add_new_schedule").modal("hide")
 $("<%= j render(:partial => 'schedule', :locals => { :schedule => @schedule }) %>").hide().appendTo('#schedules-table').fadeIn(600);
-$('#add_new_schedule').modal_success();
-toastr.info("Schedule created successfully");
+toastr.success("Schedule created successfully");
 

@@ -2,6 +2,9 @@ class Frequency < ActiveRecord::Base
   belongs_to :schedule
   extend TimeSplitter::Accessors
   split_accessor :start_datetime
+  validates_presence_of :timezone, :start_datetime_date, :start_datetime_time
+  validate :repeats_on_at_least_one_day
+  before_save :format_datetime_utc
 
   def repeat_days
     all_days = self.attributes.slice("sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday")
@@ -14,11 +17,7 @@ class Frequency < ActiveRecord::Base
     true_days
   end
 
-  def format_datetime_utc
-    myTimezone = self.timezone
-    myStartDateTime = self.start_datetime.strftime("%F %T")
-    myFormattedDateTime = ActiveSupport::TimeZone[myTimezone].parse(myStartDateTime)
-  end
+
 
   def start_datetime_in_timezone
     self.start_datetime.in_time_zone(self.timezone)
@@ -43,7 +42,12 @@ class Frequency < ActiveRecord::Base
     cur_day
   end
 
-
+  def format_datetime_utc
+    myTimezone = self.timezone
+    myStartDateTime = self.start_datetime.strftime("%F %T")
+    myFormattedDateTime = ActiveSupport::TimeZone[myTimezone].parse(myStartDateTime)
+    self.start_datetime = myFormattedDateTime
+  end
 
 
   def first_occurence
@@ -81,5 +85,17 @@ class Frequency < ActiveRecord::Base
   def display_start_time
     self.start_datetime_in_timezone.strftime("%H:%M")
   end
+
+
+  private
+
+
+    def repeats_on_at_least_one_day
+      if self.repeat
+        if [self.sunday, self.monday, self.tuesday, self.wednesday, self.thursday, self.friday, self.saturday, self.sunday].reject(&:blank?).size == 0
+          errors.add(:repeat, '')
+        end
+      end
+    end
 
 end

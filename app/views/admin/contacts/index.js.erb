@@ -1,6 +1,0 @@
-<% unless flash.empty? %>
-  <% flash.each do |f| %>
-    <% type = f[0].gsub('alert', 'error').gsub('notice', 'info') %>
-      toastr.<%= j type %>('<%= j f[1] %>', '<%= j type %>');
-  <% end %>
-<% end %>

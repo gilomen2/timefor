@@ -1,6 +1,7 @@
 class Occurence < ActiveRecord::Base
   belongs_to :schedule
   has_many :scheduled_calls, dependent: :nullify
+  validates_presence_of :time, :schedule
 
   scope :occurences_without_scheduled_calls, -> {includes(:scheduled_calls).where(scheduled_calls: {occurence_id: nil})}
 
@@ -25,6 +26,14 @@ class Occurence < ActiveRecord::Base
     else
       Rails.logger.error "ERROR scheduled_call with call_id " + json_response["data"][0]["scheduled_call_id"] + " failed to save."
     end
+  end
+
+  private
+
+  def set_time
+    schedule = self.schedule
+    frequency = schedule.frequency
+    self.time = frequency.first_occurence
   end
 
 end

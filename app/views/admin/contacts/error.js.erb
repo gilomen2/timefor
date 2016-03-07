@@ -1,0 +1,6 @@
+$("ul.errors").addClass("parsley-errors-list filled")
+<% if @contact.errors.any? %>
+  <% @contact.errors.full_messages.each do |message| %>
+    $("ul.errors").append($("<li />").html("<%= message.html_safe %>"))
+  <% end %>
+<% end %>

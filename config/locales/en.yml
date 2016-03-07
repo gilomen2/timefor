@@ -20,4 +20,7 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+ activerecord:
+  attributes:
+    frequency:
+      repeat: "Repeating schedules must repeat on at least one day"
