@@ -1,80 +1,75 @@
-<% modal ||= false %>
-<% remote = modal ? true : false %>
-
-<%= form_for [:admin, @schedule], remote: true, url: {action: "create", params: {contact: @schedule.contact_id, phone: @schedule.message}}, html: {role: :form, 'data-model' => 'schedule'} do |f| %>
- <% if @schedule.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@schedule.errors.count, "error") %> prohibited this schedule from being saved:</h2>
-
-      <ul>
-      <% @schedule.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
+<div class="modal-dialog">
+  <div class="md-content modal-content">
+    <div class="modal-header">
+      <button type="button" id="add-new-contact-close-top" class="close md-close" data-dismiss="modal"><i class="icon s7-close"></i></button>
+      <h3 class="modal-title"><%= @title %></h3>
+    </div>
+    <div class="modal-body form">
+      <%= form_for [:admin, @schedule], remote: true, url: {action: "create", params: {contact: @schedule.contact_id, phone: @schedule.message}}, html: {role: :form, 'data-model' => 'schedule'} do |f| %>
+        <div class="form-group">
+          <%= f.label :contact %>
+          <%= f.collection_select(:contact_id, @contacts, :id, :name, {}, {class: 'form-control'}) %>
+        </div>
+        <div class="form-group">
+          <%= f.label :message %>
+          <%= f.text_field :message, autofocus: true, class: 'form-control', placeholder: "Message", autocomplete: "off" %>
+        </div>
+        <%= fields_for @frequency do |u| %>
+          <div class="form-group">
+            <%= u.label :start_datetime_date, "Start Date" %>
+            <div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker col-md-5 col-xs-7">
+              <%= u.text_field :start_datetime_date, class: 'form-control' %><span class="input-group-addon btn btn-primary"><i class="icon-th s7-date"></i></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <%= u.label :start_datetime_time, "Time" %>
+            <div data-min-view="2" class="input-group col-md-2 col-xs-7">
+              <%= u.text_field :start_datetime_time, class: 'form-control', 'data-mask': 'time', 'data-toggle': 'tooltip', 'data-placement':'top', 'data-original-title':'Time on 24h clock' %>
+            </div>
+          </div>
+          <div id="repeat-div" class="am-checkbox">
+            <%= u.check_box :repeat, id: "schedule-repeat" %>
+            <label for="frequency_repeat">Repeat?
+          </div>
+          <div id="repeat-days" class="form-group collapse">
+            <div class="am-checkbox inline">
+              <%= u.check_box :sunday, id: 'schedule-sunday' %>
+              <label for="frequency_sunday" id="frequency_sunday">Sun
+            </div>
+            <div class="am-checkbox inline">
+              <%= u.check_box :monday, id: 'schedule-monday' %>
+              <label for="frequency_monday" id="frequency_monday">Mon
+            </div>
+            <div class="am-checkbox inline">
+              <%= u.check_box :tuesday, id: 'schedule-tuesday' %>
+              <label for="frequency_tuesday" id="frequency_tuesday">Tue
+            </div>
+            <div class="am-checkbox inline">
+              <%= u.check_box :wednesday, id: 'schedule-wednesday' %>
+              <label for="frequency_wednesday" id="frequency_wednesday">Wed
+            </div>
+            <div class="am-checkbox inline">
+              <%= u.check_box :thursday, id: 'schedule-thursday' %>
+              <label for="frequency_thursday" id="frequency_thursday">Thu
+            </div>
+            <div class="am-checkbox inline">
+              <%= u.check_box :friday, id: 'schedule-friday' %>
+              <label for="frequency_friday" id="frequency_friday">Fri
+            </div>
+            <div class="am-checkbox inline">
+              <%= u.check_box :saturday, id: 'schedule-saturday' %>
+              <label for="frequency_saturday" id="frequency_saturday">Sat
+            </div>
+          </div>
+          <div class="form-group">
+            <%= u.label :timezone %>
+            <%= u.collection_select(:timezone, ActiveSupport::TimeZone.us_zones, :name, :name, {}, {class: 'form-control'}) %>
+          </div>
+         <% end %>
+         <ul class="errors"></ul>
+        <button type="button" data-dismiss="modal" id="add-new-schedule-close" class="btn btn-default">Cancel</button>
+        <%= f.submit "Submit", class: 'btn btn-primary md-close', id: 'new-schedule-submit'  %>
       <% end %>
-      </ul>
     </div>
-  <% end %>
-  <div class="form-group">
-    <%= f.label :contact %>
-    <%= f.collection_select(:contact_id, @contacts, :id, :name, {}, {class: 'form-control'}) %>
   </div>
-  <div class="form-group">
-    <%= f.label :message %>
-    <%= f.text_field :message, autofocus: true, class: 'form-control', 'data-parsley-trigger': "change", 'data-parsley-errors-messages-disabled': "true", 'data-parsley-class-handler': "#message-handler", placeholder: "Message", required: "", autocomplete: "off" %>
-  </div>
-  <%= fields_for @frequency do |u| %>
-    <div class="form-group">
-      <%= u.label :start_datetime_date, "Start Date" %>
-      <div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker col-md-5 col-xs-7">
-        <%= u.text_field :start_datetime_date, class: 'form-control' %><span class="input-group-addon btn btn-primary"><i class="icon-th s7-date"></i></span>
-      </div>
-    </div>
-    <div class="form-group">
-      <%= u.label :start_datetime_time, "Time" %>
-      <div data-min-view="2" class="input-group col-md-2 col-xs-7">
-        <%= u.text_field :start_datetime_time, class: 'form-control', 'data-mask': 'time', 'data-toggle': 'tooltip', 'data-placement':'top', 'data-original-title':'Time on 24h clock' %>
-      </div>
-    </div>
-    <div id="repeat-div" class="am-checkbox">
-      <%= u.check_box :repeat, id: "schedule-repeat" %>
-      <label for="frequency_repeat">Repeat?
-    </div>
-    <div id="repeat-days" class="form-group collapse">
-      <div class="am-checkbox inline">
-        <%= u.check_box :sunday, id: 'schedule-sunday' %>
-        <label for="frequency_sunday" id="frequency_sunday">Sun
-      </div>
-      <div class="am-checkbox inline">
-        <%= u.check_box :monday, id: 'schedule-monday' %>
-        <label for="frequency_monday" id="frequency_monday">Mon
-      </div>
-      <div class="am-checkbox inline">
-        <%= u.check_box :tuesday, id: 'schedule-tuesday' %>
-        <label for="frequency_tuesday" id="frequency_tuesday">Tue
-      </div>
-      <div class="am-checkbox inline">
-        <%= u.check_box :wednesday, id: 'schedule-wednesday' %>
-        <label for="frequency_wednesday" id="frequency_wednesday">Wed
-      </div>
-      <div class="am-checkbox inline">
-        <%= u.check_box :thursday, id: 'schedule-thursday' %>
-        <label for="frequency_thursday" id="frequency_thursday">Thu
-      </div>
-      <div class="am-checkbox inline">
-        <%= u.check_box :friday, id: 'schedule-friday' %>
-        <label for="frequency_friday" id="frequency_friday">Fri
-      </div>
-      <div class="am-checkbox inline">
-        <%= u.check_box :saturday, id: 'schedule-saturday' %>
-        <label for="frequency_saturday" id="frequency_saturday">Sat
-      </div>
-    </div>
-    <div class="form-group">
-      <%= u.label :timezone %>
-      <%= u.collection_select(:timezone, ActiveSupport::TimeZone.us_zones, :name, :name, {}, {class: 'form-control'}) %>
-    </div>
-
-
-   <% end %>
-  <button type="button" data-dismiss="modal" id="add-new-schedule-close" class="btn btn-default md-close">Cancel</button>
-  <%= f.submit "Submit", 'data-dismiss': 'modal', class: 'btn btn-primary md-close', id: 'new-schedule-submit'  %>
-<% end %>
+</div>

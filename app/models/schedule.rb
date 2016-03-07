@@ -4,7 +4,10 @@ class Schedule < ActiveRecord::Base
   has_one :user
   has_many :occurences, dependent: :nullify
   has_one :frequency, dependent: :destroy
-  validates_associated :occurences, :frequency
+  validates_presence_of :message, :contact
+  accepts_nested_attributes_for :frequency
+  validates_associated :frequency, :occurences
+  before_save :set_last_occurence_date
 
   delegate :name, :to => :contact, :prefix => true
 
@@ -58,14 +61,18 @@ class Schedule < ActiveRecord::Base
 
   private
 
-  def cancel_future_scheduled_calls
-    now = DateTime.now.utc
-    future_scheduled_calls = self.scheduled_calls.where("call_timestamp >= ?", now)
-    future_scheduled_calls.each do |call|
-      call.cancel_scheduled_call
-      call.cancelled = true
-      call.save!
+    def cancel_future_scheduled_calls
+      now = DateTime.now.utc
+      future_scheduled_calls = self.scheduled_calls.where("call_timestamp >= ?", now)
+      future_scheduled_calls.each do |call|
+        call.cancel_scheduled_call
+        call.cancelled = true
+        call.save!
+      end
     end
-  end
 
+    def set_last_occurence_date
+      frequency = self.frequency
+      self.last_occurence_datetime = frequency.first_occurence.in_time_zone(frequency.timezone)
+    end
 end

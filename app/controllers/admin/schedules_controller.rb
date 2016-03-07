@@ -11,7 +11,10 @@ class Admin::SchedulesController < ApplicationController
 
   def new
     @schedule = Schedule.new
+    @frequency = Frequency.new
     @user = current_user
+    @contacts = policy_scope(Contact)
+    @title = "Add Schedule"
     authorize @schedule
   end
 
@@ -20,22 +23,28 @@ class Admin::SchedulesController < ApplicationController
     @schedule.user_id = current_user.id
     @frequency = Frequency.new(frequency_params)
     @frequency.schedule = @schedule
-    @frequency.start_datetime = @frequency.format_datetime_utc
-    @occurence = Occurence.new(schedule: @schedule, time: @frequency.first_occurence)
-    @schedule.last_occurence_datetime = @frequency.first_occurence.in_time_zone(@frequency.timezone)
     authorize @schedule
 
     respond_to do |format|
-      if @schedule.save && @frequency.save && @occurence.save
+      if @schedule.save && @frequency.save
+        @occurence = Occurence.new(schedule: @schedule, time: @frequency.first_occurence)
+        @occurence.save
         format.html { redirect_to polymorphic_path([:admin, @schedule]), notice: 'Schedule was successfully created.' }
         format.json { render action: 'add', status: :created, location: [:admin, @schedule] }
         format.js   { render action: 'add', status: :created, location: [:admin, @schedule] }
         @occurence.create_scheduled_call
       else
-        flash[:error] = "There was a problem saving the schedule. Please try again."
+        format.json { render action: 'error' }
+        format.js   { render action: 'error' }
       end
     end
+  end
 
+  def clone
+    @schedule = Schedule.find(params[:id])
+    @schedule = Schedule.new(@schedule.attributes)
+    @title = "Copy Schedule"
+    render :new
   end
 
 
@@ -45,7 +54,7 @@ class Admin::SchedulesController < ApplicationController
     authorize @schedule
     if @schedule.destroy
       @frequency.destroy
-      flash.now[:notice] = "Schedule successfully deleted."
+      flash.now[:success] = "Schedule successfully deleted."
     else
       flash.now[:error] = "There was a problem deleting the Schedule. Please try again."
     end
