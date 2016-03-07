@@ -69,6 +69,10 @@ gem 'phonelib'
 
 gem 'time_splitter'
 
+gem 'timeliness'
+
+gem 'validates_timeliness'
+
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

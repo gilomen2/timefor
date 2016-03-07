@@ -2,7 +2,11 @@ $("#add_new_schedule").html("<%= escape_javascript(render 'new') %>")
 $("#add_new_schedule").modal("show")
 App.masks();
 App.formElements();
+$("[data-toggle='tooltip']").tooltip();
 
+if ($('#schedule-repeat').prop('checked') == true ) {
+   $('#repeat-days').collapse('show');
+};
 
 $("#repeat-div" ).on("click", "label", function(event) {
    if ($('#schedule-repeat').prop('checked') == true ) {

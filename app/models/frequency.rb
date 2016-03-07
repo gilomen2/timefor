@@ -1,10 +1,10 @@
 class Frequency < ActiveRecord::Base
   belongs_to :schedule
   extend TimeSplitter::Accessors
-  split_accessor :start_datetime
-  validates_presence_of :timezone, :start_datetime_date, :start_datetime_time
+  validates_presence_of :timezone, :start_date, :time
   validate :repeats_on_at_least_one_day
-  before_save :format_datetime_utc
+  validate :one_time_schedule_is_in_future
+  before_save :build_datetime
 
   def repeat_days
     all_days = self.attributes.slice("sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday")
@@ -18,23 +18,38 @@ class Frequency < ActiveRecord::Base
   end
 
 
-
   def start_datetime_in_timezone
     self.start_datetime.in_time_zone(self.timezone)
   end
 
-  def start_date
+  def freq_start_date
     self.start_datetime_in_timezone.strftime("%F")
   end
 
-  def start_time
+  def freq_start_time
     self.start_datetime_in_timezone.strftime("%T %z")
   end
 
-  def start_day
+  def freq_start_day
     self.start_datetime_in_timezone.strftime("%A")
   end
 
+
+  def display_start_datetime
+    self.start_datetime_in_timezone.strftime("%-m/%-d/%Y %l:%M %P")
+  end
+
+  def display_start_date
+    self.start_datetime_in_timezone.strftime("%Y-%m-%d")
+  end
+
+  def display_start_time
+    self.start_datetime_in_timezone.strftime("%H:%M")
+  end
+
+  def start_timestamp
+    Timeliness.parse(self.start_date + " " + self.time, :zone => self.timezone)
+  end
 
   def next_date_from(ar, date)
     cur_day = date
@@ -42,20 +57,16 @@ class Frequency < ActiveRecord::Base
     cur_day
   end
 
-  def format_datetime_utc
-    myTimezone = self.timezone
-    myStartDateTime = self.start_datetime.strftime("%F %T")
-    myFormattedDateTime = ActiveSupport::TimeZone[myTimezone].parse(myStartDateTime)
-    self.start_datetime = myFormattedDateTime
-  end
-
-
   def first_occurence
     if self.repeat
-      if self.repeat_days.include? self.start_day
+      if self.repeat_days.include?(self.freq_start_day) && ((Time.now.utc + 3.minutes) < self.start_timestamp.utc)
         self.start_datetime
+      elsif self.repeat_days.include?(self.freq_start_day) && (Time.now.utc > self.start_timestamp.utc)
+        date = self.next_date_from(self.repeat_days, self.start_datetime_in_timezone + 1.day)
+        date_offset = ActiveSupport::TimeZone[self.timezone].parse(date.to_s).strftime("%z")
+        DateTime.new(date.year, date.month, date.day, self.start_datetime_in_timezone.hour, self.start_datetime_in_timezone.min, self.start_datetime_in_timezone.sec, date_offset).utc
       else
-        date = self.next_date_from(self.repeat_days, start_datetime_in_timezone)
+        date = self.next_date_from(self.repeat_days, self.start_datetime_in_timezone)
         date_offset = ActiveSupport::TimeZone[self.timezone].parse(date.to_s).strftime("%z")
         DateTime.new(date.year, date.month, date.day, self.start_datetime_in_timezone.hour, self.start_datetime_in_timezone.min, self.start_datetime_in_timezone.sec, date_offset).utc
       end
@@ -74,18 +85,6 @@ class Frequency < ActiveRecord::Base
     DateTime.new(date.year, date.month, date.day, self.start_datetime_in_timezone.hour, self.start_datetime_in_timezone.min, self.start_datetime_in_timezone.sec, date_offset)
   end
 
-  def display_start_datetime
-    self.start_datetime_in_timezone.strftime("%-m/%-d/%Y %l:%M %P")
-  end
-
-  def display_start_date
-    self.start_datetime_in_timezone.strftime("%Y-%m-%d")
-  end
-
-  def display_start_time
-    self.start_datetime_in_timezone.strftime("%H:%M")
-  end
-
 
   private
 
@@ -98,4 +97,16 @@ class Frequency < ActiveRecord::Base
       end
     end
 
+    def one_time_schedule_is_in_future
+      unless self.repeat
+        if Time.now.utc > self.start_timestamp.utc
+          errors.add(:time, 'cannot be in the past')
+        end
+      end
+    end
+
+
+    def build_datetime
+      self.start_datetime = Timeliness.parse(self.start_date + " " + self.time, :zone => self.timezone)
+    end
 end

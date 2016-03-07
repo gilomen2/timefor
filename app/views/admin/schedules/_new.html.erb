@@ -16,15 +16,15 @@
         </div>
         <%= fields_for @frequency do |u| %>
           <div class="form-group">
-            <%= u.label :start_datetime_date, "Start Date" %>
+            <%= u.label :start_date, "Start Date" %>
             <div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker col-md-5 col-xs-7">
-              <%= u.text_field :start_datetime_date, class: 'form-control' %><span class="input-group-addon btn btn-primary"><i class="icon-th s7-date"></i></span>
+              <%= u.text_field :start_date, class: 'form-control' %><span class="input-group-addon btn btn-primary"><i class="icon-th s7-date"></i></span>
             </div>
           </div>
           <div class="form-group">
-            <%= u.label :start_datetime_time, "Time" %>
+            <%= u.label :time, "Time" %>
             <div data-min-view="2" class="input-group col-md-2 col-xs-7">
-              <%= u.text_field :start_datetime_time, class: 'form-control', 'data-mask': 'time', 'data-toggle': 'tooltip', 'data-placement':'top', 'data-original-title':'Time on 24h clock' %>
+              <%= u.text_field :time, class: 'form-control', 'data-mask': 'time', 'data-toggle': 'tooltip', 'data-placement':'top', 'data-original-title':'Time on 24h clock' %>
             </div>
           </div>
           <div id="repeat-div" class="am-checkbox">

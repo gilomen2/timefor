@@ -7,11 +7,11 @@ class Schedule < ActiveRecord::Base
   validates_presence_of :message, :contact
   accepts_nested_attributes_for :frequency
   validates_associated :frequency, :occurences
-  before_save :set_last_occurence_date
+
 
   delegate :name, :to => :contact, :prefix => true
 
-  delegate :start_datetime, :repeat, :timezone, :sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday, :to => :frequency, :prefix => true
+  delegate :start_datetime, :start_date, :time, :repeat, :timezone, :sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday, :to => :frequency, :prefix => true
 
   accepts_nested_attributes_for :frequency
 
@@ -53,11 +53,6 @@ class Schedule < ActiveRecord::Base
     ScheduledCall.where("schedule_id = ?", self.id)
   end
 
-  def get_last_occurence_date
-    last_occurence = self.occurences.sort_by(&:time).last
-    last_occurence.time
-  end
-
 
   private
 
@@ -71,8 +66,4 @@ class Schedule < ActiveRecord::Base
       end
     end
 
-    def set_last_occurence_date
-      frequency = self.frequency
-      self.last_occurence_datetime = frequency.first_occurence.in_time_zone(frequency.timezone)
-    end
 end

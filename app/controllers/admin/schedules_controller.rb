@@ -25,13 +25,14 @@ class Admin::SchedulesController < ApplicationController
     @frequency.schedule = @schedule
     authorize @schedule
 
+
     respond_to do |format|
       if @schedule.save && @frequency.save
-        @occurence = Occurence.new(schedule: @schedule, time: @frequency.first_occurence)
-        @occurence.save
         format.html { redirect_to polymorphic_path([:admin, @schedule]), notice: 'Schedule was successfully created.' }
         format.json { render action: 'add', status: :created, location: [:admin, @schedule] }
         format.js   { render action: 'add', status: :created, location: [:admin, @schedule] }
+        @occurence = Occurence.new(schedule: @schedule, time: @frequency.first_occurence)
+        @occurence.save
         @occurence.create_scheduled_call
       else
         format.json { render action: 'error' }
@@ -42,7 +43,11 @@ class Admin::SchedulesController < ApplicationController
 
   def clone
     @schedule = Schedule.find(params[:id])
+    @frequency = @schedule.frequency
     @schedule = Schedule.new(@schedule.attributes)
+    @frequency = Frequency.new(@frequency.attributes)
+    @user = current_user
+    @contacts = policy_scope(Contact)
     @title = "Copy Schedule"
     render :new
   end
@@ -72,7 +77,7 @@ class Admin::SchedulesController < ApplicationController
     end
 
     def frequency_params
-      params.require(:frequency).permit(:schedule_id, :start_datetime_date, :start_datetime_time, :timezone, :repeat, :sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday)
+      params.require(:frequency).permit(:schedule_id, :time, :start_date, :timezone, :repeat, :sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday)
     end
 
 end
