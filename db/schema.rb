@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160306194850) do
+ActiveRecord::Schema.define(version: 20160307214205) do
 
   create_table "contacts", force: :cascade do |t|
     t.string   "name"
@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 20160306194850) do
 
   create_table "frequencies", force: :cascade do |t|
     t.datetime "start_datetime"
-    t.time     "time"
+    t.text     "time"
     t.boolean  "repeat"
     t.boolean  "sunday"
     t.boolean  "monday"
@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(version: 20160306194850) do
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
     t.string   "timezone"
+    t.text     "start_date"
   end
 
   add_index "frequencies", ["schedule_id"], name: "index_frequencies_on_schedule_id"
