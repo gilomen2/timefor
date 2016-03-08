@@ -20,7 +20,18 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
- activerecord:
-  attributes:
-    frequency:
-      repeat: "Repeating schedules must repeat on at least one day"
+  activerecord:
+    attributes:
+      frequency:
+        repeat: "Schedule"
+        start_date: "Schedule start date"
+        time: "Schedule start time"
+    errors:
+      models:
+        frequency:
+          attributes:
+            repeat:
+              repeats_on_at_least_one_day: "with repetition must repeat on at least one day"
+            time:
+              cannot_be_in_the_past: 'and date cannot be in the past'
+

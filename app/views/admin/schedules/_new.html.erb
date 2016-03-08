@@ -18,7 +18,7 @@
           <div class="form-group">
             <%= u.label :start_date, "Start Date" %>
             <div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker col-md-5 col-xs-7">
-              <%= u.text_field :start_date, class: 'form-control' %><span class="input-group-addon btn btn-primary"><i class="icon-th s7-date"></i></span>
+              <%= u.text_field :start_date,  'data-mask': 'date', class: 'form-control' %><span class="input-group-addon btn btn-primary"><i class="icon-th s7-date"></i></span>
             </div>
           </div>
           <div class="form-group">
