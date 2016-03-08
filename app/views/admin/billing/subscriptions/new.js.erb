@@ -1,0 +1,9 @@
+$("#start_subscription").html("<%= escape_javascript(render 'new') %>")
+$("#start_subscription").modal("show")
+App.masks();
+App.formElements();
+
+
+$(".payola-payment-error").bind("DOMSubtreeModified", function() {
+  $('.payola-payment-error').addClass('parsley-errors-list')
+});

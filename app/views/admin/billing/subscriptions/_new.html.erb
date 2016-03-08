@@ -1,0 +1,42 @@
+<div class="modal-dialog">
+  <div class="md-content modal-content">
+    <div class="modal-header">
+      <button type="button" class="close md-close" data-dismiss="modal"><i class="icon s7-close"></i></button>
+      <h3 class="modal-title"><%= @title %></h3>
+    </div>
+    <div class="modal-body form">
+
+      <%= form_tag(admin_billing_subscriptions_path,
+            class: 'payola-onestep-subscription-form',
+            'data-payola-base-path' => '/payola',
+            'data-payola-plan-type' => @plan.plan_class,
+            'data-payola-plan-id' => @plan.id,
+            remote: true
+        ) do |f| %>
+          <div class="form-group">
+            <input type="email" name="stripeEmail" class="form-control" placeholder="Email" data-payola="email"></input>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Card Number" data-stripe="number" data-mask="cc"></input>
+          </div>
+          <div class="row no-margin-y">
+            <div class="form-group col-xs-3">
+              <input type="text" placeholder="Exp Month" data-stripe="exp_month" class="form-control" data-mask="month"></input>
+            </div>
+            <div class="form-group col-xs-3">
+              <input type="text" placeholder="Exp Year" data-stripe="exp_year" class="form-control" data-mask="year"></input>
+            </div>
+            <div class="form-group col-xs-3">
+              <input type="text" placeholder="CVC" data-stripe="cvc" class="form-control" data-mask="cvc"></input>
+            </div>
+          </div>
+          <ul class="payola-payment-error errors filled"></ul>
+          <button type="button" data-dismiss="modal" class="btn btn-default">Cancel</button>
+          <input type="submit" class="btn btn-primary md-close"></input>
+
+      <% end %>
+    </div>
+  </div>
+</div>
+
+

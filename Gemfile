@@ -73,6 +73,8 @@ gem 'timeliness'
 
 gem 'validates_timeliness'
 
+gem 'payola-payments'
+
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
