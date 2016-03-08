@@ -1,7 +1,7 @@
 class Frequency < ActiveRecord::Base
   belongs_to :schedule
   extend TimeSplitter::Accessors
-  validates_presence_of :timezone, :start_date, :time
+  validates_presence_of :timezone, :start_date, :time, allow_blank: false
   validate :repeats_on_at_least_one_day
   validate :one_time_schedule_is_in_future
   before_save :build_datetime
@@ -92,15 +92,17 @@ class Frequency < ActiveRecord::Base
     def repeats_on_at_least_one_day
       if self.repeat
         if [self.sunday, self.monday, self.tuesday, self.wednesday, self.thursday, self.friday, self.saturday, self.sunday].reject(&:blank?).size == 0
-          errors.add(:repeat, '')
+          errors.add(:repeat, :repeats_on_at_least_one_day)
         end
       end
     end
 
     def one_time_schedule_is_in_future
-      unless self.repeat
-        if Time.now.utc > self.start_timestamp.utc
-          errors.add(:time, 'cannot be in the past')
+      unless self.start_timestamp.blank?
+        unless self.repeat
+          if Time.now.utc > self.start_timestamp.utc
+            errors.add(:time, :cannot_be_in_the_past)
+          end
         end
       end
     end
