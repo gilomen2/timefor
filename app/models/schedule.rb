@@ -6,7 +6,7 @@ class Schedule < ActiveRecord::Base
   has_one :frequency, dependent: :destroy
   validates_presence_of :message, :contact
   accepts_nested_attributes_for :frequency
-  validates_associated :frequency, :occurences
+
 
 
   delegate :name, :to => :contact, :prefix => true
