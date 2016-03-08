@@ -1,11 +1,16 @@
 Rails.application.routes.draw do
 
+  mount Payola::Engine => '/payola', as: :payola
   namespace :admin do
     resources :dashboard, only: [:index]
+    namespace :billing do
+      resources :subscriptions
+    end
     resources :contacts, except: :edit
     resources :schedules, except: :edit
     get "contacts/:id/clone", to: "contacts#clone", as: "contacts_clone"
     get "schedules/:id/clone", to: "schedules#clone", as: "schedules_clone"
+    get "billing", to: "billing#index", as: "billing_index"
   end
 
   devise_for :users, :controllers => { :registrations => :registrations, :sessions => :sessions, :confirmations => :confirmations, :passwords => :passwords }
