@@ -3,7 +3,7 @@ var App = (function () {
 
   App.masks = function( ){
 
-    $("[data-mask='date']").mask("99/99/9999");
+    $("[data-mask='date']").mask("9999-99-99");
     $("[data-mask='phone']").mask("(999) 999-9999");
     $("[data-mask='phone-ext']").mask("(999) 999-9999? x99999");
     $("[data-mask='phone-int']").mask("+33 999 999 999");
