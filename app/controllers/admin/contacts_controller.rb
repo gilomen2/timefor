@@ -15,6 +15,7 @@ class Admin::ContactsController < ApplicationController
   def new
     @contact = Contact.new
     @user = current_user
+    @title = "Add Contact"
     authorize @contact
   end
 
@@ -28,30 +29,19 @@ class Admin::ContactsController < ApplicationController
         format.json { render action: 'add', status: :created, location: [:admin, @contact] }
         format.js   { render action: 'add', status: :created, location: [:admin, @contact] }
       else
-        format.html { render action: 'new' }
-        format.json { render json: @contact.errors, status: :unprocessable_entity }
-        format.js   { render json: @contact.errors, status: :unprocessable_entity }
+        format.json { render action: 'error' }
+        format.js   { render action: 'error' }
       end
     end
   end
 
-  def edit
+  def clone
     @contact = Contact.find(params[:id])
-    @user = current_user
-    authorize @contact
+    @contact = Contact.new(@contact.attributes)
+    @title = "Copy Contact"
+    render :new
   end
 
-  def update
-    @contact = Contact.find(params[:id])
-    authorize @contact
-    if @contact.update_attributes(contact_params)
-      redirect_to admin_contacts_path
-      flash[:success] = "Contact successfully edited."
-    else
-      redirect_to admin_contacts_path
-      flash[:error] = "There was a problem editing the Contact. Please try again."
-    end
-  end
 
   def destroy
     @contact = Contact.find(params[:id])

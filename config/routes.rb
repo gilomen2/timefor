@@ -2,8 +2,10 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :dashboard, only: [:index]
-    resources :contacts
+    resources :contacts, except: :edit
     resources :schedules, except: :edit
+    get "contacts/:id/clone", to: "contacts#clone", as: "contacts_clone"
+    get "schedules/:id/clone", to: "schedules#clone", as: "schedules_clone"
   end
 
   devise_for :users, :controllers => { :registrations => :registrations, :sessions => :sessions, :confirmations => :confirmations, :passwords => :passwords }

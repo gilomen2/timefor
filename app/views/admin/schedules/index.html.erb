@@ -11,9 +11,9 @@
           <div class="widget widget-fullwidth widget-small">
             <div class="widget-head">
               <div class="tools">
-                <a data-modal="add_new_schedule" class="md-trigger" id="add-schedule-button">
+                <%= link_to new_admin_schedule_path, remote: true, "data-toggle": "modal", "data-target": "add_new_schedule" do %>
                   <span class="icon s7-add-user"></span>
-                </a>
+                <% end %>
                 </div>
               <div class="title">Your Schedules</div>
             </div>
@@ -39,27 +39,8 @@
       </div>
     </div>
   </div>
-  <div id="add_new_schedule" class="md-modal colored-header custom-width md-effect-1">
-      <div class="md-content">
-        <div class="modal-header">
-          <button type="button" id="add-new-schedule-close-top" data-dismiss="modal" aria-hidden="true" class="close md-close"><i class="icon s7-close"></i></button>
-          <h3 class="modal-title">Add Schedule</h3>
-        </div>
-        <div class="modal-body form">
-          <%= render 'new', modal: true %>
-        </div>
-      </div>
+  <div id="add_new_schedule" class="colored-header custom-width modal fade" tabindex="-1" role="dialog">
   </div>
-  <div id="copy_schedule" class="md-modal colored-header custom-width md-effect-1">
-      <div class="md-content">
-        <div class="modal-header">
-          <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><i class="icon s7-close"></i></button>
-          <h3 class="modal-title">Copy Schedule</h3>
-        </div>
-        <div id="copy_form" class="modal-body form">
-          <%= render 'copy' %>
-        </div>
-      </div>
+  <div id="copy_schedule" class="colored-header custom-width modal fade" tabindex="-1" role="dialog">
   </div>
-  <div class="md-overlay"></div>
 </div>
