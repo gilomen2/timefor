@@ -1,0 +1,68 @@
+$("#add_new_schedule").html("<%= escape_javascript(render 'new') %>")
+$("#add_new_schedule").modal("show")
+App.masks();
+App.formElements();
+$("[data-toggle='tooltip']").tooltip();
+
+if ($('#schedule-repeat').prop('checked') == true ) {
+   $('#repeat-days').collapse('show');
+};
+
+$("#repeat-div" ).on("click", "label", function(event) {
+   if ($('#schedule-repeat').prop('checked') == true ) {
+      $('#schedule-repeat').prop('checked', false);
+      $('#repeat-days').collapse('hide');
+   } else if ($('#schedule-repeat').prop('checked') == false ) {
+      $('#schedule-repeat').prop('checked', true);
+      $('#repeat-days').collapse('show');
+   }
+});
+$("#repeat-days" ).on("click", "label#frequency_sunday", function(event) {
+   if ($('#schedule-sunday').prop('checked') == true ) {
+      $('#schedule-sunday').prop('checked', false);
+   } else if ($('#schedule-sunday').prop('checked') == false ) {
+      $('#schedule-sunday').prop('checked', true);
+   }
+});
+$("#repeat-days" ).on("click", "label#frequency_monday", function(event) {
+   if ($('#schedule-monday').prop('checked') == true ) {
+      $('#schedule-monday').prop('checked', false);
+   } else if ($('#schedule-monday').prop('checked') == false ) {
+      $('#schedule-monday').prop('checked', true);
+   }
+});
+$("#repeat-days" ).on("click", "label#frequency_tuesday", function(event) {
+   if ($('#schedule-tuesday').prop('checked') == true ) {
+      $('#schedule-tuesday').prop('checked', false);
+   } else if ($('#schedule-tuesday').prop('checked') == false ) {
+      $('#schedule-tuesday').prop('checked', true);
+   }
+});
+$("#repeat-days" ).on("click", "label#frequency_wednesday", function(event) {
+   if ($('#schedule-wednesday').prop('checked') == true ) {
+      $('#schedule-wednesday').prop('checked', false);
+   } else if ($('#schedule-wednesday').prop('checked') == false ) {
+      $('#schedule-wednesday').prop('checked', true);
+   }
+});
+$("#repeat-days" ).on("click", "label#frequency_thursday", function(event) {
+   if ($('#schedule-thursday').prop('checked') == true ) {
+      $('#schedule-thursday').prop('checked', false);
+   } else if ($('#schedule-thursday').prop('checked') == false ) {
+      $('#schedule-thursday').prop('checked', true);
+   }
+});
+$("#repeat-days" ).on("click", "label#frequency_friday", function(event) {
+   if ($('#schedule-friday').prop('checked') == true ) {
+      $('#schedule-friday').prop('checked', false);
+   } else if ($('#schedule-friday').prop('checked') == false ) {
+      $('#schedule-friday').prop('checked', true);
+   }
+});
+$("#repeat-days" ).on("click", "label#frequency_saturday", function(event) {
+   if ($('#schedule-saturday').prop('checked') == true ) {
+      $('#schedule-saturday').prop('checked', false);
+   } else if ($('#schedule-saturday').prop('checked') == false ) {
+      $('#schedule-saturday').prop('checked', true);
+   }
+});

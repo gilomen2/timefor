@@ -4,11 +4,14 @@ class Schedule < ActiveRecord::Base
   has_one :user
   has_many :occurences, dependent: :nullify
   has_one :frequency, dependent: :destroy
-  validates_associated :occurences, :frequency
+  validates_presence_of :message, :contact
+  accepts_nested_attributes_for :frequency
+  validates_associated :frequency, :occurences
+
 
   delegate :name, :to => :contact, :prefix => true
 
-  delegate :start_datetime, :repeat, :timezone, :sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday, :to => :frequency, :prefix => true
+  delegate :start_datetime, :start_date, :time, :repeat, :timezone, :sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday, :to => :frequency, :prefix => true
 
   accepts_nested_attributes_for :frequency
 
@@ -50,22 +53,17 @@ class Schedule < ActiveRecord::Base
     ScheduledCall.where("schedule_id = ?", self.id)
   end
 
-  def get_last_occurence_date
-    last_occurence = self.occurences.sort_by(&:time).last
-    last_occurence.time
-  end
-
 
   private
 
-  def cancel_future_scheduled_calls
-    now = DateTime.now.utc
-    future_scheduled_calls = self.scheduled_calls.where("call_timestamp >= ?", now)
-    future_scheduled_calls.each do |call|
-      call.cancel_scheduled_call
-      call.cancelled = true
-      call.save!
+    def cancel_future_scheduled_calls
+      now = DateTime.now.utc
+      future_scheduled_calls = self.scheduled_calls.where("call_timestamp >= ?", now)
+      future_scheduled_calls.each do |call|
+        call.cancel_scheduled_call
+        call.cancelled = true
+        call.save!
+      end
     end
-  end
 
 end

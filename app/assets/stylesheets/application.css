@@ -87,6 +87,11 @@ input#frequency_time {
 }
 
 
+/*Forms*/
+ul.errors{
+  margin-bottom: 10px !important;
+}
+
 /*Toasts*/
 
 .toast-title {
@@ -142,9 +147,9 @@ input#frequency_time {
 }
 
 #toast-container:hover {
-  -moz-box-shadow: 0 0 12px #8dcadf; 
-  -webkit-box-shadow: 0 0 12px #8dcadf; 
-  -o-box-shadow: 0 0 12px #8dcadf; 
+  -moz-box-shadow: 0 0 12px #8dcadf;
+  -webkit-box-shadow: 0 0 12px #8dcadf;
+  -o-box-shadow: 0 0 12px #8dcadf;
   box-shadow: 0 0 12px #8dcadf;
   filter: alpha(opacity=100);
   -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
