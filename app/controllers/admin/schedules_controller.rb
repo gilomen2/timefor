@@ -49,6 +49,7 @@ class Admin::SchedulesController < ApplicationController
     @user = current_user
     @contacts = policy_scope(Contact)
     @title = "Copy Schedule"
+    authorize @schedule
     render :new
   end
 

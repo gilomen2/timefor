@@ -20,6 +20,11 @@ class Admin::Billing::SubscriptionsController < ApplicationController
     # Render the status json that Payola's javascript expects
     render_payola_status(subscription)
 
+    if owner.subscription.any?
+      owner.account_status = "subscriber"
+      owner.save!
+    end
+
   end
 
 

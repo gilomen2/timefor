@@ -8,29 +8,36 @@
       <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-8">
-          <div class="panel <%= @subscription.any? ? 'panel-alt3' : 'panel-alt2' %>">
+          <div class="panel <%= @subscription.any? ? 'panel-alt3' : (@user.subscription == 'expired' ? 'panel-full-primary' : 'panel-alt2') %>">
             <div class="panel-heading">
               <span class="title">Subscription</span>
             </div>
             <div class="panel-body">
               <% unless @subscription.any? %>
-                <p>Your trial will be expiring in XX days.</p>
+                <% unless @user.days_remaining_in_trial == 0 %>
+                  <p>Your trial will be expiring in <%= @user.days_remaining_in_trial %> days.</p>
 
-                <%= link_to new_admin_billing_subscription_path, remote: true, "data-toggle": "modal", "data-target": "start_subscription" do %>
-                  <span class="btn btn-alt2">Start Subscription</span>
-                <% end %>
-                <form action="#" style="border-radius: 0px;" class="form-horizontal group-border-dashed">
-                  <div class="form-group">
-                    <label class="col-sm-3 control-label">Info</label>
-                    <div class="col-sm-6 xs-pt-5">
-                      <div class="switch-button switch-button-info">
-                        <input type="checkbox" checked="" name="swt6" id="swt6"><span>
-                          <label for="swt6"></label></span>
+                    <%= link_to new_admin_billing_subscription_path, remote: true, "data-toggle": "modal", "data-target": "start_subscription" do %>
+                      <span class="btn btn-alt2">Start Subscription</span>
+                    <% end %>
+                    <form action="#" style="border-radius: 0px;" class="form-horizontal group-border-dashed">
+                      <div class="form-group">
+                        <label class="col-sm-3 control-label">Info</label>
+                        <div class="col-sm-6 xs-pt-5">
+                          <div class="switch-button switch-button-info">
+                            <input type="checkbox" checked="" name="swt6" id="swt6"><span>
+                              <label for="swt6"></label></span>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                </form>
-              <% end %>
+                    </form>
+                  <% else %>
+                    <p>Your trial has expired. Youe must subscribe for your schedules to be observed and make changes to your account.</p>
+                    <%= link_to new_admin_billing_subscription_path, remote: true, "data-toggle": "modal", "data-target": "start_subscription" do %>
+                      <span class="btn btn-dark">Start Subscription</span>
+                    <% end %>
+                  <% end %>
+                <% end %>
             </div>
           </div>
         <div class="col-md-2"></div>
