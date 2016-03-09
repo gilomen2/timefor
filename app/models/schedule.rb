@@ -53,17 +53,14 @@ class Schedule < ActiveRecord::Base
     ScheduledCall.where("schedule_id = ?", self.id)
   end
 
-
-  private
-
-    def cancel_future_scheduled_calls
-      now = DateTime.now.utc
-      future_scheduled_calls = self.scheduled_calls.where("call_timestamp >= ?", now)
-      future_scheduled_calls.each do |call|
-        call.cancel_scheduled_call
-        call.cancelled = true
-        call.save!
-      end
+  def cancel_future_scheduled_calls
+    now = DateTime.now.utc
+    future_scheduled_calls = self.scheduled_calls.where("call_timestamp >= ?", now)
+    future_scheduled_calls.each do |call|
+      call.cancel_scheduled_call
+      call.cancelled = true
+      call.save!
     end
+  end
 
 end

@@ -11,8 +11,10 @@
           <div class="widget widget-fullwidth widget-small">
             <div class="widget-head">
               <div class="tools">
-                <%= link_to new_admin_schedule_path, remote: true, "data-toggle": "modal", "data-target": "add_new_schedule" do %>
-                  <span class="icon s7-add-user"></span>
+                <% if policy(@schedule).create? %>
+                  <%= link_to new_admin_schedule_path, remote: true, "data-toggle": "modal", "data-target": "add_new_schedule" do %>
+                    <span class="icon s7-add-user"></span>
+                  <% end %>
                 <% end %>
                 </div>
               <div class="title">Your Schedules</div>

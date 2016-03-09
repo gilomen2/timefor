@@ -1,3 +1,41 @@
 <div class="am-wrapper">
   <%= render "admin/admin" %>
+  <div class="am-content">
+    <div class="page-head">
+      <h2>Dashboard</h2>
+    </div>
+    <div class="main-content">
+      <div class="row">
+        <div class="col-md-3">
+	        <div class="widget widget-tile">
+	          <div class="data-info">
+	            <div data-toggle="counter" data-end="<%= @user.contacts.count %>" data-decimals="0" data-suffix="" class="value"><%= @user.contacts.count %></div>
+	            <div class="desc">Contacts</div>
+	          </div>
+	          <div class="icon"><span class="s7-users"></span></div>
+	        </div>
+		</div>
+		<div class="col-md-3">
+	        <div class="widget widget-tile">
+	          <div class="data-info">
+	            <div data-toggle="counter" data-end="<%= @user.schedules.count %>" data-decimals="0" data-suffix="" class="value"><%= @user.schedules.count %></div>
+	            <div class="desc">Schedules</div>
+	          </div>
+	          <div class="icon"><span class="icon s7-date"></span></div>
+	        </div>
+		</div>
+		<%= unless @user.account_status == "subscribed" %>
+			<div class="col-md-3">
+		        <div class="widget widget-tile">
+		          <div class="data-info">
+		            <div data-toggle="counter" data-end="<%= @user.days_remaining_in_trial %>" data-decimals="0" data-suffix="" class="value"><%= @user.days_remaining_in_trial %></div>
+		            <div class="desc">Remaining Trial Days</div>
+		          </div>
+		          <div class="icon"><span class="icon s7-wristwatch"></span></div>
+		        </div>
+			</div>
+		<% end %>
+      </div>
+    </div>
+  </div>
 </div>
