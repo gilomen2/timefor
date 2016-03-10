@@ -1,3 +1,4 @@
+# config/initializers/payola.rb
 Payola.configure do |config|
   config.secret_key = ENV['STRIPE_SECRET_KEY']
   config.publishable_key = ENV['STRIPE_PUBLISHABLE_KEY']
