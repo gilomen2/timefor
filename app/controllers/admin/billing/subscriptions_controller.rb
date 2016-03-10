@@ -1,6 +1,8 @@
 class Admin::Billing::SubscriptionsController < ApplicationController
   # bring in the `render_payola_status` helper.
   include Payola::StatusBehavior
+  skip_before_filter :verify_authenticity_token
+
 
   def new
     @plan = SubscriptionPlan.first

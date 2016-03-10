@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
   has_many :schedules
   before_save :make_trial
 
-  scope :trial_accounts, -> {where(account_status: "trial")} 
+  scope :trial_accounts, -> {where(account_status: "trial")}
 
   def subscription
   	Payola::Subscription.where(owner: self)
@@ -33,6 +33,12 @@ class User < ActiveRecord::Base
   	if self.account_status.nil?
   		self.account_status = "trial"
   	end
+  end
+
+  def cancel_subscription(event)
+    my_event = Stripe::Event.retrieve(event)
+    self.account_status = my_event.data.status
+    self.save!
   end
 
 end

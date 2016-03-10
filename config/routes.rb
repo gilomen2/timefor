@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-
   mount Payola::Engine => '/payola', as: :payola
   namespace :admin do
     resources :dashboard, only: [:index]
@@ -21,6 +20,8 @@ Rails.application.routes.draw do
   root 'welcome#index'
 
   get '/admin', to: redirect('/admin/dashboard')
+
+
   # get 'admin/dashboard' => 'dashboard#index'
 
   # Example of regular route:
