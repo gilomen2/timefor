@@ -1,10 +1,10 @@
 Payola.configure do |config|
   # Example subscription:
-  # 
+  #
   # config.subscribe 'payola.package.sale.finished' do |sale|
   #   EmailSender.send_an_email(sale.email)
   # end
-  # 
+  #
   # In addition to any event that Stripe sends, you can subscribe
   # to the following special payola events:
   #
@@ -25,4 +25,10 @@ Payola.configure do |config|
     sale = Payola::Sale.find_by(stripe_id: event.data.object.id)
     sale.refund!
   end
+
+  config.subscribe 'customer.subscription.deleted' do |event|
+    user = Payola::Subscription.find_by(stripe_customer_id: event.data.object.customer)
+    user.cancel_subscription(event.id)
+  end
+
 end

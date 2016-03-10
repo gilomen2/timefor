@@ -26,6 +26,8 @@ module Timefor2
 
     config.assets.paths << Rails.root.join("app", "assets", "fonts")
 
+    config.web_console.whitelisted_ips = '54.187.0.0/16'
+
     Figaro.load
   end
 end
