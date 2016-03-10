@@ -39,6 +39,9 @@ class User < ActiveRecord::Base
     my_event = Stripe::Event.retrieve(event)
     self.account_status = my_event.data.object.status
     self.save!
+    self.schedules.each do |schedule|
+    	schedule.cancel_future_calls
+    end
   end
 
 end

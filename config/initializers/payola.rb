@@ -30,10 +30,15 @@ Payola.configure do |config|
   end
 
   config.subscribe 'customer.subscription.deleted' do |event|
-    puts "Customer: " + event.data.object.customer
     sub = Payola::Subscription.find_by(stripe_customer_id: event.data.object.customer)
-    user = User.find(sub.owner_id)
-    user.cancel_subscription(event.id)
+    if sub
+    	user = User.find(sub.owner_id)
+    	user.cancel_subscription(event.id)
+    end
+  end
+
+  config.subscribe 'customer.subscription.created' do |event|
+  	
   end
 
 end
