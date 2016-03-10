@@ -1,4 +1,6 @@
 Payola.configure do |config|
+  config.secret_key = ENV['STRIPE_SECRET_KEY']
+  config.publishable_key = ENV['STRIPE_PUBLISHABLE_KEY']
   # Example subscription:
   #
   # config.subscribe 'payola.package.sale.finished' do |sale|
@@ -27,7 +29,9 @@ Payola.configure do |config|
   end
 
   config.subscribe 'customer.subscription.deleted' do |event|
-    user = Payola::Subscription.find_by(stripe_customer_id: event.data.object.customer)
+    puts "Customer: " + event.data.object.customer
+    sub = Payola::Subscription.find_by(stripe_customer_id: event.data.object.customer)
+    user = User.find(sub.owner_id)
     user.cancel_subscription(event.id)
   end
 

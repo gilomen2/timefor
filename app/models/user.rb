@@ -37,7 +37,7 @@ class User < ActiveRecord::Base
 
   def cancel_subscription(event)
     my_event = Stripe::Event.retrieve(event)
-    self.account_status = my_event.data.status
+    self.account_status = my_event.data.object.status
     self.save!
   end
 
