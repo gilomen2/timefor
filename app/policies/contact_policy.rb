@@ -1,5 +1,30 @@
 class ContactPolicy < ApplicationPolicy
+  def create?
+    user.present?
+    user.account_status == "trial" || user.account_status == "subscriber"
+  end
 
+  def new?
+    create?
+  end
+
+  def update?
+    create?
+    user.present? && record.user_id == user.id
+  end
+
+  def edit?
+    update?
+  end
+
+  def destroy?
+    update?
+  end
+
+  def clone?
+    create?
+  end
+  
   class Scope
     attr_reader :user, :scope
 
