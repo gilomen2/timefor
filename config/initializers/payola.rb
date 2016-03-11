@@ -35,10 +35,11 @@ Payola.configure do |config|
     	user = User.find(sub.owner_id)
     	user.cancel_subscription(event.id)
     end
+    Payola::SyncSubscription.call(event)
   end
 
-  config.subscribe 'customer.subscription.created' do |event|
-  	
+  config.subscribe 'customer.subscription.updated' do |event|
+    Payola::UpdateSubscription.call(event)
   end
 
 end
