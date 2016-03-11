@@ -21,6 +21,8 @@ Rails.application.routes.draw do
 
   get '/admin', to: redirect('/admin/dashboard')
 
+  delete '/admin/billing' => 'admin/billing#cancel_subscription'
+
 
   # get 'admin/dashboard' => 'dashboard#index'
 

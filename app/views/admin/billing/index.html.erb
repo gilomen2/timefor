@@ -37,6 +37,10 @@
                       <span class="btn btn-dark">Start Subscription</span>
                     <% end %>
                   <% end %>
+                  <% else %>
+                    <%= link_to admin_billing_path, method: :delete, data: {confirm: "Your schedules will no longer be observed and no calls will be made."} do %>
+                      <span class="btn btn-alt2">Cancel Subscription</span>
+                    <% end %>
                 <% end %>
             </div>
           </div>
@@ -56,6 +60,7 @@
               <p><strong>Card Number:</strong> **** **** **** <%= @subscription.card_last4 %></p>
               <p><strong>Expiration:</strong> <%= @subscription.card_expiration.strftime("%m/%Y") %></p>
               <p><strong>Card Type:</strong> <%= @subscription.card_type %></p>
+
             </div>
           </div>
         </div>

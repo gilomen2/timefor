@@ -29,5 +29,10 @@ class Admin::Billing::SubscriptionsController < ApplicationController
 
   end
 
+  def cancel_subscription
+    subscription = Payola::Subscription.find_by!(owner_id: current_user.id, state: 'active')
+    Payola::CancelSubscription.call(subscription)
+  end
+
 
 end

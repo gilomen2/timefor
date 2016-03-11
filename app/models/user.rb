@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
 
   has_many :contacts
   has_many :schedules
-  before_save :make_trial
+  before_create :make_trial
 
   scope :trial_accounts, -> {where(account_status: "trial")}
 
