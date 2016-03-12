@@ -1,30 +1,31 @@
 class Admin::BillingController < ApplicationController
   def index
     @user = current_user
-    @subscription = lookup_subscription
+    @subscription = lookup_subscription(@user)
+    @owner = payola_can_modify_subscription?(@subscription)
     respond_to do |format|
         format.html { }
         format.json { render action: 'index' }
         format.js   { render action: 'index' }
     end
     @card_expired = check_expiration(@user, @subscription)
-    @active_subscription = determine_active(@user, @subscription)
+    @active_subscription = determine_active(@user)
   end
 
   def check_expiration(user, subscription)
-    if determine_active(user, subscription)
+    if determine_active(user)
       subscription.card_expiration < Time.now
     end
   end
 
-  def lookup_subscription
-    if Payola::Subscription.where(owner: @user).where(stripe_status: "active").exists?
-      Payola::Subscription.where(owner: @user).where(stripe_status: "active").first
+  def lookup_subscription(user)
+    if Payola::Subscription.where(owner: user).where(stripe_status: "active").exists?
+      Payola::Subscription.where(owner: user).where(stripe_status: "active").last
     end
   end
 
-  def determine_active(user, subscription)
-    subscription.present? && (user.account_status = "subscriber")
+  def determine_active(user)
+    user.payola_subscriptions.where(stripe_status: "active").present? && (user.account_status == "subscriber")
   end
 
   def cancel_subscription
@@ -34,6 +35,10 @@ class Admin::BillingController < ApplicationController
     @user.save!
     Payola::CancelSubscription.call(subscription)
     redirect_to admin_billing_index_path
+  end
+
+  def payola_can_modify_subscription?(subscription)
+    subscription.owner == current_user
   end
 
 end

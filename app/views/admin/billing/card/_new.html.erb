@@ -1,0 +1,103 @@
+<div class="modal-dialog">
+  <div class="md-content modal-content">
+    <div class="modal-header">
+      <button type="button" class="close md-close" data-dismiss="modal"><i class="icon s7-close"></i></button>
+      <h3 class="modal-title">Change Card</h3>
+    </div>
+    <div class="modal-body form">
+
+      <%= form_tag payola.update_card_path(@guid), :id => 'update-card-form' do %>
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Card Number" data-stripe="number" data-mask="cc"></input>
+          </div>
+          <div class="row no-margin-y">
+            <div class="form-group col-xs-3">
+              <input type="text" placeholder="Exp Month" data-stripe="exp_month" class="form-control" data-mask="month"></input>
+            </div>
+            <div class="form-group col-xs-3">
+              <input type="text" placeholder="Exp Year" data-stripe="exp_year" class="form-control" data-mask="year"></input>
+            </div>
+            <div class="form-group col-xs-3">
+              <input type="text" placeholder="CVC" data-stripe="cvc" class="form-control" data-mask="cvc"></input>
+            </div>
+          </div>
+          <ul class="payola-payment-error errors filled"></ul>
+          <button type="button" data-dismiss="modal" class="btn btn-default">Cancel</button>
+          <input type="submit" id="submit-button" class="btn btn-primary md-close"></input>
+      <% end %>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $(function(){
+
+    Stripe.setPublishableKey('<%= ENV['STRIPE_PUBLISHABLE_KEY'] %>');
+
+
+    $('#update-card-form').submit(function(event) {
+      var form = $(this);
+      form.find('submit').prop('disabled', true);
+      Stripe.createToken(form, stripeResponseHandler);
+      $('#submit-button').prop('disabled', false);
+      return false;
+    });
+
+    function stripeResponseHandler(status, response) {
+      var form = $('#update-card-form');
+      if (response.error) {
+        showError(response.error.message);
+      } else {
+        var token = response.id;
+        form.append($('<input type="hidden" name="stripeToken">').val(token));
+        $.ajax({
+          type: "POST",
+          url: "<%= payola.update_card_path(@guid) %>",
+          data: $('#update-card-form').serialize(),
+          success: function(data) {
+            $("#change_card").modal("hide");
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                url: "<%= admin_billing_subscription_path(@subscription.id) %>",
+                dataType: "json",
+                success: function (result) {
+                   console.log(getCardData());
+                },
+                error: function (){
+                    window.alert("something wrong!");
+                }
+            });
+          },
+          error: function(data) { showError(jQuery.parseJSON(data.responseText).error) }
+        });
+      }
+    }
+    function getCardData(){
+      $.ajax({
+          type: "GET",
+          contentType: "application/json; charset=utf-8",
+          url: "<%= admin_billing_subscription_path(@subscription.id) %>",
+          dataType: "json",
+          success: function (result) {
+            var card_last4 = result.card_last4
+            var card_type = result.card_type
+            var card_expiration = result.card_expiration.split('-')
+            $("#card_last4").html(card_last4);
+            $("#card_type").html(card_type);
+            $("#card_expiration").html(card_expiration[1].concat("/").concat(card_expiration[0]));
+          },
+          error: function (){
+              window.alert("something wrong!");
+          }
+      });
+    }
+
+    function showError(error) {
+      var form = $('#update-card-form');
+      $('.errors').html(error);
+      $('.errors').show();
+    }
+
+  });
+</script>
+

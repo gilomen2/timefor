@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
 
   scope :trial_accounts, -> {where(account_status: "trial")}
 
-  def subscription
+  def payola_subscriptions
   	Payola::Subscription.where(owner: self)
   end
 
@@ -29,6 +29,10 @@ class User < ActiveRecord::Base
   	end
   end
 
+  def active
+    Payola::Subscription.where(stripe_status: "active")
+  end
+
   def make_trial
   	if self.account_status.nil?
   		self.account_status = "trial"
@@ -42,6 +46,10 @@ class User < ActiveRecord::Base
     self.schedules.each do |schedule|
     	schedule.cancel_future_calls
     end
+  end
+
+  def handle_default(event)
+
   end
 
 end

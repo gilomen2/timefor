@@ -3,7 +3,9 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :dashboard, only: [:index]
     namespace :billing do
-      resources :subscriptions
+      resources :subscriptions do
+        resources :card
+      end
     end
     resources :contacts, except: :edit
     resources :schedules, except: :edit
