@@ -29,7 +29,7 @@
 		        <div class="widget widget-tile">
 		          <div class="data-info">
 		            <div data-toggle="counter" data-end="<%= @user.days_remaining_in_trial %>" data-decimals="0" data-suffix="" class="value"><%= @user.days_remaining_in_trial %></div>
-		            <div class="desc">Remaining Trial Days</div>
+		            <div class="desc">Remaining Trial <%= "Day".pluralize(@user.days_remaining_in_trial) %></div>
 		          </div>
 		          <div class="icon"><span class="icon s7-wristwatch"></span></div>
 		        </div>

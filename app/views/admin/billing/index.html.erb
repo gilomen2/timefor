@@ -38,8 +38,10 @@
                     <% end %>
                   <% end %>
                   <% else %>
-                    <%= link_to admin_billing_path, method: :delete, data: {confirm: "Your schedules will no longer be observed and no calls will be made."} do %>
-                      <span class="btn btn-alt2">Cancel Subscription</span>
+                    <% if @owner %>
+                      <%= link_to admin_billing_path, method: :delete, data: {confirm: "Your schedules will no longer be observed and no calls will be made."} do %>
+                        <span class="btn btn-alt2">Cancel Subscription</span>
+                      <% end %>
                     <% end %>
                 <% end %>
             </div>
@@ -57,10 +59,14 @@
             </div>
             <div class="panel-body">
               <p><strong>Email:</strong> <%= @subscription.email %></p>
-              <p><strong>Card Number:</strong> **** **** **** <%= @subscription.card_last4 %></p>
-              <p><strong>Expiration:</strong> <%= @subscription.card_expiration.strftime("%m/%Y") %></p>
-              <p><strong>Card Type:</strong> <%= @subscription.card_type %></p>
-
+              <p><strong>Card Number:</strong> **** **** **** <span id="card_last4"><%= @subscription.card_last4 %></span></p>
+              <p><strong>Expiration:</strong> <span id="card_expiration"><%= @subscription.card_expiration.strftime("%m/%Y") %></span></p>
+              <p><strong>Card Type:</strong> <span id="card_type"><%= @subscription.card_type %></span></p>
+              <% if @owner %>
+                <%= link_to new_admin_billing_subscription_card_path(@subscription.id), remote: true, "data-toggle": "modal", "data-target": "change_card" do %>
+                    <span class="btn btn-alt2">Change Card</span>
+                <% end %>
+              <% end %>
             </div>
           </div>
         </div>
@@ -70,6 +76,6 @@
   </div>
   <div id="start_subscription" class="md-dark custom-width modal fade" tabindex="-1" role="dialog">
   </div>
-  <div id="new_card" class="md-dark custom-width modal fade" tabindex="-1" role="dialog">
+  <div id="change_card" class="md-dark custom-width modal fade" tabindex="-1" role="dialog">
   </div>
 </div>

@@ -24,6 +24,8 @@ Payola.configure do |config|
   # end
 
   # Keep this subscription unless you want to disable refund handling
+
+
   config.subscribe 'charge.refunded' do |event|
     sale = Payola::Sale.find_by(stripe_id: event.data.object.id)
     sale.refund!
@@ -40,6 +42,15 @@ Payola.configure do |config|
 
   config.subscribe 'customer.subscription.updated' do |event|
     Payola::UpdateSubscription.call(event)
+  end
+
+  config.subscribe 'invoice.payment_failed' do |event|
+    sub = Payola::Subscription.find_by(stripe_customer_id: event.data.object.customer)
+    if sub
+      user = User.find(sub.owner_id)
+      user.handle_default
+    end
+    Payola::SyncSubscription.call(event)
   end
 
 end
