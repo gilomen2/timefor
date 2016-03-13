@@ -2,7 +2,7 @@ class Admin::BillingController < ApplicationController
   def index
     @user = current_user
     @subscription = lookup_subscription(@user)
-    @owner = payola_can_modify_subscription?(@subscription)
+    @owner = payola_can_modify_subscription?(@user, @subscription)
     respond_to do |format|
         format.html { }
         format.json { render action: 'index' }
@@ -37,8 +37,12 @@ class Admin::BillingController < ApplicationController
     redirect_to admin_billing_index_path
   end
 
-  def payola_can_modify_subscription?(subscription)
-    subscription.owner == current_user
+  def payola_can_modify_subscription?(user, subscription)
+    if determine_active(user)
+      subscription.owner == current_user
+    else
+      false
+    end
   end
 
 end
