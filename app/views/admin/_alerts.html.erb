@@ -2,9 +2,11 @@
 	<script type="text/javascript">
 		<% flash.each do |f| %>
       <% type = f[0].gsub('alert', 'error').gsub('notice', 'info') %>
-      $(document).ready(function() {
-			   toastr.<%= type %>('<%= f[1] %>');
-      });
+        $.gritter.add({
+          title: '<%= type.capitalize %>',
+          text: '<%= f[1] %>',
+          class_name: 'color <%= type %>'
+        });
 		<% end %>
 	</script>
 <% end %>

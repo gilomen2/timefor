@@ -15,7 +15,7 @@
       <% end %>
     <% end %>
     <% if policy(schedule).destroy? %>
-      <%= link_to admin_schedule_path(schedule), method: :delete, remote: true do %>
+      <%= link_to admin_schedule_path(schedule), method: :delete, remote: true, data: {confirm: "Deleting this schedule will stop future calls from being delieverd."} do %>
         <span class="icon actions s7-trash"></span>
       <% end %>
     <% end %>

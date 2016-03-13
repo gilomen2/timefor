@@ -1,6 +1,14 @@
 <% if @contact.destroyed? %>
   $('#contact-' +<%= @contact.id %>).fadeOut(600);
-  toastr.success("Contact deleted successfully");
+  $.gritter.add({
+    title: 'Success',
+    text: 'Contact deleted.',
+    class_name: 'color success'
+  });
 <% else %>
-  toastr.error("There was a problem deleting the contact. Please try again.");
+  $.gritter.add({
+    title: 'Warning',
+    text: 'There was a problem deleting the contact. Please try again.',
+    class_name: 'color warning'
+  });
 <% end %>
