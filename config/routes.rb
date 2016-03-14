@@ -1,14 +1,24 @@
 Rails.application.routes.draw do
-
+  mount Payola::Engine => '/payola', as: :payola
   namespace :admin do
     resources :dashboard, only: [:index]
+    namespace :billing do
+      resources :subscriptions do
+        resources :card
+      end
+    end
     resources :contacts, except: :edit
     resources :schedules, except: :edit
     get "contacts/:id/clone", to: "contacts#clone", as: "contacts_clone"
     get "schedules/:id/clone", to: "schedules#clone", as: "schedules_clone"
+    get "billing", to: "billing#index", as: "billing_index"
   end
 
-  devise_for :users, :controllers => { :registrations => :registrations, :sessions => :sessions, :confirmations => :confirmations, :passwords => :passwords }
+  devise_for :users, controllers: { registrations: 'users/registrations', passwords: 'users/passwords', :sessions => :sessions, :confirmations => :confirmations }
+
+  devise_scope :user do
+    match '/users/sign_in' => "devise/sessions#new", as: :login, via: :get
+  end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -16,6 +26,10 @@ Rails.application.routes.draw do
   root 'welcome#index'
 
   get '/admin', to: redirect('/admin/dashboard')
+
+  delete '/admin/billing' => 'admin/billing#cancel_subscription'
+
+
   # get 'admin/dashboard' => 'dashboard#index'
 
   # Example of regular route:

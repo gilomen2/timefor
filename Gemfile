@@ -73,6 +73,14 @@ gem 'timeliness'
 
 gem 'validates_timeliness'
 
+gem 'payola-payments'
+
+gem 'stripe-rails'
+
+gem 'money'
+
+gem 'time_difference'
+
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

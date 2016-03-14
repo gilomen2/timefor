@@ -1,6 +1,14 @@
 <% if @schedule.destroyed? %>
   $('#schedule-' +<%= @schedule.id %>).fadeOut(600);
-  toastr.success("Schedule deleted successfully");
+  $.gritter.add({
+    title: 'Success',
+    text: 'Schedule deleted.',
+    class_name: 'color success'
+  });
 <% else %>
-  toastr.error("There was a problem deleting the schedule. Please try again.");
+  $.gritter.add({
+    title: 'Warning',
+    text: 'There was a problem deleting the schedule. Please try again.',
+    class_name: 'color warning'
+  });
 <% end %>

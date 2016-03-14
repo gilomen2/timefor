@@ -1,4 +1,6 @@
 class Admin::SchedulesController < ApplicationController
+  before_filter :store_location
+  before_filter :authenticate_user!
   def index
     @user = current_user
     @contacts = policy_scope(Contact)
@@ -49,6 +51,7 @@ class Admin::SchedulesController < ApplicationController
     @user = current_user
     @contacts = policy_scope(Contact)
     @title = "Copy Schedule"
+    authorize @schedule
     render :new
   end
 
@@ -71,6 +74,10 @@ class Admin::SchedulesController < ApplicationController
 
 
   private
+
+    def store_location
+      store_location_for(:user, admin_schedules_path)
+    end
 
     def schedule_params
       params.require(:schedule).permit(:contact_id, :message)

@@ -1,0 +1,82 @@
+<div class="am-wrapper">
+  <%= render "admin/admin" %>
+  <div class="am-content">
+    <div class="page-head">
+      <h2>Billing</h2>
+    </div>
+    <div class="main-content">
+      <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+          <div class="panel <%= @active_subscription ? 'panel-alt3' : (@user.account_status == 'trial' ? 'panel-alt2' : 'panel-full-primary') %>">
+            <div class="panel-heading">
+              <span class="title">Subscription</span>
+            </div>
+            <div class="panel-body">
+              <% unless @active_subscription %>
+                <% unless @user.days_remaining_in_trial == 0 %>
+                  <p>Your trial will be expiring in <%= @user.days_remaining_in_trial %> days.</p>
+                    <%= link_to new_admin_billing_subscription_path, remote: true, "data-toggle": "modal", "data-target": "start_subscription" do %>
+                      <span class="btn btn-alt2">Start Subscription</span>
+                    <% end %>
+                  <% else %>
+                    <% if @default %>
+                      <p>Your account is in default. We will try payment once a day for a total of three times. Please review your card details below and update if necessary to ensure that calls continue to be delivered. </p>
+                    <% else %>
+                      <p>Your trial has expired. You must subscribe for your schedules to be observed and make changes to your account.</p>
+                      <%= link_to new_admin_billing_subscription_path, remote: true, "data-toggle": "modal", "data-target": "start_subscription" do %>
+                        <span class="btn btn-dark">Start Subscription</span>
+                      <% end %>
+                    <% end %>
+                  <% end %>
+                <% else %>
+                  <p>Your account is in good standing. <% if @user.next_billing_date %>Your next billing date is <%= @user.next_billing_date.strftime("%m/%d/%y") %>.<% end %></p>
+                  <% if @owner %>
+                    <%= link_to admin_billing_path, method: :delete, data: {confirm: "Your schedules will no longer be observed and no calls will be made."} do %>
+                      <span class="btn btn-alt2">Cancel Subscription</span>
+                    <% end %>
+                  <% end %>
+                <% end %>
+            </div>
+          </div>
+        <div class="col-md-2"></div>
+      </div>
+    </div>
+    <% if @active_subscription || @default %>
+      <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+          <div class="panel <%= @card_expired ? 'panel-alt2'  : 'panel-alt3' %>">
+            <div class="panel-heading">
+              <span class="title">Billing Info</span>
+            </div>
+            <div class="panel-body">
+              <% if @card_expired %>
+                <div role="alert" class="alert alert-danger alert-icon alert-border-color alert-dismissible">
+                  <div class="icon"><span class="s7-close-circle"></span></div>
+                  <div class="message">
+                    <button type="button" data-dismiss="alert" aria-label="Close" class="close"><span aria-hidden="true" class="s7-close"></span></button>Your card is expired. Please update to ensure that your next payment goes through.
+                  </div>
+                </div>
+              <% end %>
+              <p><strong>Email:</strong> <%= @subscription.email %></p>
+              <p><strong>Card Number:</strong> **** **** **** <span id="card_last4"><%= @subscription.card_last4 %></span></p>
+              <p><strong>Expiration:</strong> <span id="card_expiration"><%= @subscription.card_expiration.strftime("%m/%Y") %></span></p>
+              <p><strong>Card Type:</strong> <span id="card_type"><%= @subscription.card_type %></span></p>
+              <% if @owner %>
+                <%= link_to new_admin_billing_subscription_card_path(@subscription.id), remote: true, "data-toggle": "modal", "data-target": "change_card" do %>
+                    <span class="btn btn-alt2">Change Card</span>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2"></div>
+      </div>
+    <% end %>
+  </div>
+  <div id="start_subscription" class="md-dark custom-width modal fade" tabindex="-1" role="dialog">
+  </div>
+  <div id="change_card" class="md-dark custom-width modal fade" tabindex="-1" role="dialog">
+  </div>
+</div>
