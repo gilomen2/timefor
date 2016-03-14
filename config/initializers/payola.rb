@@ -40,10 +40,6 @@ Payola.configure do |config|
     Payola::SyncSubscription.call(event)
   end
 
-  config.subscribe 'customer.subscription.updated' do |event|
-    Payola::UpdateSubscription.call(event)
-  end
-
   config.subscribe 'invoice.payment_failed' do |event|
     sub = Payola::Subscription.find_by(stripe_customer_id: event.data.object.customer)
     if sub
@@ -59,6 +55,7 @@ Payola.configure do |config|
       user = User.find(sub.owner_id)
       user.update_user_status(event.id)
     end
+    Payola::UpdateSubscription.call(event)
   end
 
   config.subscribe 'invoice.payment_succeeded' do |event|
@@ -66,6 +63,14 @@ Payola.configure do |config|
     if sub
       user = User.find(sub.owner_id)
       user.update_next_billing_date(event.id)
+    end
+  end
+
+  config.subscribe 'customer.subscription.created' do |event|
+    sub = Payola::Subscription.find_by(stripe_customer_id: event.data.object.customer)
+    if sub
+      user = User.find(sub.owner_id)
+      user.schedule_calls_after_subscription
     end
   end
 end

@@ -34,7 +34,7 @@
               <div class="icon"><span class="icon s7-wristwatch"></span></div>
             </div>
     			</div>
-        <% elsif @user.account_status == "expired" %>
+        <% elsif @user.account_status == "expired" || @user.account_status == "canceled" %>
             <div class="col-md-3">
               <div class="widget widget-tile">
                 <div class="data-info">

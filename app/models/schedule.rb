@@ -41,6 +41,20 @@ class Schedule < ActiveRecord::Base
     self.frequency.display_start_time
   end
 
+  def owner_is_active
+    user = User.find(self.user_id)
+    if user.account_status == "trial" || user.account_status == "subscriber"
+      true
+    else
+      false
+    end
+  end
+
+  def get_last_occurence_date
+    last_occurence = self.occurences.last
+    last_occurence.time
+  end
+
   def display_date_time
     self.frequency.display_start_datetime
   end
@@ -60,6 +74,27 @@ class Schedule < ActiveRecord::Base
       call.cancel_scheduled_call
       call.cancelled = true
       call.save!
+    end
+    self.last_occurence_datetime = nil
+    self.save!
+  end
+
+  def create_occurence_and_scheduled_call
+    def build_next_occurence
+      frequency = self.frequency
+      if self.last_occurence_datetime.nil?
+        next_occ = frequency.first_occurence
+      else
+        next_occ = frequency.next_occurence
+      end
+      next_occ.utc
+    end
+
+    occ = Occurence.new(time: build_next_occurence, schedule: self)
+    if occ.save!
+      scheduled_call = occ.create_scheduled_call
+    else
+      Rails.logger.error = "Error creating occurence and scheduled_call for schedule with id " + self.id
     end
   end
 
