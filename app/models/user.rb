@@ -18,6 +18,8 @@ class User < ActiveRecord::Base
 
   scope :expiring_1_day, -> {where("expiration_date = ?", (Time.now.utc + 1.day).to_date)}
 
+
+
   def payola_subscriptions
   	Payola::Subscription.where(owner: self)
   end
@@ -57,10 +59,15 @@ class User < ActiveRecord::Base
     self.save!
     UserMailer.subscription_canceled(self).deliver_now
     self.schedules.each do |schedule|
-    	schedule.cancel_future_calls
+    	schedule.cancel_future_scheduled_calls
     end
   end
 
+  def schedule_calls_after_subscription
+    self.schedules.each do |schedule|
+      schedule.create_occurence_and_scheduled_call
+    end
+  end
 
   def set_default_notified
     unless self.account_status.match(/\bdefault-notified\b/)

@@ -42,4 +42,5 @@ class Admin::Billing::SubscriptionsController < ApplicationController
     render json: @subscription
   end
 
+
 end

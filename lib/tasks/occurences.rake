@@ -15,7 +15,6 @@ namespace :occurences do
 
     create_next_occurence(schedules_needing_occurences)
 
-    update_last_occurences(schedules_needing_occurences)
   end
 
   desc "Creates next occurence of all repeating schedules"
@@ -24,7 +23,6 @@ namespace :occurences do
 
     create_next_occurence(repeating_schedules)
 
-    update_last_occurences(repeating_schedules)
   end
 
 
@@ -47,28 +45,9 @@ end
 
 def create_next_occurence(schedules)
   schedules.each do |schedule|
-
-    def build_next_occurence(schedule)
-      frequency = schedule.frequency
-      next_occ = frequency.next_occurence
-      next_occ.utc
-    end
-
-    occ = Occurence.new(time: build_next_occurence(schedule), schedule: schedule)
-    if occ.save!
-      scheduled_call = occ.create_scheduled_call
-    else
-      Rails.logger.error = "Error creating occurence and scheduled_call for schedule with id " + schedule.id
+    if schedule.owner_is_active
+      schedule.create_occurence_and_scheduled_call
     end
   end
 end
-
-def update_last_occurences(schedules)
-  schedules.each do |schedule|
-    last_occurence = schedule.get_last_occurence_date
-    schedule.last_occurence_datetime = last_occurence
-    schedule.save!
-  end
-end
-
 
