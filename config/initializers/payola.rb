@@ -23,9 +23,9 @@ Payola.configure do |config|
   #   raise "Nope!" if sale.email.includes?('yahoo.com')
   # end
 
+  config.support_email = 'support@timefor.io'
+
   # Keep this subscription unless you want to disable refund handling
-
-
   config.subscribe 'charge.refunded' do |event|
     sale = Payola::Sale.find_by(stripe_id: event.data.object.id)
     sale.refund!
@@ -53,4 +53,19 @@ Payola.configure do |config|
     Payola::SyncSubscription.call(event)
   end
 
+  config.subscribe 'customer.subscription.updated' do |event|
+    sub = Payola::Subscription.find_by(stripe_customer_id: event.data.object.customer)
+    if sub
+      user = User.find(sub.owner_id)
+      user.update_user_status(event.id)
+    end
+  end
+
+  config.subscribe 'invoice.payment_succeeded' do |event|
+    sub = Payola::Subscription.find_by(stripe_customer_id: event.data.object.customer)
+    if sub
+      user = User.find(sub.owner_id)
+      user.update_next_billing_date(event.id)
+    end
+  end
 end

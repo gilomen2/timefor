@@ -6,22 +6,31 @@
       <h2>Schedules</h2>
     </div>
     <div class="main-content">
-    <% if @user.account_status == "canceled" || @user.account_status == "expired" %>
-      <div class="row">
-        <div role="alert" class="alert alert-danger alert-dismissible">
-           <span class="icon s7-close-circle"></span><strong>Warning!</strong> Your trial has expired. Calls will not be made until you start your subscription.
+       <% if @user.account_status == "canceled" || @user.account_status.match(/\bexpired\b/) %>
+        <div class="row">
+          <div role="alert" class="alert alert-danger alert-dismissible">
+             <span class="icon s7-close-circle"></span><strong>Warning!</strong> Your trial has expired. Calls will not be made until you start your subscription.
+           </div>
+        </div>
+       <% elsif @user.account_status == "trial" %>
+        <div class="row">
+          <div role="alert" class="alert alert-warning alert-icon alert-dismissible">
+            <div class="icon"><span class="s7-attention"></span></div>
+            <div class="message">
+              Your trial ends in <%= @user.days_remaining_in_trial %> days. Start your subscription to ensure that calls are delivered when your trial ends.
+            </div>
+          </div>
+        </div>
+       <% elsif @user.account_status.match(/\bdefault\b/) %>
+         <div class="row">
+          <div role="alert" class="alert alert-warning alert-icon alert-dismissible">
+            <div class="icon"><span class="s7-attention"></span></div>
+            <div class="message">
+              Your account is in default. We will try payment once a day for a total of three times. Please review your <%= link_to "card details", admin_billing_index_path %> and update if necessary to ensure that calls continue to be delivered.
+            </div>
+          </div>
          </div>
-      </div>
-     <% elsif @user.account_status == "trial" %>
-      <div class="row">
-		<div role="alert" class="alert alert-warning alert-icon alert-dismissible">
-			<div class="icon"><span class="s7-attention"></span></div>
-			<div class="message">
-				Your trial ends in <%= @user.days_remaining_in_trial %> days. Start your subscription to ensure that calls are delivered when your trial ends.
-			</div>
-		</div>
-      </div>
-     <% end %>
+       <% end %>
       <div class="row">
         <div class="col-sm-12">
           <div class="widget widget-fullwidth widget-small">

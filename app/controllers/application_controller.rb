@@ -9,6 +9,15 @@ class ApplicationController < ActionController::Base
     redirect_to root_url, alert: exception.message
   end
 
+
+  def authenticate_user!
+    if user_signed_in?
+      super
+    else
+      redirect_to login_path, :notice => 'Use must be logged in to view the page you are trying to access'
+    end
+  end
+
   protected
 
   def configure_permitted_parameters
