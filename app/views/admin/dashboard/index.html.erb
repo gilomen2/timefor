@@ -1,3 +1,71 @@
 <div class="am-wrapper">
   <%= render "admin/admin" %>
+  <div class="am-content">
+    <div class="page-head">
+      <h2>Dashboard</h2>
+    </div>
+    <div class="main-content">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="widget widget-tile">
+            <div class="data-info">
+              <div data-toggle="counter" data-end="<%= @user.contacts.count %>" data-decimals="0" data-suffix="" class="value"><%= @user.contacts.count %></div>
+              <div class="desc">Contacts</div>
+            </div>
+            <div class="icon"><span class="s7-users"></span></div>
+          </div>
+		    </div>
+  		  <div class="col-md-3">
+  	        <div class="widget widget-tile">
+  	          <div class="data-info">
+  	            <div data-toggle="counter" data-end="<%= @user.schedules.count %>" data-decimals="0" data-suffix="" class="value"><%= @user.schedules.count %></div>
+  	            <div class="desc">Schedules</div>
+  	          </div>
+  	          <div class="icon"><span class="icon s7-date"></span></div>
+  	        </div>
+  		  </div>
+		    <% if @user.account_status == "trial" %>
+    			<div class="col-md-3">
+            <div class="widget widget-tile">
+              <div class="data-info">
+                <div data-toggle="counter" data-end="<%= @user.days_remaining_in_trial %>" data-decimals="0" data-suffix="" class="value"><%= @user.days_remaining_in_trial %></div>
+                <div class="desc">Remaining Trial <%= "Day".pluralize(@user.days_remaining_in_trial) %></div>
+              </div>
+              <div class="icon"><span class="icon s7-wristwatch"></span></div>
+            </div>
+    			</div>
+        <% elsif @user.account_status == "expired" %>
+            <div class="col-md-3">
+              <div class="widget widget-tile">
+                <div class="data-info">
+                  <div data-toggle="counter" data-end="<%= @user.days_remaining_in_trial %>" data-decimals="0" data-suffix="" class="value"><%= @user.days_remaining_in_trial %></div>
+                  <div class="desc">Remaining Trial <%= "Day".pluralize(@user.days_remaining_in_trial) %></div>
+                </div>
+                <div class="icon"><span class="icon s7-wristwatch"></span></div>
+              </div>
+            </div>
+        <% elsif @user.account_status.match(/\bdefault\b/) %>
+          <div class="col-md-3">
+            <div class="widget widget-tile panel-full-primary">
+              <div class="data-info">
+                <div data-toggle="counter" data-end="<%= @default_days %>" data-decimals="0" data-suffix="" class="value"><%= @default_days %></div>
+                <div class="desc">Days Overdue</div>
+              </div>
+              <div class="icon"><span class="icon s7-attention" style="color:#fff;"></span></div>
+            </div>
+          </div>
+        <% elsif @user.account_status == 'subscriber' && @user.next_billing_date %>
+            <div class="col-md-3">
+              <div class="widget widget-tile">
+                <div class="data-info">
+                  <span data-toggle="counter" data-end="<%= @user.next_billing_date.strftime('%m') %>" data-decimals="0" data-suffix="" class="value"><%= @user.next_billing_date.strftime('%m') %></span>/<span data-toggle="counter" data-end="<%= @user.next_billing_date.strftime('%d') %>" data-decimals="0" data-suffix="" class="value"><%= @user.next_billing_date.strftime('%d') %></span>/<span data-toggle="counter" data-end="<%= @user.next_billing_date.strftime('%y') %>" data-decimals="0" data-suffix="" class="value"><%= @user.next_billing_date.strftime('%y') %></span>
+                  <div class="desc">Next Billing Date</div>
+                </div>
+                <div class="icon"><span class="icon s7-credit"></span></div>
+              </div>
+            </div>
+		    <% end %>
+      </div>
+    </div>
+  </div>
 </div>

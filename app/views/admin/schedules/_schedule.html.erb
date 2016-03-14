@@ -9,11 +9,15 @@
   </td>
   <td id="schedule-<%= schedule.id %>-timezine"><%= schedule.frequency_timezone %></td>
   <td class="tools">
-    <%= link_to admin_schedules_clone_path(schedule), remote: true, "data-toggle": "modal", "data-target": "copy_schedule" do %>
-      <span class="icon actions s7-copy-file"></span>
+    <% if policy(schedule).clone? %>
+      <%= link_to admin_schedules_clone_path(schedule), remote: true, "data-toggle": "modal", "data-target": "copy_schedule" do %>
+        <span class="icon actions s7-copy-file"></span>
+      <% end %>
     <% end %>
-    <%= link_to admin_schedule_path(schedule), method: :delete, remote: true do %>
-      <span class="icon actions s7-trash"></span>
+    <% if policy(schedule).destroy? %>
+      <%= link_to admin_schedule_path(schedule), method: :delete, remote: true, data: {confirm: "Deleting this schedule will stop future calls from being delieverd."} do %>
+        <span class="icon actions s7-trash"></span>
+      <% end %>
     <% end %>
   </td>
 </tr>

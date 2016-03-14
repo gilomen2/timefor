@@ -2,12 +2,16 @@
   <td id="contact-<%= contact.id %>-name"><%= contact.name %></td>
   <td id="contact-<%= contact.id %>-phone"><%= contact.phone %></td>
   <td class="tools">
-    <%= link_to admin_contacts_clone_path(contact), remote: true, "data-toggle": "modal", "data-target": "copy_contact" do %>
-      <span class="icon actions s7-copy-file"></span>
-    <% end %>
-    <%= link_to admin_contact_path(contact), method: :delete, remote: true, data: {confirm: "Deleting this contact will delete any schedules for this contact."} do %>
-      <span class="icon actions s7-trash"></span>
-    <% end %>
+  	<% if policy(contact).clone? %>
+	    <%= link_to admin_contacts_clone_path(contact), remote: true, "data-toggle": "modal", "data-target": "copy_contact" do %>
+	      <span class="icon actions s7-copy-file"></span>
+	    <% end %>
+	<% end %>
+	<% if policy(contact).destroy? %>
+	    <%= link_to admin_contact_path(contact), method: :delete, remote: true, data: {confirm: "Deleting this contact will delete any schedules for this contact."} do %>
+	      <span class="icon actions s7-trash"></span>
+	    <% end %>
+	<% end %>
   </td>
 </tr>
 
