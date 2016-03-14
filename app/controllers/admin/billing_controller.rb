@@ -1,4 +1,6 @@
 class Admin::BillingController < ApplicationController
+  before_filter :store_location
+  before_filter :authenticate_user!
   def index
     @user = current_user
     @subscription = lookup_subscription(@user)
@@ -10,6 +12,7 @@ class Admin::BillingController < ApplicationController
     end
     @card_expired = check_expiration(@user, @subscription)
     @active_subscription = determine_active(@user)
+    @default = @subscription && @user.account_status.match(/\bdefault\b/) ? true : false
   end
 
   def check_expiration(user, subscription)
@@ -33,8 +36,13 @@ class Admin::BillingController < ApplicationController
     subscription = Payola::Subscription.find_by!(owner_id: current_user.id, state: 'active')
     @user.account_status = "canceled"
     @user.save!
-    Payola::CancelSubscription.call(subscription)
-    redirect_to admin_billing_index_path
+    if Payola::CancelSubscription.call(subscription)
+      redirect_to admin_billing_index_path
+      flash[:success] = "Subscription canceled."
+    else
+      redirect_to admin_billing_index_path
+      flash[:warning] = "There was a problem canceling the subscription. Please try again."
+    end
   end
 
   def payola_can_modify_subscription?(user, subscription)
@@ -45,4 +53,13 @@ class Admin::BillingController < ApplicationController
     end
   end
 
+  def login
+    store_locationfor(:user, admin_billing_index_path)
+  end
+
+  private
+
+    def store_location
+      store_location_for(:user, admin_billing_index_path)
+    end
 end

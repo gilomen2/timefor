@@ -61,10 +61,15 @@
                 url: "<%= admin_billing_subscription_path(@subscription.id) %>",
                 dataType: "json",
                 success: function (result) {
-                   console.log(getCardData());
+                   getCardData();
                 },
                 error: function (){
-                    window.alert("something wrong!");
+                  $.gritter.add({
+                    title: 'Warning',
+                    text: 'There was a problem changing your card. Please try again.',
+                    class_name: 'color warning'
+                  });
+
                 }
             });
           },
@@ -79,6 +84,12 @@
           url: "<%= admin_billing_subscription_path(@subscription.id) %>",
           dataType: "json",
           success: function (result) {
+            $.gritter.add({
+              title: 'Success',
+              text: 'Your card has been updated.',
+              class_name: 'color success'
+            });
+
             var card_last4 = result.card_last4
             var card_type = result.card_type
             var card_expiration = result.card_expiration.split('-')
@@ -87,7 +98,12 @@
             $("#card_expiration").html(card_expiration[1].concat("/").concat(card_expiration[0]));
           },
           error: function (){
-              window.alert("something wrong!");
+            $.gritter.add({
+              title: 'Warning',
+              text: 'There was a problem changing your card. Please try again.',
+              class_name: 'color warning'
+            });
+
           }
       });
     }

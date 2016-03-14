@@ -1,5 +1,6 @@
 class RegistrationsController < Devise::RegistrationsController
   def new
+    raise
     @body_class = "am-splash-screen"
     @includes_form = true
     super

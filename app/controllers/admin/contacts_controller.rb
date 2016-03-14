@@ -1,4 +1,6 @@
 class Admin::ContactsController < ApplicationController
+  before_filter :store_location
+  before_filter :authenticate_user!
   def index
     @user = current_user
     @contacts = policy_scope(Contact).sort_by { |obj| obj.created_at }
@@ -59,7 +61,11 @@ class Admin::ContactsController < ApplicationController
 
   private
 
-  def contact_params
-    params.require(:contact).permit(:name, :phone)
-  end
+    def store_location
+      store_location_for(:user, admin_contacts_path)
+    end
+
+    def contact_params
+      params.require(:contact).permit(:name, :phone)
+    end
 end
