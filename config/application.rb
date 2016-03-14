@@ -26,8 +26,6 @@ module Timefor2
 
     config.assets.paths << Rails.root.join("app", "assets", "fonts")
 
-    config.web_console.whitelisted_ips = '54.187.0.0/16'
-
     Stripe.api_key = ENV['STRIPE_SECRET_KEY']
 
     Figaro.load
