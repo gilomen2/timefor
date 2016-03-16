@@ -53,8 +53,6 @@ gem 'mini_magick'
 
 gem 'fog'
 
-gem 'faker'
-
 gem 'stripe'
 
 gem 'redcarpet'
@@ -80,6 +78,8 @@ gem 'stripe-rails'
 gem 'money'
 
 gem 'time_difference'
+
+gem 'faker', '~> 1.6.3'
 
 
 # Use ActiveModel has_secure_password

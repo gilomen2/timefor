@@ -1,5 +1,5 @@
 class Frequency < ActiveRecord::Base
-  belongs_to :schedule
+  belongs_to :schedule, foreign_key: 'schedule_id'
   extend TimeSplitter::Accessors
   validates_presence_of :timezone, :start_date, :time, allow_blank: false
   validate :repeats_on_at_least_one_day
