@@ -1,10 +1,13 @@
 class Frequency < ActiveRecord::Base
-  belongs_to :schedule
   extend TimeSplitter::Accessors
+  belongs_to :schedule
+
   validates_presence_of :timezone, :start_date, :time, allow_blank: false
   validate :repeats_on_at_least_one_day
   validate :one_time_schedule_is_in_future
+
   before_save :build_datetime
+  before_create :build_datetime
 
   def repeat_days
     all_days = self.attributes.slice("sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday")
@@ -109,6 +112,7 @@ class Frequency < ActiveRecord::Base
 
 
     def build_datetime
-      self.start_datetime = Timeliness.parse(self.start_date + " " + self.time, :zone => self.timezone)
+      self.start_datetime = start_timestamp
     end
+
 end

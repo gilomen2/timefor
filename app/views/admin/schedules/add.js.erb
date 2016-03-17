@@ -2,7 +2,7 @@ $("#add_new_schedule").modal("hide")
 $("<%= j render(:partial => 'schedule', :locals => { :schedule => @schedule }) %>").hide().appendTo('#schedules-table').fadeIn(600);
 $.gritter.add({
   title: 'Success',
-  text: 'Scheduled added.',
+  text: 'Schedule added.',
   class_name: 'color success'
 });
 

@@ -5,7 +5,8 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
   has_many :contacts
-  has_many :schedules
+  has_many :schedules, through: :contacts
+  
   before_create :make_trial
 
   scope :trial_accounts, -> {where(account_status: "trial")}
