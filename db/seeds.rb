@@ -80,19 +80,21 @@ end
 
 contacts = Contact.all
 
+
 15.times do
-  contact = contacts.sample
-  schedule = Schedule.new(
-    contact: contact,
-    user: contact.user,
-    message: Faker::Lorem.sentence
-  )
   zones = ActiveSupport::TimeZone.us_zones.map {|zone| zone.name }
   time = Faker::Time.forward(30).strftime("%H:%M")
   start_date = Faker::Date.forward(30).strftime("%Y-%m-%d")
   zone = zones.sample
-  frequency = schedule.frequency.new(
-    schedule_id: schedule.id,
+
+  contact = contacts.sample
+  schedule = Schedule.create!(
+    contact: contact,
+    user: contact.user,
+    message: Faker::Lorem.sentence
+  )
+  Frequency.create!(
+    schedule: schedule,
     repeat: Faker::Boolean.boolean,
     sunday: Faker::Boolean.boolean,
     monday: Faker::Boolean.boolean,
@@ -104,8 +106,8 @@ contacts = Contact.all
     timezone: zone,
     time: time,
     start_date: start_date,
-    start_datetime: Timeliness.parse(start_date + " " + time, :zone => zone)
+    start_datetime: Timeliness.parse(start_date + ' ' + time, zone: zone)
   )
-  schedule.save!
-  schedule.create_occurence_and_scheduled_call
+
+  # schedule.create_occurence_and_scheduled_call
 end
