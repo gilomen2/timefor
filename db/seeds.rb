@@ -90,7 +90,6 @@ contacts = Contact.all
   contact = contacts.sample
   schedule = Schedule.create!(
     contact: contact,
-    user: contact.user,
     message: Faker::Lorem.sentence
   )
   Frequency.create!(
