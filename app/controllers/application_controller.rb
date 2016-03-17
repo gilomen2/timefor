@@ -10,12 +10,13 @@ class ApplicationController < ActionController::Base
   end
 
 
-  def authenticate_user!
+  def authenticate_user!(options={})
     if user_signed_in?
       super
     else
       redirect_to login_path, :notice => 'Use must be logged in to view the page you are trying to access'
     end
+    super
   end
 
   protected
@@ -24,4 +25,5 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:name, :email, :password, :password_confirmation) }
     devise_parameter_sanitizer.for(:account_update) { |u| u.permit(:name, :email, :password, :current_password, :password_confirmation) }
   end
+
 end

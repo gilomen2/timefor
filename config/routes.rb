@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     get "contacts/:id/clone", to: "contacts#clone", as: "contacts_clone"
     get "schedules/:id/clone", to: "schedules#clone", as: "schedules_clone"
     get "billing", to: "billing#index", as: "billing_index"
+    post "help_ticket_form", to: "help_ticket_form#create", as: "help_ticket_form"
   end
 
   devise_for :users, controllers: { registrations: 'users/registrations', passwords: 'users/passwords', :sessions => :sessions, :confirmations => :confirmations }

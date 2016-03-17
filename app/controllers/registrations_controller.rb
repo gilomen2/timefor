@@ -17,10 +17,12 @@ class RegistrationsController < Devise::RegistrationsController
   def after_update_path_for(resource)
   	flash[:notice] = "User information updated"
   	edit_user_registration_path
+    super
   end
 
   def after_inactive_sign_up_path_for(resource)
     new_user_session_path
+    super
   end
 
 
