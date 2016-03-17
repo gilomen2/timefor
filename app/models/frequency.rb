@@ -1,9 +1,11 @@
 class Frequency < ActiveRecord::Base
-  belongs_to :schedule, foreign_key: 'schedule_id'
   extend TimeSplitter::Accessors
+  belongs_to :schedule
+
   validates_presence_of :timezone, :start_date, :time, allow_blank: false
   validate :repeats_on_at_least_one_day
   validate :one_time_schedule_is_in_future
+
   before_save :build_datetime
 
   def repeat_days
