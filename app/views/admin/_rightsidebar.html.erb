@@ -1,0 +1,94 @@
+<nav class="am-right-sidebar">
+  <div class="sb-content">
+    <div class="user-info"><span class="name"><%= @user.name %></div>
+    <div class="tab-navigation">
+      <ul role="tablist" class="nav nav-tabs nav-justified">
+        <li role="presentation" class="active"><a href="#tab2" aria-controls="profile" role="tab" data-toggle="tab"> <span class="icon s7-id"></span></a></li>
+        <li role="presentation"><a href="#tab3" aria-controls="messages" role="tab" data-toggle="tab"> <span class="icon s7-help2"></span></a></li>
+        <li role="presentation"><a href="#tab4" aria-controls="settings" role="tab" data-toggle="tab"> <span class="icon s7-help1"></span></a></li>
+      </ul>
+    </div>
+    <div class="tab-panel">
+      <div class="tab-content">
+        <div id="tab2" role="tabpanel" class="tab-pane announcement active am-scroller nano has-scrollbar">
+          <div class="nano-content" tabindex="0" style="right: -15px;">
+            <div class="content">
+              <ul>
+                <li>
+                  <div class="icon"><span class="icon s7-user"></span></div>
+                  <div class="content"><%= link_to "Edit profile", edit_user_registration_path %></div>
+                </li>
+                <li>
+                  <div class="icon"><span class="icon s7-power"></span></div>
+                  <div class="content"><%= link_to "Sign Out", destroy_user_session_path %></div>
+                </li>
+              </ul>
+
+            </div>
+          </div>
+        </div>
+        <div id="tab3" role="tabpanel" class="tab-pane faqs am-scroller nano has-scrollbar">
+          <div class="nano-content" tabindex="0" style="right: -15px;">
+            <div class="content">
+              <h2>FAQs</h2>
+              <div id="accordion" role="tablist" aria-multiselectable="true" class="panel-group accordion">
+                <div class="panel">
+                  <div role="tab" class="panel-heading">
+                    <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#faq1" aria-expanded="true" aria-controls="collapseOne">
+                        <div class="icon"><span class="s7-angle-down"></span></div><span class="title">Under Error 352</span></a></h4>
+                  </div>
+                  <div id="faq1" role="tabpanel" aria-labelledby="headingOne" class="panel-collapse collapse in">
+                    <div class="panel-body">Suspendisse nec leo tortor rhoncus tincidunt. Duis sit amet rutrum elit.</div>
+                  </div>
+                </div>
+                <div class="panel">
+                  <div role="tab" class="panel-heading">
+                    <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#faq2" aria-expanded="false" aria-controls="collapseTwo" class="collapsed">
+                        <div class="icon"><span class="s7-angle-down"></span></div><span class="title">Failure platform</span></a></h4>
+                  </div>
+                  <div id="faq2" role="tabpanel" aria-labelledby="headingTwo" class="panel-collapse collapse">
+                    <div class="panel-body">Suspendisse nec leo tortor rhoncus tincidunt. Duis sit amet rutrum elit.</div>
+                  </div>
+                </div>
+                <div class="panel">
+                  <div role="tab" class="panel-heading">
+                    <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#faq3" aria-expanded="false" aria-controls="collapseThree" class="collapsed">
+                        <div class="icon"><span class="s7-angle-down"></span></div><span class="title">Error 404</span></a></h4>
+                  </div>
+                  <div id="faq3" role="tabpanel" aria-labelledby="headingThree" class="panel-collapse collapse">
+                    <div class="panel-body">Suspendisse nec leo tortor rhoncus tincidunt. Duis sit amet rutrum elit.</div>
+                  </div>
+                </div>
+                <div class="panel">
+                  <div role="tab" class="panel-heading">
+                    <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#faq4" aria-expanded="false" aria-controls="collapseThree" class="collapsed">
+                        <div class="icon"><span class="s7-angle-down"></span></div><span class="title">New workstation</span></a></h4>
+                  </div>
+                  <div id="faq4" role="tabpanel" aria-labelledby="headingThree" class="panel-collapse collapse">
+                    <div class="panel-body">Suspendisse nec leo tortor rhoncus tincidunt. Duis sit amet rutrum elit.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="search">
+            <input type="text" placeholder="Search..." name="q"><span class="s7-search"></span>
+          </div>
+        <div class="nano-pane" style="display: none;"><div class="nano-slider" style="height: 20px; transform: translate(0px, 0px);"></div></div></div>
+        <div id="tab4" role="tabpanel" class="tab-pane ticket am-scroller nano has-scrollbar">
+          <div class="nano-content" tabindex="0" style="right: -15px;">
+            <div class="content">
+              <h2>New Ticket</h2>
+              <%= form_for HelpTicketForm.new, remote: true, url: admin_help_ticket_form_path(HelpTicketForm.new) do |f| %>
+                <div class="form-group send-ticket">
+                  <%= f.text_area :message, class: 'form-control', placeholder: 'Your message here' %>
+                </div>
+                <%= f.submit "Create Ticket", class: 'btn btn-primary btn-lg' %>
+              <% end %>
+            </div>
+          </div>
+        <div class="nano-pane" style="display: none;"><div class="nano-slider" style="height: 20px; transform: translate(0px, 0px);"></div></div></div>
+      </div>
+    </div>
+  </div>
+</nav>
