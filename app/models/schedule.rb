@@ -1,6 +1,5 @@
 class Schedule < ActiveRecord::Base
   belongs_to :contact
-  belongs_to :user
   has_many :occurences, dependent: :nullify
   has_one :frequency, dependent: :destroy
 
@@ -10,6 +9,7 @@ class Schedule < ActiveRecord::Base
   accepts_nested_attributes_for :frequency
 
   delegate :name, :to => :contact, :prefix => true
+  delegate :user_id, :to => :contact
   delegate :start_datetime, :start_date, :time, :repeat, :timezone, :sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday, :to => :frequency, :prefix => true
 
   scope :repeating_schedules, -> {joins(:frequency).where('frequencies.repeat = ?', true)}
