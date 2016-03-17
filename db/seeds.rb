@@ -104,9 +104,8 @@ contacts = Contact.all
     saturday: Faker::Boolean.boolean,
     timezone: zone,
     time: time,
-    start_date: start_date,
-    start_datetime: Timeliness.parse(start_date + ' ' + time, zone: zone)
+    start_date: start_date
   )
 
-  # schedule.create_occurence_and_scheduled_call
+  schedule.create_occurence_and_scheduled_call
 end
