@@ -22,7 +22,6 @@ class Admin::SchedulesController < ApplicationController
 
   def create
     @schedule = Schedule.new(schedule_params)
-    @schedule.user_id = current_user.id
     @frequency = Frequency.new(frequency_params)
     @frequency.schedule = @schedule
     authorize @schedule

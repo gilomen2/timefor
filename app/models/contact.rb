@@ -1,9 +1,10 @@
 class Contact < ActiveRecord::Base
+  belongs_to :user
+  has_many :schedules
+
   before_destroy :delete_schedules_with_contact
   validates_presence_of :name, :phone
   validates :phone, phone: true
-	belongs_to :user
-  has_many :schedules
 
   private
 
