@@ -10,12 +10,8 @@ class Admin::HelpTicketFormController < ApplicationController
       @help_ticket_form.name = @user.name
       @help_ticket_form.email = @user.email
       @help_ticket_form.request = request
-      if @help_ticket_form.deliver
-        flash[:notice] = 'Thank you for your message. We will contact you soon!'
-        redirect_to admin_dashboard_index_path
-      else
-        flash.now[:error] = 'Cannot send message.'
-        redirect_to admin_dashboard_index_path
+      
+      @help_ticket_form.deliver
       end
     end
   end

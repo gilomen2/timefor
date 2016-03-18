@@ -22,3 +22,25 @@
 dataConfirmModal.setDefaults({
   modalClass: 'colored-header'
 });
+
+$(document).ajaxStart(function() {
+   $('.sb-content').addClass('masked').delay(600);
+});
+$(document).ajaxStop(function() {
+	$(".sb-content .loading").addClass('success');
+	$('#help_ticket_form_message').val('')
+	$('.sb-content').removeClass('masked');
+});
+function validate(){
+    if ($('#help_ticket_form_message').val().length > 0) {
+    	$('.help-form-submit').removeClass('disabled').prop("disabled", false);
+    }
+    else {
+        $('.help-form-submit').prop("disabled", true);
+    }
+}
+
+$(document).ready(function (){
+    $('#help_ticket_form_message').change(validate);
+});
+

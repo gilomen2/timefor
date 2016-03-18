@@ -90,7 +90,7 @@ GEM
     erubis (2.7.0)
     excon (0.45.4)
     execjs (2.6.0)
-    faker (1.6.1)
+    faker (1.6.3)
       i18n (~> 0.5)
     figaro (1.1.1)
       thor (~> 0.14)
@@ -409,7 +409,7 @@ DEPENDENCIES
   coffee-rails (~> 4.1.0)
   data-confirm-modal!
   devise
-  faker
+  faker (~> 1.6.3)
   figaro
   fog
   font-awesome-rails
