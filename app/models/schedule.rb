@@ -1,24 +1,19 @@
 class Schedule < ActiveRecord::Base
   belongs_to :contact
-  before_destroy :cancel_future_scheduled_calls
-  has_one :user
   has_many :occurences, dependent: :nullify
   has_one :frequency, dependent: :destroy
+
   validates_presence_of :message, :contact
+
+  before_destroy :cancel_future_scheduled_calls
   accepts_nested_attributes_for :frequency
-
-
 
   delegate :name, :to => :contact, :prefix => true
-
+  delegate :user_id, :to => :contact
   delegate :start_datetime, :start_date, :time, :repeat, :timezone, :sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday, :to => :frequency, :prefix => true
 
-  accepts_nested_attributes_for :frequency
-
   scope :repeating_schedules, -> {joins(:frequency).where('frequencies.repeat = ?', true)}
-
   scope :schedules_with_last_occurence_tomorrow, -> {joins(:frequency).where("last_occurence_datetime <= ?", (Time.now.utc + 1.day))}
-
   scope :schedules_without_occurences, -> {where(last_occurence_datetime: nil)}
 
 

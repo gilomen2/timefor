@@ -20,7 +20,7 @@
                 </li>
                 <li>
                   <div class="icon"><span class="icon s7-power"></span></div>
-                  <div class="content"><%= link_to "Sign Out", destroy_user_session_path %></div>
+                  <div class="content"><%= link_to "Sign Out", destroy_user_session_path, method: :delete %></div>
                 </li>
               </ul>
 
@@ -83,12 +83,15 @@
                 <div class="form-group send-ticket">
                   <%= f.text_area :message, class: 'form-control', placeholder: 'Your message here' %>
                 </div>
-                <%= f.submit "Create Ticket", class: 'btn btn-primary btn-lg' %>
+                <%= f.submit "Create Ticket", class: 'btn btn-primary btn-lg help-form-submit disabled' %>
               <% end %>
             </div>
           </div>
         <div class="nano-pane" style="display: none;"><div class="nano-slider" style="height: 20px; transform: translate(0px, 0px);"></div></div></div>
       </div>
     </div>
+    <div class="mask">
+    </div>
+    <div class="loading"></div>
   </div>
 </nav>
