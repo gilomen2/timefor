@@ -79,6 +79,8 @@ gem 'money'
 
 gem 'time_difference'
 
+gem 'mail_form'
+
 gem 'faker', '~> 1.6.3'
 
 

@@ -45,6 +45,10 @@ class Schedule < ActiveRecord::Base
     end
   end
 
+  def user
+    self.contact.user
+  end
+
   def get_last_occurence_date
     last_occurence = self.occurences.last
     last_occurence.time

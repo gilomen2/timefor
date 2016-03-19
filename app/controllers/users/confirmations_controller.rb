@@ -1,4 +1,4 @@
-class ConfirmationsController < Devise::ConfirmationsController
+class Users::ConfirmationsController < Devise::ConfirmationsController
   def new
     @body_class = "am-splash-screen"
     @includes_form = true

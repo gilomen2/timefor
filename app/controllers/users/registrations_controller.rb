@@ -12,20 +12,18 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def edit
-    @body_class = "am-splash-screen"
     @includes_form = true
     super
   end
 
   def update
-    @body_class = "am-splash-screen"
     @includes_form = true
     super
   end
 
   protected
     def after_sign_up_path_for(resource)
-      signed_in_root_path(resource)
+      new_user_session_path
     end
 
     def after_update_path_for(resource)

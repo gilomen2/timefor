@@ -4,9 +4,9 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
-  has_many :contacts
-  has_many :schedules, through: :contacts
-  
+  has_many :contacts, dependent: :destroy
+  has_many :schedules, through: :contacts, dependent: :destroy
+
   before_create :make_trial
 
   scope :trial_accounts, -> {where(account_status: "trial")}
@@ -43,6 +43,7 @@ class User < ActiveRecord::Base
   		"Account not yet confirmed"
   	end
   end
+
 
   def active
     Payola::Subscription.where(stripe_status: "active")
