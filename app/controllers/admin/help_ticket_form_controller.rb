@@ -10,9 +10,8 @@ class Admin::HelpTicketFormController < ApplicationController
       @help_ticket_form.name = @user.name
       @help_ticket_form.email = @user.email
       @help_ticket_form.request = request
-      
+
       @help_ticket_form.deliver
-      end
     end
   end
 
