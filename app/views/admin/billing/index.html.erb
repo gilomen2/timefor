@@ -16,21 +16,17 @@
               <% unless @active_subscription %>
                 <% unless @user.days_remaining_in_trial == 0 %>
                   <p>Your trial will be expiring in <%= @user.days_remaining_in_trial %> days.</p>
-                    <%= link_to new_admin_billing_subscription_path, remote: true, "data-toggle": "modal", "data-target": "start_subscription" do %>
-                      <span class="btn btn-alt2">Start Subscription</span>
-                    <% end %>
+                  <%= render "admin/pricing" %>
                   <% else %>
                     <% if @default %>
                       <p>Your account is in default. We will try payment once a day for a total of three times. Please review your card details below and update if necessary to ensure that calls continue to be delivered. </p>
                     <% else %>
                       <p>Your trial has expired. You must subscribe for your schedules to be observed and make changes to your account.</p>
-                      <%= link_to new_admin_billing_subscription_path, remote: true, "data-toggle": "modal", "data-target": "start_subscription" do %>
-                        <span class="btn btn-dark">Start Subscription</span>
-                      <% end %>
+                      <%= render "admin/pricing" %>
                     <% end %>
                   <% end %>
                 <% else %>
-                  <p>Your account is in good standing. <% if @user.next_billing_date %>Your next billing date is <%= @user.next_billing_date.strftime("%m/%d/%y") %>.<% end %></p>
+                  <p>Your account is in good standing. <% if @user.next_billing_date %>Your next billing date for $4 is <%= @user.next_billing_date.strftime("%m/%d/%y") %>.<% end %></p>
                   <% if @owner %>
                     <%= link_to admin_billing_path, method: :delete, data: {confirm: "Your schedules will no longer be observed and no calls will be made."} do %>
                       <span class="btn btn-alt2">Cancel Subscription</span>

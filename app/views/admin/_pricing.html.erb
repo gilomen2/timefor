@@ -1,0 +1,34 @@
+<div class="col-sm-4"></div>
+<div class="col-sm-4">
+    <table class="table table-striped table-fw-widget table-hover">
+      <div class="widget widget-fullwidth widget-small">
+        <div class="widget-head text-success" style="text-align: center;">
+          <div class="cd-price">
+            <span class="cd-currency">$</span>
+            <span class="cd-value">4</span>
+            <span class="cd-duration">mo</span>
+          </div>
+        </div>
+      </div>
+      <tbody class="no-border-x">
+        <tr>
+          <td style='text-align:center;'><strong>Unlimited</strong> Contacts</td>
+        </tr>
+        <tr>
+          <td style='text-align:center;'><strong>Unlimited</strong> Schedules</td>
+        </tr>
+        <tr>
+          <td style='text-align:center;'>Fast Support</td>
+        </tr>
+        <tr class="success">
+          <td style='text-align:center;'>
+            <%= link_to new_admin_billing_subscription_path, class: 'table-btn-link', remote: true, "data-toggle": "modal", "data-target": "start_subscription" do %>
+                Start Subscription
+            <% end %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="col-sm-4"></div>

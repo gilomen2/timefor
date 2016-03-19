@@ -24,7 +24,6 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
     else
       respond_with_navigational(resource.errors, status: :unprocessable_entity){ render :new }
     end
-    super
   end
 
 end
