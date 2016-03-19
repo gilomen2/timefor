@@ -17,6 +17,7 @@
 /*
  *= require font-awesome
  *= require formvalidation.min
+ *= require_tree ../../../vendor/assets/stylesheets/.
  */
 
 @import "bootstrap-sprockets";

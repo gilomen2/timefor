@@ -4,7 +4,9 @@
     <div class="main-content">
       <div class="login-container sign-up">
         <div class="panel panel-default">
-          <div class="panel-heading"><img src="<%= asset_path 'logo-full-retina.png' %>" alt="logo" width="150px" height="39px" class="logo-img"></div>
+          <%= link_to root_path do %>
+            <div class="panel-heading"><img src="<%= asset_path 'logo-full-retina.png' %>" alt="logo" width="150px" height="39px" class="logo-img"></div>
+          <% end %>
           <div class="panel-body">
           <h3 class="center">Resend confirmation instructions</h3>
             <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), :html => {:class => 'form-horizontal validate-me', 'parsley-validate' => '', 'novalidate' => '', method: :post }) do |f| %>
@@ -24,6 +26,7 @@
     </div>
   </div>
 </div>
+<%= render "shared/appfooter" %>
 <script type="text/javascript">
   $('#new_user').parsley();
 </script>
