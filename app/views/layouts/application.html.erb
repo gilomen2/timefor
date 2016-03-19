@@ -12,23 +12,9 @@
 
 </head>
 <body<%= " class=#{@body_class}" if @body_class %>>
+
+
 <%= yield %>
-<%= javascript_include_tag 'application' %>
-<%= render 'payola/transactions/stripe_header' %>
-<script type="text/javascript">
-  $(document).ready(function(){
-    //initialize the javascript
-    App.init();
-    App.masks();
-    App.formElements();
-    App.dashboard2();
-  });
-</script>
-<% if @includes_form %>
-  <script type='text/javascript'>
-      $('.validate-me').parsley();
-  </script>
-<% end %>
 </body>
 
 </html>
