@@ -230,6 +230,9 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
+    mail_form (1.5.1)
+      actionmailer (>= 3.2, < 5)
+      activemodel (>= 3.2, < 5)
     method_source (0.8.2)
     mime-types (2.99)
     mini_magick (4.3.6)
@@ -413,6 +416,7 @@ DEPENDENCIES
   formvalidation-rails
   jbuilder (~> 2.0)
   jquery-rails
+  mail_form
   mini_magick
   money
   payola-payments

@@ -8,4 +8,8 @@ class UsersController < ApplicationController
     @body_class = "am-splash-screen"
     @includes_form = true
   end
+
+  def edit
+    @user = current_user
+  end
 end

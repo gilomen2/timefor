@@ -1,0 +1,48 @@
+<nav class="am-right-sidebar">
+  <div class="sb-content">
+    <div class="user-info"><span class="name"><%= @user.name %></div>
+    <div class="tab-navigation">
+      <ul role="tablist" class="nav nav-tabs nav-justified">
+        <li role="presentation" class="active"><a href="#tab2" aria-controls="profile" role="tab" data-toggle="tab"> <span class="icon s7-id"></span></a></li>
+        <li role="presentation"><a href="#tab4" aria-controls="settings" role="tab" data-toggle="tab"> <span class="icon s7-help1"></span></a></li>
+      </ul>
+    </div>
+    <div class="tab-panel">
+      <div class="tab-content">
+        <div id="tab2" role="tabpanel" class="tab-pane announcement active am-scroller nano has-scrollbar">
+          <div class="nano-content" tabindex="0" style="right: -15px;">
+            <div class="content">
+              <ul>
+                <li>
+                  <div class="icon"><span class="icon s7-user"></span></div>
+                  <div class="content"><%= link_to "Edit profile", edit_user_registration_path %></div>
+                </li>
+                <li>
+                  <div class="icon"><span class="icon s7-power"></span></div>
+                  <div class="content"><%= link_to "Sign Out", destroy_user_session_path, method: :delete %></div>
+                </li>
+              </ul>
+
+            </div>
+          </div>
+        </div>
+        <div id="tab4" role="tabpanel" class="tab-pane ticket am-scroller nano has-scrollbar">
+          <div class="nano-content" tabindex="0" style="right: -15px;">
+            <div class="content">
+              <h2>New Help Ticket</h2>
+              <%= form_for HelpTicketForm.new, remote: true, url: admin_help_ticket_form_path(HelpTicketForm.new) do |f| %>
+                <div class="form-group send-ticket">
+                  <%= f.text_area :message, class: 'form-control', placeholder: 'Your message here' %>
+                </div>
+                <%= f.submit "Create Ticket", class: 'btn btn-primary btn-lg help-form-submit disabled' %>
+              <% end %>
+            </div>
+          </div>
+        <div class="nano-pane" style="display: none;"><div class="nano-slider" style="height: 20px; transform: translate(0px, 0px);"></div></div></div>
+      </div>
+    </div>
+    <div class="mask">
+    </div>
+    <div class="loading"></div>
+  </div>
+</nav>
