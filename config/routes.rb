@@ -15,7 +15,7 @@ Rails.application.routes.draw do
     post "help_ticket_form", to: "help_ticket_form#create", as: "help_ticket_form"
   end
 
-  devise_for :users, controllers: { registrations: 'users/registrations', passwords: 'users/passwords', :sessions => :sessions, :confirmations => :confirmations }
+  devise_for :users, controllers: { registrations: 'users/registrations', passwords: 'users/passwords', sessions: 'users/sessions', confirmations: 'users/confirmations' }
 
   devise_scope :user do
     match '/users/sign_in' => "devise/sessions#new", as: :login, via: :get

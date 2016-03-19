@@ -10,14 +10,13 @@ class ApplicationController < ActionController::Base
   end
 
 
-  def authenticate_user!(options={})
-    if user_signed_in?
-      super
-    else
-      redirect_to login_path, :notice => 'Use must be logged in to view the page you are trying to access'
-    end
-    super
-  end
+  # def authenticate_user!(options={})
+  #   if user_signed_in?
+  #     super
+  #   else
+  #     redirect_to login_path, :notice => 'Use must be logged in to view the page you are trying to access'
+  #   end
+  # end
 
   protected
 
