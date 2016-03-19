@@ -7530,7 +7530,7 @@ button:focus {
   line-height: 80px;
   height: 80px;
   width: 100px;
-  background-image: image-url("clock-logo.png");
+  background-image: URL(image_path("clock-logo.png"));
   background-repeat: no-repeat;
   background-position: center center;
   margin-right: 20px;
@@ -7552,7 +7552,7 @@ button:focus {
   margin-left: 0;
   margin-right: 10px;
   width: 180px;
-  background-image: url("vendor/assets/img/logo-full.png");
+  background-image: URL(image_path("clock-logo.png"));
 }
 @media (min-width: 768px) and (max-width: 991px) {
   .am-nosidebar-left .am-top-header .navbar-header .navbar-brand {
@@ -8401,7 +8401,7 @@ button:focus {
     display: block;
   }
   .am-left-sidebar .am-logo {
-    background: url(".vendor/assets/img/logo-full.png") no-repeat 15px center;
+    background: URL(image_path("clock-logo.png")) no-repeat 15px center;
     height: 70px;
     background-color: #393838;
     border-bottom: 1px solid #353434;
@@ -8410,7 +8410,7 @@ button:focus {
 }
 @media (max-width: 767px) and (-webkit-min-device-pixel-ratio: 2), (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 2/1), (min-resolution: 192dpi) {
   .am-left-sidebar .am-logo {
-    background-image: url("vendor/assets/img/logo-full-retina.png");
+    background-image:  URL(image_path("clock-logo.png"));
     background-size: 150px 39px;
   }
 }
@@ -9736,7 +9736,6 @@ button:focus {
   top: 82px;
 }
 .gritter-item-wrapper {
-  background: url("fonts/jquery.gritter/images/gritter-bg.png");
   box-shadow: 0 0px 4px rgba(0, 0, 0, 0.2);
 }
 .gritter-item-wrapper .gritter-item {
@@ -10824,7 +10823,6 @@ li.L9 {
 */
 .am-error-404 .error-container .error-image {
   display: inline-block;
-  background: url("vendor/assets/img/404-img.png") no-repeat right center;
   background-size: 387px 292px;
   width: 100%;
   max-width: 587px;
@@ -10836,7 +10834,6 @@ li.L9 {
 }
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 2/1), (min-resolution: 192dpi) {
   .am-error-404 .error-container .error-image {
-    background-image: url("vendor/assets/img/404-img-2x.png");
   }
 }
 @media (max-width: 767px) {
