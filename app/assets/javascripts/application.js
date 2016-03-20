@@ -62,3 +62,72 @@ $(document).ready(function (){
     $('#help_ticket_form_message').keyup(validate);
     $('#user_password').keyup(validatePassword);
 });
+
+
+// Getting Started Tour
+
+var tour = new Tour({
+  steps: [
+  {
+    element: "#dashboard_menu_item",
+    title: "Dashboard",
+    content: "A quick view into your account.",
+    path: '/admin/dashboard'
+  },
+  {
+    element: "#contacts_menu_item",
+    title: "Add Contacts",
+    content: "Contacts hold the contact info for people you will schedule calls to.",
+    path: '/admin/contacts',
+    onShow: function (tour) {
+      $('#add-contact-button').tooltip({placement: 'top',trigger: 'manual'}).tooltip('show');
+    },
+  },
+  {
+    element: "#schedules_menu_item",
+    title: "Add Schedules",
+    content: "Schedules hold info for when to call a contact (repeating or one-time) and what to say during the call.",
+    path: '/admin/schedules',
+    onShow: function (tour) {
+      $('#add-schedule-button').tooltip({placement: 'top',trigger: 'manual'}).tooltip('show');
+    },
+  },
+  {
+    element: "#billing_menu_item",
+    title: "Start Your Subscription",
+    content: "Your have 7 days of full access to try out TimeFor. After your trial ends, head to Billing to start your subscription and manage your billing info.",
+    path: '/admin/billing'
+  },
+  {
+    element: ".am-toggle-right-sidebar",
+    title: "Sidebar Menu",
+    placement: "left",
+    content: "Log out and edit your profile from the sidebar.",
+    onShow: function (tour) {
+      $('#edit-profile-log-out a').tab('show');
+      $('body').addClass('open-right-sidebar am-animate');
+    },
+    onNext: function (tour) {
+      $('body').addClass('open-right-sidebar');
+    },
+  },
+  {
+    element: "#file-help-ticket a",
+    title: "Need Help?",
+    placement: "left",
+    content: "File a help ticket and we'll get in touch quickly.",
+    onShow: function (tour) {
+      $('body').addClass('open-right-sidebar');
+      $('#file-help-ticket a').tab('show');
+    },
+    onHide: function (tour) {
+      $('body').removeClass('open-right-sidebar').addClass('am-animate');
+    }
+  }
+]});
+
+// Initialize the tour
+tour.init();
+
+// Start the tour
+tour.start();

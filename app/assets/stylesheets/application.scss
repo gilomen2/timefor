@@ -183,3 +183,7 @@ a .widget .value, a .widget .desc {
 .edit-reg .parsley-error {
   border-bottom-color: #f49090;
 }
+
+a.disabled span.icon:hover {
+  color: #555555 !important;
+}
