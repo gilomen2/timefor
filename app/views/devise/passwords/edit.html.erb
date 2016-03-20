@@ -1,10 +1,23 @@
+<head>
+  <title>Timefor</title>
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+  <%= csrf_meta_tags %>
+
+</head>
+<body<%= " class=#{@body_class}" if @body_class %>>
 <div class="am-wrapper am-login am-signup">
-  <%= render "shared/alerts" %>
   <div class="am-content">
     <div class="main-content">
       <div class="login-container sign-up">
         <div class="panel panel-default">
-          <div class="panel-heading"><img src="<%= asset_path 'logo-full-retina.png' %>" alt="logo" width="150px" height="39px" class="logo-img"></div>
+          <%= link_to root_path do %>
+            <div class="panel-heading"><img src="<%= asset_path 'logo-full-retina.png' %>" alt="logo" width="150px" height="39px" class="logo-img"></div>
+          <% end %>
           <div class="panel-body">
           <h3 class="center">Forgot your password?</h3>
             <%= form_for(resource, as: resource_name, url: password_path(resource_name), :html => {:class => 'form-horizontal validate-me', 'parsley-validate' => '', 'novalidate' => '', method: :put }) do |f| %>
@@ -30,6 +43,7 @@
     </div>
   </div>
 </div>
+<%= render "shared/appfooter" %>
 <script type="text/javascript">
   $('#new_user').parsley();
 </script>
