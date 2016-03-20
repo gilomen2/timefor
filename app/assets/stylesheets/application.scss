@@ -120,7 +120,7 @@ ul.errors{
 }
 
 .sb-content .loading {
-  background: url(ring-alt.gif) center no-repeat;
+  background: URL(image_path(ring-alt)) center no-repeat;
   width: 40px;
   height: 40px;
   position: absolute;
@@ -135,7 +135,7 @@ ul.errors{
 }
 
 .sb-content .loading.success {
-  background: url(loading-done.png) center no-repeat;
+  background: url(image_path(loading-done)) center no-repeat;
   width: 40px;
   height: 40px;
   position: absolute;
