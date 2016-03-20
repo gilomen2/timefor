@@ -37,8 +37,14 @@
             <div class="widget-head">
               <div class="tools">
                 <% if policy(@schedule).create? %>
-                  <%= link_to new_admin_schedule_path, remote: true, "data-toggle": "modal", "data-target": "add_new_schedule" do %>
-                    <span class="icon s7-add-user"></span>
+                  <% if @contacts.count == 0 %>
+                    <a href="#" class='disabled' id="add-schedule-button" data-toggle="tooltip" data-placement="top" data-original-title="Create a contact before creating schedules.">
+                      <span class="icon s7-add-user"></span>
+                    </a>
+                  <% else %>
+                    <%= link_to new_admin_schedule_path, remote: true, "data-toggle": "modal", "data-target": "add_new_schedule" do %>
+                      <span class="icon s7-add-user"></span>
+                    <% end %>
                   <% end %>
                 <% end %>
                 </div>
