@@ -12,6 +12,8 @@ Rails.application.config.assets.version = '1.0'
 
 Rails.application.config.assets.precompile += %w( ring-alt.gif )
 Rails.application.config.assets.precompile += %w( loading-done.png )
-Rails.application.config.assets.precompile += %w( welcome.css )
+Rails.application.config.assets.precompile += %w( welcome.scss )
+Rails.application.config.assets.precompile += %w( preload.scss )
 Rails.application.config.assets.precompile += %w( welcome.js )
 Rails.application.config.assets.precompile += %w( logo-200.png )
+Rails.application.config.assets.precompile += %w( status.gif )

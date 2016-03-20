@@ -179,3 +179,7 @@ a.table-btn-link {
 a .widget .value, a .widget .desc {
     color: #555555;
 }
+
+.edit-reg .parsley-error {
+  border-bottom-color: #f49090;
+}
