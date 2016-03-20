@@ -10,13 +10,12 @@
         <div class="col-md-8">
           <div class="panel panel-default">
             <div class="panel-body">
-              <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: 'form-horizontal' }) do |f| %>
-                <%= devise_error_messages! %>
+              <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: 'form-horizontal validate-me edit-reg' }) do |f| %>
 
                 <div class="form-group">
                   <%= f.label :email, class: 'col-sm-2 control-label' %>
                   <div class="col-sm-10">
-                    <%= f.email_field :email, class: 'form-control', autofocus: true %>
+                    <%= f.email_field :email, class: 'form-control', autofocus: true, 'data-parsley-type':"email" %>
                   </div>
                 </div>
 
@@ -35,26 +34,26 @@
                 <div class="form-group">
                   <%= f.label :password_confirmation, class: 'col-sm-2 control-label' %>
                   <div class="col-sm-10">
-                    <%= f.password_field :password_confirmation, class: 'form-control', autocomplete: "off" %>
+                    <%= f.password_field :password_confirmation, class: 'form-control', autocomplete: "off",'data-parsley-trigger': "change", 'data-parsley-errors-messages-disabled': "true" %>
                   </div>
                 </div>
 
                 <div class="form-group">
                   <%= f.label :current_password, class: 'col-sm-2 control-label' %>
                   <div class="col-sm-10">
-                    <%= f.password_field :current_password, class: 'form-control', autocomplete: "off", 'data-toggle':"tooltip", 'data-placement':"right", 'data-container':"body", 'data-original-title':"We need your current password to confirm your changes" %>
+                    <%= f.password_field :current_password, class: 'form-control', autocomplete: "off", 'data-toggle':"tooltip", 'data-placement':"right", 'data-container':"body", 'data-original-title':"We need your current password to confirm your changes", 'data-parsley-trigger': "change", 'data-parsley-errors-messages-disabled': "true", required: "" %>
                   </div>
                 </div>
 
                 <div class="form-group">
                   <div class="col-sm-offset-2 col-sm-10">
                     <div class="spacer text-right">
-                      <%= button_to "Cancel account", registration_path(resource_name), class: 'btn btn-danger', data: { confirm: "Canceling your account will cancel your subscription and delete your calls and contacts." }, method: :delete %>
                       <%= f.submit "Update", class: 'btn btn-default' %>
                     </div>
                   </div>
                 </div>
               <% end %>
+              <%= button_to "Cancel account", registration_path(resource_name), class: 'btn btn-danger', data: { confirm: "Canceling your account will cancel your subscription and delete your calls and contacts." }, method: :delete %>
             </div>
           </div>
         <div class="col-md-2"></div>
@@ -62,3 +61,4 @@
     </div>
   <%= render "admin/rightsidebar" %>
 </div>
+<%= render "shared/appfooter" %>

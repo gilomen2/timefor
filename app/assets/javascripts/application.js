@@ -15,7 +15,7 @@
 //= require jquery_ujs
 //= require bootstrap-sprockets
 //= require data-confirm-modal
-//= require_tree .
+//= require_tree ../../../vendor/assets/javascripts/app/.
 
 
 
@@ -29,6 +29,7 @@ $(document).ajaxStart(function() {
 $(document).ajaxStop(function() {
 	$(".sb-content .loading").addClass('success');
 	$('#help_ticket_form_message').val('')
+  $(".help-form-submit").prop('disabled', true)
 	$('.sb-content').removeClass('masked');
 });
 function validate(){
@@ -36,11 +37,28 @@ function validate(){
     	$('.help-form-submit').removeClass('disabled').prop("disabled", false);
     }
     else {
-        $('.help-form-submit').prop("disabled", true);
+      $('.help-form-submit').prop("disabled", true);
+    }
+}
+
+function validatePassword(){
+    if ($('#user_password').val().length > 0) {
+      $('.validate-me').parsley().destroy();
+      $('#user_password').attr('data-parsley-required', 'true');
+      $('#user_password_confirmation').attr('data-parsley-required', 'true');
+      $('.validate-me').parsley();
+    }
+    else {
+      $('.validate-me').parsley().destroy();
+      $('#user_password').attr('data-parsley-required', 'false');
+      $('#user_password_confirmation').attr('data-parsley-required', 'false');
+      $('.validate-me').parsley();
+
     }
 }
 
 $(document).ready(function (){
-    $('#help_ticket_form_message').change(validate);
+    $(".help-form-submit").prop('disabled', true);
+    $('#help_ticket_form_message').keyup(validate);
+    $('#user_password').keyup(validatePassword);
 });
-

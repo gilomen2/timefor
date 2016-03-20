@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'Stroke 7';
-	src:url('fonts/Stroke-7.eot?21lgsr');
-	src:url('fonts/Stroke-7.eot?#iefix21lgsr') format('embedded-opentype'),
-		url('fonts/Stroke-7.ttf?21lgsr') format('truetype'),
-		url('fonts/Stroke-7.woff?21lgsr') format('woff'),
-		url('fonts/Stroke-7.svg?21lgsr#Stroke-7') format('svg');
+	src:url(font-path('Stroke-7.eot?21lgsr'));
+	src:url(font-path('Stroke-7.eot?#iefix21lgsr')) format('embedded-opentype'),
+		url(font-path('Stroke-7.ttf?21lgsr')) format('truetype'),
+		url(font-path('Stroke-7.woff?21lgsr')) format('woff'),
+		url(font-path('Stroke-7.svg?21lgsr#Stroke-7')) format('svg');
 	font-weight: normal;
 	font-style: normal;
 }

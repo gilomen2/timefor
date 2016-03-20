@@ -2,11 +2,28 @@
 	<script type="text/javascript">
 		<% flash.each do |f| %>
       <% type = f[0].gsub('alert', 'error').gsub('notice', 'info') %>
+      <% if type == 'error' %>
+        <% correction = 'danger' %>
+      <% else %>
+        <% correction = type %>
+      <% end %>
         $.gritter.add({
           title: '<%= type.capitalize %>',
           text: '<%= f[1] %>',
-          class_name: 'color <%= type %>'
+          class_name: 'color <%= correction %>'
         });
 		<% end %>
 	</script>
+<% end %>
+
+<% if devise_error_messages! %>
+  <% devise_error_messages!.each do |msg| %>
+    <script type="text/javascript">
+      $.gritter.add({
+        title: 'Error',
+        text: '<%= msg.to_s %>',
+        class_name: 'color danger'
+      });
+    </script>
+  <% end %>
 <% end %>

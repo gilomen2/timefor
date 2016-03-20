@@ -1,0 +1,17 @@
+<%= javascript_include_tag 'application' %>
+<%= render 'admin/alerts' %>
+<%= render 'payola/transactions/stripe_header' %>
+<script type="text/javascript">
+  $(document).ready(function(){
+    //initialize the javascript
+    App.init();
+    App.masks();
+    App.formElements();
+    App.dashboard2();
+  });
+</script>
+<% if @includes_form %>
+  <script type='text/javascript'>
+      $('.validate-me').parsley();
+  </script>
+<% end %>
