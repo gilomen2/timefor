@@ -11,7 +11,10 @@ class ApplicationController < ActionController::Base
 
 
   def authenticate_user!(options={})
+    sign_in_url = new_user_session_url
     if user_signed_in?
+      super
+    elsif request.referer == sign_in_url
       super
     else
       redirect_to login_path, :notice => 'Use must be logged in to view the page you are trying to access'
