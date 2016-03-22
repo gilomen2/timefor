@@ -74,8 +74,7 @@ class Schedule < ActiveRecord::Base
       call.cancelled = true
       call.save!
     end
-    self.last_occurence_datetime = nil
-    self.save!
+    self.clear_last_occurence_datetime
   end
 
   def create_occurence_and_scheduled_call
@@ -95,6 +94,11 @@ class Schedule < ActiveRecord::Base
     else
       Rails.logger.error = "Error creating occurence and scheduled_call for schedule with id " + self.id
     end
+  end
+
+  def clear_last_occurence_datetime
+    self.last_occurence_datetime = nil
+    self.save!
   end
 
 end
