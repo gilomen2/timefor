@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160317011153) do
+ActiveRecord::Schema.define(version: 20160325174751) do
 
   create_table "contacts", force: :cascade do |t|
     t.string   "name"
@@ -165,10 +165,9 @@ ActiveRecord::Schema.define(version: 20160317011153) do
   create_table "schedules", force: :cascade do |t|
     t.string   "message"
     t.datetime "next_call_time"
-    t.datetime "last_successful_summit_request"
     t.integer  "contact_id"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
     t.datetime "last_occurence_datetime"
   end
 
