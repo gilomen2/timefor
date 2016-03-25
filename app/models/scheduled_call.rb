@@ -35,6 +35,7 @@ class ScheduledCall < ActiveRecord::Base
       application: 'time_for',
       schedule: get_scheduled_call_time(myOccurence),
       application_data: body,
+      log_dst: format_phone(mySchedule.contact.phone),
       external_caller_id_number: ENV['FROM_NUMBER']
       })
 
