@@ -19,3 +19,4 @@
 # Ignore application configuration
 /config/application.yml
 vendor/assets/javascripts/app/main.js
+vendor/assets/stylesheets/styles.scss
