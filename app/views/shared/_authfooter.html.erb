@@ -1,0 +1,15 @@
+<%= javascript_include_tag 'auth' %>
+<%= render 'admin/alerts' %>
+<script type="text/javascript">
+  $(document).ready(function(){
+    //initialize the javascript
+    App.init();
+    App.masks();
+    App.formElements();
+  });
+</script>
+<% if @includes_form %>
+  <script type='text/javascript'>
+      $('.validate-me').parsley();
+  </script>
+<% end %>

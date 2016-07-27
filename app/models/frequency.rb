@@ -37,6 +37,10 @@ class Frequency < ActiveRecord::Base
     self.start_datetime_in_timezone.strftime("%A")
   end
 
+  def now_in_timezone
+    Time.now.in_time_zone(self.timezone)
+  end
+
 
   def display_start_datetime
     self.start_datetime_in_timezone.strftime("%-m/%-d/%Y %l:%M %P")
@@ -64,8 +68,8 @@ class Frequency < ActiveRecord::Base
     if self.repeat
       if self.repeat_days.include?(self.freq_start_day) && ((Time.now.utc + 3.minutes) < self.start_timestamp.utc)
         self.start_datetime
-      elsif self.repeat_days.include?(self.freq_start_day) && (Time.now.utc > self.start_timestamp.utc)
-        date = self.next_date_from(self.repeat_days, self.start_datetime_in_timezone + 1.day)
+      elsif Time.now.utc > self.start_timestamp.utc
+        date = self.next_date_from(self.repeat_days, self.now_in_timezone + 3.minutes)
         date_offset = ActiveSupport::TimeZone[self.timezone].parse(date.to_s).strftime("%z")
         DateTime.new(date.year, date.month, date.day, self.start_datetime_in_timezone.hour, self.start_datetime_in_timezone.min, self.start_datetime_in_timezone.sec, date_offset).utc
       else
