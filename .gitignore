@@ -18,4 +18,3 @@
 
 # Ignore application configuration
 /config/application.yml
-vendor/assets/javascripts/app/main.js
