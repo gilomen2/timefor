@@ -21,3 +21,4 @@
 vendor/assets/javascripts/app/main.js
 vendor/assets/stylesheets/styles.scss
 vendor/assets/javascripts/auth/main.js
+app/assets/javascripts/main.js
