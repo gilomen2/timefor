@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
   mount Payola::Engine => '/payola', as: :payola
+  namespace :welcome do
+    resources :sample_calls
+  end
   namespace :admin do
     resources :dashboard, only: [:index]
     namespace :billing do
