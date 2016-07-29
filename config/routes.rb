@@ -1,8 +1,5 @@
 Rails.application.routes.draw do
   mount Payola::Engine => '/payola', as: :payola
-  namespace :welcome do
-    resources :sample_calls
-  end
   namespace :admin do
     resources :dashboard, only: [:index]
     namespace :billing do
@@ -32,6 +29,8 @@ Rails.application.routes.draw do
   get '/admin', to: redirect('/admin/dashboard')
 
   delete '/admin/billing' => 'admin/billing#cancel_subscription'
+
+  post "/sample_call", to: "sample_call#make_sample_call", as: "make_sample_call"
 
 
   # get 'admin/dashboard' => 'dashboard#index'

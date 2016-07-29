@@ -31,7 +31,9 @@ jQuery(function($){
 
     $("a.nav-toggle").pageslide({ direction: "left", modal: true });
 
+		$('[data-toggle="tooltip"]').tooltip();
 
+		$("[data-mask='phone']").mask("(999) 999-9999");
 
 
 
@@ -79,5 +81,19 @@ $(document).ready(function () {
             $("header").removeClass("scrolled");
         }
     });
-});
 
+		$( "#sample_call_form" ).submit(function( event ) {
+
+		  // Stop form from submitting normally
+		  event.preventDefault();
+
+		  // Get some values from elements on the page:
+		  var formData = $(this).serializeArray();
+		  var url = $(this).attr( "action" );
+		  // Send the data using post
+		  var posting = $.post( url, formData );
+
+			$("#sample_call").html("<img src='<%= image_url("ring-alt-red.svg") %>' />");
+
+		});
+});
