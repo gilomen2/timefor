@@ -30,6 +30,8 @@ Rails.application.routes.draw do
 
   delete '/admin/billing' => 'admin/billing#cancel_subscription'
 
+  post "/sample_call", to: "sample_call#make_sample_call", as: "make_sample_call"
+
 
   # get 'admin/dashboard' => 'dashboard#index'
 
